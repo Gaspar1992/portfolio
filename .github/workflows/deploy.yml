@@ -36,7 +36,7 @@ jobs:
         run: node scripts/generate-favicon.mjs
 
       - name: Run unit tests
-        run: npm test -- --run
+        run: npm test -- --watch=false
 
   e2e-tests:
     name: E2E Tests
