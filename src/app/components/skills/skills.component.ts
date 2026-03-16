@@ -5,29 +5,31 @@ import type { LinkedInProfile } from '../../services/profile.service';
   selector: 'app-skills',
   standalone: true,
   template: `
-    <section class="section-transition skills-section section-snap" id="skills">
+    <section 
+      class="section-transition skills-section section-snap" 
+      id="skills"
+      aria-labelledby="skills-title"
+      role="region">
       <div class="container">
-        <h2 class="text-center">Technical Repertoire</h2>
+        <h2 class="text-center" id="skills-title">Technical Repertoire</h2>
         
-        <div class="divider-deco mb-6">
+        <div class="divider-deco mb-6" aria-hidden="true">
           <div class="divider-icon">
-            <span>⚙</span>
+            <span aria-hidden="true">⚙</span>
           </div>
         </div>
         
-        <div class="skills-grid">
-          @for (category of getSkillsByCategory(); track category.name) {
-            <div class="skill-category card-deco">
-              <h3>{{ category.name }}</h3>
-              <div class="skill-list">
-                @for (skill of category.skills; track skill.name) {
-                  <div class="skill-item">
-                    <span class="skill-name">{{ skill.name }}</span>
-                    <div class="skill-bar">
-                      <div class="skill-fill" [style.width.%]="getSkillPercentage(skill.endorsements)"></div>
-                    </div>
-                  </div>
+        <div class="skills-grid" role="list" aria-label="Technical skills">
+          @for (skill of getTopSkills(); track skill.name) {
+            <div class="skill-item card-deco" role="listitem" [attr.aria-label]="skill.name">
+              <div class="skill-header">
+                <span class="skill-name">{{ skill.name }}</span>
+                @if (skill.endorsements > 0) {
+                  <span class="skill-count" aria-label="{{ skill.endorsements }} endorsements">{{ skill.endorsements }} endorsements</span>
                 }
+              </div>
+              <div class="skill-bar" role="progressbar" [attr.aria-valuenow]="getSkillPercentage(skill.endorsements)" aria-valuemin="0" aria-valuemax="100" [attr.aria-label]="'Skill level for ' + skill.name">
+                <div class="skill-fill" [style.width.%]="getSkillPercentage(skill.endorsements)"></div>
               </div>
             </div>
           }
@@ -35,7 +37,8 @@ import type { LinkedInProfile } from '../../services/profile.service';
       </div>
     </section>
   `,
-  styles: [`
+  styles: [
+    `
     .section-transition {
       position: relative;
       padding: 6rem 0;
@@ -44,7 +47,7 @@ import type { LinkedInProfile } from '../../services/profile.service';
     .skills-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
+      gap: 1.5rem;
     }
 
     @media (max-width: 768px) {
@@ -53,15 +56,18 @@ import type { LinkedInProfile } from '../../services/profile.service';
       }
     }
 
-    .skill-category h3 {
-      text-align: center;
-      margin-bottom: 1.5rem;
+    .skill-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
     }
 
-    .skill-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
+    .skill-count {
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      color: var(--color-gold);
+      letter-spacing: 0.05em;
     }
 
     .skill-item {
@@ -185,35 +191,22 @@ import type { LinkedInProfile } from '../../services/profile.service';
         padding: 0 1rem;
       }
     }
-  `]
+  `,
+  ],
 })
 export class SkillsComponent {
   profile = input<LinkedInProfile | null>(null);
 
-  getSkillsByCategory() {
+  getTopSkills() {
     const skills = this.profile()?.skills || [];
-    
-    const frontendSkills = skills.filter(s => 
-      ['Angular', 'TypeScript', 'React', 'RxJS', 'NgRx/Redux', 'Sass'].includes(s.name)
-    );
-    
-    const backendSkills = skills.filter(s => 
-      ['Node.js', 'PostgreSQL', 'MongoDB', 'Redis', 'CI/CD'].includes(s.name)
-    );
-    
-    const devopsSkills = skills.filter(s => 
-      ['AWS', 'Docker', 'Git'].includes(s.name)
-    );
-
-    return [
-      { name: 'Frontend', skills: frontendSkills.slice(0, 4) },
-      { name: 'Backend', skills: backendSkills.slice(0, 4) },
-      { name: 'DevOps & Cloud', skills: devopsSkills.slice(0, 4) }
-    ].filter(c => c.skills.length > 0);
+    return skills.sort((a, b) => b.endorsements - a.endorsements).slice(0, 12);
   }
 
   getSkillPercentage(endorsements: number): number {
-    const maxEndorsements = 50;
+    const maxEndorsements = Math.max(
+      ...(this.profile()?.skills || []).map((s) => s.endorsements),
+      1
+    );
     return Math.min((endorsements / maxEndorsements) * 100, 100);
   }
 }

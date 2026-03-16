@@ -1,5 +1,5 @@
-import { Component, input } from '@angular/core';
 import { UpperCasePipe } from '@angular/common';
+import { Component, input } from '@angular/core';
 import type { LinkedInProfile } from '../../services/profile.service';
 
 @Component({
@@ -7,40 +7,57 @@ import type { LinkedInProfile } from '../../services/profile.service';
   standalone: true,
   imports: [UpperCasePipe],
   template: `
-    <section class="section-transition contact-section section-snap" id="contact">
+    <section 
+      class="section-transition contact-section section-snap" 
+      id="contact"
+      aria-labelledby="contact-title"
+      role="region">
       <div class="container">
         <div class="corner-deco card-deco contact-card">
-          <h2 class="text-center">Get In Touch</h2>
+          <h2 class="text-center" id="contact-title">Get In Touch</h2>
           
-          <div class="divider-deco mb-4">
+          <div class="divider-deco mb-4" aria-hidden="true">
             <div class="divider-icon">
-              <span>✉</span>
+              <span aria-hidden="true">✉</span>
             </div>
           </div>
           
-          <p class="text-center contact-text">
-            ¿Interesado en colaborar? Estoy disponible para proyectos freelance y oportunidades profesionales.
+          <p class="text-center contact-text" role="text">
+            Interested in collaborating? I am available for freelance projects and professional opportunities.
           </p>
           
-          <div class="contact-methods">
+          <div class="contact-methods" role="list" aria-label="Contact methods">
             @if (profile()?.contactInfo?.email) {
-              <a [href]="'mailto:' + profile()?.contactInfo?.email" class="contact-link">
-                <span class="contact-icon">@</span>
+              <a [href]="'mailto:' + profile()?.contactInfo?.email" 
+                 class="contact-link" 
+                 role="listitem"
+                 [attr.aria-label]="'Send email to ' + profile()?.contactInfo?.email">
+                <span class="contact-icon" aria-hidden="true">@</span>
                 <span>{{ profile()?.contactInfo?.email }}</span>
               </a>
             }
             
             @if (profile()?.linkedInUrl) {
-              <a [href]="profile()?.linkedInUrl" target="_blank" class="contact-link">
-                <span class="contact-icon">in</span>
-                <span>{{ profile()?.linkedInUrl }}</span>
+              <a [href]="profile()?.linkedInUrl" 
+                 target="_blank" 
+                 rel="noopener noreferrer"
+                 class="contact-link"
+                 role="listitem"
+                 aria-label="View LinkedIn profile">
+                <span class="contact-icon" aria-hidden="true">in</span>
+                <span>LinkedIn</span>
               </a>
             }
             
             @if (profile()?.contactInfo?.github) {
-              <a [href]="profile()?.contactInfo?.github" target="_blank" class="contact-link">
-                <span class="contact-icon">gh</span>
-                <span>{{ profile()?.contactInfo?.github }}</span>
+              <a [href]="profile()?.contactInfo?.github" 
+                 target="_blank" 
+                 rel="noopener noreferrer"
+                 class="contact-link"
+                 role="listitem"
+                 aria-label="View GitHub profile">
+                <span class="contact-icon" aria-hidden="true">gh</span>
+                <span>GitHub</span>
               </a>
             }
           </div>
@@ -48,7 +65,7 @@ import type { LinkedInProfile } from '../../services/profile.service';
       </div>
     </section>
 
-    <footer class="footer-section">
+    <footer class="footer-section" role="contentinfo">
       <div class="container">
         <div class="footer-content">
           <div class="footer-brand">
@@ -56,21 +73,22 @@ import type { LinkedInProfile } from '../../services/profile.service';
             <span class="footer-tagline">Full Stack Developer</span>
           </div>
           
-          <div class="footer-year">
+          <div class="footer-year" aria-label="Footer information">
             <span>Est. 2017</span>
-            <span class="footer-divider">|</span>
+            <span class="footer-divider" aria-hidden="true">|</span>
             <span>{{ profile()?.location?.city }}, {{ profile()?.location?.country }}</span>
           </div>
         </div>
         
         <div class="footer-credits">
           <p>Designed in the style of the Golden Age of Cinema</p>
-          <p class="footer-film">THE END</p>
+          <p class="footer-film" aria-label="End of portfolio">THE END</p>
         </div>
       </div>
     </footer>
   `,
-  styles: [`
+  styles: [
+    `
     .section-transition {
       position: relative;
       padding: 6rem 0;
@@ -337,7 +355,8 @@ import type { LinkedInProfile } from '../../services/profile.service';
         word-break: break-all;
       }
     }
-  `]
+  `,
+  ],
 })
 export class ContactComponent {
   profile = input<LinkedInProfile | null>(null);

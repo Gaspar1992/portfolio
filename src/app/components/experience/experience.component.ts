@@ -1,60 +1,65 @@
-import { Component, input, inject } from '@angular/core';
-import { ProfileService, type LinkedInProfile } from '../../services/profile.service';
+import { Component, inject, input } from '@angular/core';
+import { type LinkedInProfile, ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-experience',
   standalone: true,
   template: `
-    <section class="section-transition experience-section section-snap" id="experience">
+    <section 
+      class="section-transition experience-section section-snap" 
+      id="experience"
+      aria-labelledby="experience-title"
+      role="region">
       <div class="container">
-        <h2 class="text-center">Motion Picture Credits</h2>
+        <h2 class="text-center" id="experience-title">Motion Picture Credits</h2>
         
-        <div class="divider-deco mb-6">
+        <div class="divider-deco mb-6" aria-hidden="true">
           <div class="divider-icon">
             <span>★</span>
           </div>
         </div>
         
-        <div class="timeline">
+        <div class="timeline" role="list" aria-label="Work experience">
           @for (exp of profile()?.experience; track exp.id) {
-            <div class="timeline-item">
-              <div class="timeline-marker"></div>
+            <article class="timeline-item" role="listitem" [attr.aria-label]="exp.title + ' at ' + exp.company">
+              <div class="timeline-marker" aria-hidden="true"></div>
               <div class="card-deco timeline-card">
-                <div class="timeline-header">
+                <header class="timeline-header">
                   <h3>{{ exp.title }}</h3>
                   <span class="timeline-company">{{ exp.company }}</span>
-                  <span class="timeline-date">
+                  <time class="timeline-date" [attr.datetime]="exp.startDate">
                     {{ profileService.formatExperienceDate(exp.startDate, exp.endDate, exp.isCurrent) }}
-                  </span>
-                </div>
+                  </time>
+                </header>
                 
                 @if (exp.description; as desc) {
-                <p class="timeline-description">
-                  {{ desc.split('\n\n')[0] }}
+                <p class="timeline-description" role="text">
+                  {{ getFirstParagraph(desc) }}
                 </p>
                 
                 @if (getAchievements(desc).length > 0) {
-                  <ul class="timeline-achievements">
+                  <ul class="timeline-achievements" role="list" aria-label="Key achievements">
                     @for (achievement of getAchievements(desc); track achievement) {
-                      <li>{{ achievement }}</li>
+                      <li role="listitem">{{ achievement }}</li>
                     }
                   </ul>
                 }
                 
-                <div class="timeline-tags">
+                <div class="timeline-tags" role="list" aria-label="Technologies used">
                   @for (skill of exp.skills.slice(0, 5); track skill) {
-                    <span class="tag-deco">{{ skill }}</span>
+                    <span class="tag-deco" role="listitem">{{ skill }}</span>
                   }
                 </div>
                 }
               </div>
-            </div>
+            </article>
           }
         </div>
       </div>
     </section>
   `,
-  styles: [`
+  styles: [
+    `
     .section-transition {
       position: relative;
       padding: 6rem 0;
@@ -253,7 +258,8 @@ import { ProfileService, type LinkedInProfile } from '../../services/profile.ser
         padding: 0 1rem;
       }
     }
-  `]
+  `,
+  ],
 })
 export class ExperienceComponent {
   profile = input<LinkedInProfile | null>(null);
@@ -263,11 +269,16 @@ export class ExperienceComponent {
     if (!description) return [];
     const parts = description.split('\n\n');
     if (parts.length < 2) return [];
-    
+
     const achievementsText = parts[1];
     return achievementsText
       .split('\n')
-      .filter(line => line.trim().startsWith('-'))
-      .map(line => line.trim().substring(1).trim());
+      .filter((line) => line.trim().startsWith('-'))
+      .map((line) => line.trim().substring(1).trim());
+  }
+
+  getFirstParagraph(description: string): string {
+    if (!description) return '';
+    return description.split('\n\n')[0] || description;
   }
 }

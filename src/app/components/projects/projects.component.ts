@@ -5,39 +5,54 @@ import type { LinkedInProfile } from '../../services/profile.service';
   selector: 'app-projects',
   standalone: true,
   template: `
-    <section class="section-transition projects-section section-snap" id="projects">
+    <section 
+      class="section-transition projects-section section-snap" 
+      id="projects"
+      aria-labelledby="projects-title"
+      role="region">
       <div class="container">
-        <h2 class="text-center">Featured Productions</h2>
+        <h2 class="text-center" id="projects-title">Featured Productions</h2>
         
-        <div class="divider-deco mb-6">
+        <div class="divider-deco mb-6" aria-hidden="true">
           <div class="divider-icon">
-            <span>🎬</span>
+            <span aria-hidden="true">🎬</span>
           </div>
         </div>
         
-        <div class="grid grid-2">
+        <div class="grid grid-2" role="list" aria-label="Proyectos destacados">
           @for (project of profile()?.projects; track project.id) {
-            <div class="card-deco project-card">
-              <div class="project-header">
-                <h3>{{ project.name }}</h3>
-                <span class="project-type">Open Source</span>
-              </div>
-              <p>{{ project.description }}</p>
-              <div class="project-links">
-                <a [href]="project.url" target="_blank" class="btn-deco">View on GitHub</a>
-              </div>
-              <div class="project-tags">
-                @for (tech of project.technologies.slice(0, 4); track tech) {
-                  <span class="tag-deco">{{ tech }}</span>
+            <article class="card-deco project-card" role="listitem" [attr.aria-labelledby]="'project-' + project.id">
+              <header class="project-header">
+                <h3 [id]="'project-' + project.id">{{ project.name }}</h3>
+                <span class="project-type">{{ project.technologies.join(', ') }}</span>
+              </header>
+              <p role="text">{{ project.description }}</p>
+              @if (project.url) {
+                <div class="project-links">
+                  <a [href]="project.url" 
+                     target="_blank" 
+                     rel="noopener noreferrer"
+                     class="btn-deco"
+                     [attr.aria-label]="'View project ' + project.name + ' on GitHub'">
+                    <span>View Project</span>
+                  </a>
+                </div>
+              }
+              <div class="project-tags" role="list" aria-label="Project technologies">
+                @for (tech of project.technologies.slice(0, 4) || []; track tech) {
+                  <span class="tag-deco" role="listitem">{{ tech }}</span>
                 }
               </div>
-            </div>
+            </article>
+          } @empty {
+            <p class="text-center" role="status">No projects available at this time.</p>
           }
         </div>
       </div>
     </section>
   `,
-  styles: [`
+  styles: [
+    `
     .section-transition {
       position: relative;
       padding: 6rem 0;
@@ -237,7 +252,8 @@ import type { LinkedInProfile } from '../../services/profile.service';
         padding: 0 1rem;
       }
     }
-  `]
+  `,
+  ],
 })
 export class ProjectsComponent {
   profile = input<LinkedInProfile | null>(null);

@@ -5,31 +5,55 @@ import type { LinkedInProfile } from '../../services/profile.service';
   selector: 'app-certifications',
   standalone: true,
   template: `
-    <section class="section-transition certs-section section-snap" id="certifications">
+    <section 
+      class="section-transition certs-section section-snap" 
+      id="certifications"
+      aria-labelledby="certs-title"
+      role="region">
       <div class="container">
-        <h2 class="text-center">Credentials</h2>
+        <h2 class="text-center" id="certs-title">Credentials</h2>
         
-        <div class="divider-deco mb-6">
+        <div class="divider-deco mb-6" aria-hidden="true">
           <div class="divider-icon">
-            <span>✓</span>
+            <span aria-hidden="true">✓</span>
           </div>
         </div>
         
-        <div class="certs-list">
+        <div class="certs-list" role="list" aria-label="Certifications obtained">
           @for (cert of profile()?.certifications; track cert.id) {
-            <div class="cert-item card-deco">
-              <div class="cert-badge">{{ getBadge(cert.issuingOrganization) }}</div>
+            <article class="cert-item card-deco" role="listitem" [attr.aria-labelledby]="'cert-' + cert.id">
+              <div class="cert-badge" aria-hidden="true">{{ getBadge(cert.issuingOrganization) }}</div>
               <div class="cert-info">
-                <h3>{{ cert.name }}</h3>
-                <p>{{ cert.issuingOrganization }} • {{ formatDate(cert.issueDate) }} — {{ formatDate(cert.expirationDate) }}</p>
+                <h3 [id]="'cert-' + cert.id" [title]="cert.name">{{ shortenTitle(cert.name) }}</h3>
+                <p>
+                  <span class="cert-org">{{ cert.issuingOrganization }}</span>
+                  <time [attr.datetime]="cert.issueDate">{{ formatDate(cert.issueDate) }}</time>
+                  @if (cert.expirationDate) {
+                    — <time [attr.datetime]="cert.expirationDate">{{ formatDate(cert.expirationDate) }}</time>
+                  } @else {
+                    <span class="cert-valid">— Valid indefinitely</span>
+                  }
+                </p>
+                @if (cert.credentialUrl) {
+                  <a [href]="cert.credentialUrl" 
+                     target="_blank" 
+                     rel="noopener noreferrer"
+                     class="cert-link"
+                     [attr.aria-label]="'View credential for ' + cert.name">
+                    View Credential
+                  </a>
+                }
               </div>
-            </div>
+            </article>
+          } @empty {
+            <p class="text-center" role="status">No certifications available.</p>
           }
         </div>
       </div>
     </section>
   `,
-  styles: [`
+  styles: [
+    `
     .section-transition {
       position: relative;
       padding: 6rem 0;
@@ -66,6 +90,18 @@ import type { LinkedInProfile } from '../../services/profile.service';
 
     .cert-info h3 {
       margin-bottom: 0.25rem;
+      font-size: 1rem;
+      line-height: 1.4;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .cert-info h3:hover {
+      -webkit-line-clamp: unset;
+      overflow: visible;
     }
 
     .cert-info p {
@@ -175,7 +211,8 @@ import type { LinkedInProfile } from '../../services/profile.service';
         text-align: center;
       }
     }
-  `]
+  `,
+  ],
 })
 export class CertificationsComponent {
   profile = input<LinkedInProfile | null>(null);
@@ -188,5 +225,10 @@ export class CertificationsComponent {
 
   formatDate(dateString: string): string {
     return new Date(dateString).getFullYear().toString();
+  }
+
+  shortenTitle(title: string): string {
+    if (title.length <= 45) return title;
+    return title.substring(0, 42) + '...';
   }
 }

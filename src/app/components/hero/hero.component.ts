@@ -1,5 +1,5 @@
-import { Component, input } from '@angular/core';
 import { UpperCasePipe } from '@angular/common';
+import { Component, input } from '@angular/core';
 import type { LinkedInProfile } from '../../services/profile.service';
 
 @Component({
@@ -7,48 +7,56 @@ import type { LinkedInProfile } from '../../services/profile.service';
   standalone: true,
   imports: [UpperCasePipe],
   template: `
-    <section class="hero-section section-snap">
+    <section 
+      class="hero-section section-snap" 
+      aria-label="Main presentation"
+      role="banner">
       <div class="container">
         <div class="hero-content text-center">
-          <div class="film-badge mb-4">
+          <div class="film-badge mb-4" aria-hidden="true">
             <span class="film-year">MCMXXVI</span>
             <span class="film-label">PRESENTS</span>
           </div>
           
           <h1 class="hero-title">
-            <span class="title-line">{{ profile()?.firstName | uppercase }}</span>
-            <span class="title-line title-accent">{{ profile()?.lastName | uppercase }}</span>
+            <span class="title-line" role="text">{{ profile()?.firstName | uppercase }}</span>
+            <span class="title-line title-accent" role="text">{{ profile()?.lastName | uppercase }}</span>
           </h1>
           
-          <div class="divider-deco mb-4">
+          <div class="divider-deco mb-4" aria-hidden="true">
             <div class="divider-icon">
               <span>✦</span>
             </div>
           </div>
           
-          <p class="hero-subtitle">
+          <p class="hero-subtitle" role="doc-subtitle">
             {{ profile()?.headline }}
           </p>
           
-          <div class="hero-location">
-            <span class="location-icon">📍</span>
+          <div class="hero-location" aria-label="Location">
+            <span class="location-icon" aria-hidden="true">📍</span>
             <span>{{ profile()?.location?.city }}, {{ profile()?.location?.country }}</span>
           </div>
           
-          <div class="hero-actions mt-4">
-            <a href="#experience" class="btn-deco">View Experience</a>
-            <a href="#contact" class="btn-deco btn-dark">Get In Touch</a>
+          <div class="hero-actions mt-4" role="navigation" aria-label="Main actions">
+            <a href="#experience" class="btn-deco" aria-label="View my work experience">
+              <span>View Experience</span>
+            </a>
+            <a href="#contact" class="btn-deco btn-dark" aria-label="Get in touch with me">
+              <span>Get In Touch</span>
+            </a>
           </div>
         </div>
       </div>
       
-      <div class="scroll-indicator">
+      <div class="scroll-indicator" aria-hidden="true">
         <div class="scroll-line"></div>
         <span>SCROLL</span>
       </div>
     </section>
   `,
-  styles: [`
+  styles: [
+    `
     .hero-section {
       min-height: 100vh;
       display: flex;
@@ -213,7 +221,9 @@ import type { LinkedInProfile } from '../../services/profile.service';
     }
 
     .btn-deco {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       font-family: var(--font-display);
       font-size: 0.85rem;
       font-weight: 600;
@@ -228,6 +238,40 @@ import type { LinkedInProfile } from '../../services/profile.service';
       position: relative;
       overflow: hidden;
       text-decoration: none;
+      min-height: 48px;
+      min-width: 200px;
+    }
+
+    .btn-deco span {
+      position: relative;
+      z-index: 2;
+    }
+
+    .btn-deco:focus-visible {
+      outline: 3px solid var(--color-gold);
+      outline-offset: 3px;
+    }
+
+    @media (max-width: 768px) {
+      .hero-actions {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .btn-deco {
+        width: 100%;
+        max-width: 280px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-section {
+        padding: 6rem 1rem 2rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
     }
 
     .btn-deco::before {
@@ -273,7 +317,8 @@ import type { LinkedInProfile } from '../../services/profile.service';
         font-size: 2.5rem;
       }
     }
-  `]
+  `,
+  ],
 })
 export class HeroComponent {
   profile = input<LinkedInProfile | null>(null);

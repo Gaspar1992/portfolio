@@ -18,7 +18,9 @@
     "format:fix": "biome format . --write",
     "check": "biome check .",
     "check:fix": "biome check . --fix",
-    "sync:linkedin": "node --env-file=.env scripts/sync-linkedin.mjs"
+    "sync:linkedin": "node --env-file=.env scripts/sync-linkedin.mjs",
+    "import:linkedin": "node scripts/import-linkedin-export.mjs",
+    "optimize:photo": "node scripts/optimize-profile-photo.mjs"
   },
   "private": true,
   "packageManager": "npm@10.9.4",

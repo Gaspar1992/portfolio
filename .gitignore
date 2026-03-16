@@ -24,3 +24,9 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# LinkedIn data export files
+Basic_LinkedInDataExport_*.zip
+Basic_LinkedInDataExport_*.zip.zip
+scripts/linkedin-export/
+*.csv

@@ -5,12 +5,16 @@ import type { LinkedInProfile } from '../../services/profile.service';
   selector: 'app-about',
   standalone: true,
   template: `
-    <section class="section-transition about-section section-snap" id="about">
+    <section 
+      class="section-transition about-section section-snap" 
+      id="about"
+      aria-labelledby="about-title"
+      role="region">
       <div class="container">
         <div class="corner-deco card-deco about-card">
-          <h2 class="text-center">The Artist</h2>
+          <h2 class="text-center" id="about-title">The Artist</h2>
           
-          <div class="divider-deco mb-4">
+          <div class="divider-deco mb-4" aria-hidden="true">
             <div class="divider-icon">
               <span>◆</span>
             </div>
@@ -18,38 +22,47 @@ import type { LinkedInProfile } from '../../services/profile.service';
           
           <div class="about-content">
             <div class="about-portrait">
-              <div class="film-frame portrait-frame">
-                <div class="portrait-placeholder">
-                  <span class="portrait-initials">
-                    {{ getInitials(profile()?.fullName) }}
-                  </span>
-                </div>
-              </div>
+              <figure class="film-frame portrait-frame" aria-label="Profile photo">
+                @if (profile()?.profilePictureUrl) {
+                  <img [src]="profile()?.profilePictureUrl" 
+                       [alt]="'Professional photo of ' + profile()?.fullName"
+                       class="portrait-image" 
+                       width="180" 
+                       height="270" 
+                       loading="lazy"
+                       role="img">
+                } @else {
+                  <div class="portrait-placeholder" role="img" aria-label="Name initials">
+                    <span class="portrait-initials" aria-hidden="true">
+                      {{ getInitials(profile()?.fullName) }}
+                    </span>
+                  </div>
+                }
+              </figure>
             </div>
             
-            <div class="about-text">
-              @if (profile()?.summary; as summary) {
-                <p class="quote-deco">
-                  {{ summary.split('\n\n')[0] }}
-                </p>
+            <article class="about-text" aria-label="Biography">
+              @if (getFirstParagraph(); as firstPara) {
+                <p class="quote-deco" role="text">{{ firstPara }}</p>
               }
               
               @for (paragraph of getSummaryParagraphs(); track $index) {
-                <p>{{ paragraph }}</p>
+                <p role="text">{{ paragraph }}</p>
               }
               
-              <div class="about-tags">
+              <div class="about-tags" role="list" aria-label="Top skills">
                 @for (skill of getTopSkills(); track skill.name) {
-                  <span class="tag-deco">{{ skill.name }}</span>
+                  <span class="tag-deco" role="listitem">{{ skill.name }}</span>
                 }
               </div>
-            </div>
+            </article>
           </div>
         </div>
       </div>
     </section>
   `,
-  styles: [`
+  styles: [
+    `
     .section-transition {
       position: relative;
       padding: 6rem 0;
@@ -69,16 +82,56 @@ import type { LinkedInProfile } from '../../services/profile.service';
     @media (max-width: 768px) {
       .about-content {
         grid-template-columns: 1fr;
+        gap: 2rem;
       }
       
       .about-portrait {
         margin: 0 auto;
       }
+
+      .portrait-frame {
+        width: 150px;
+        height: 225px;
+      }
+
+      .portrait-image {
+        width: 150px;
+        height: 225px;
+      }
+
+      .about-card {
+        padding: 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .about-card {
+        padding: 1rem;
+      }
+
+      .about-text p {
+        font-size: 1rem;
+        line-height: 1.7;
+      }
+
+      .quote-deco {
+        font-size: 1.2rem;
+        padding: 1.5rem;
+      }
+    }
+
+    .portrait-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
     }
 
     .portrait-frame {
       width: 180px;
-      height: 220px;
+      height: 270px;
+      overflow: hidden;
     }
 
     .portrait-placeholder {
@@ -281,20 +334,30 @@ import type { LinkedInProfile } from '../../services/profile.service';
         padding: 0 1rem;
       }
     }
-  `]
+  `,
+  ],
 })
 export class AboutComponent {
   profile = input<LinkedInProfile | null>(null);
 
   getInitials(fullName: string | undefined): string {
     if (!fullName) return '';
-    return fullName.split(' ').map(n => n[0]).join('').toUpperCase();
+    return fullName
+      .split(' ')
+      .map((n) => n[0])
+      .join('')
+      .toUpperCase();
+  }
+
+  getFirstParagraph(): string {
+    const summary = this.profile()?.summary || '';
+    return summary.split('\n\n')[0] || '';
   }
 
   getSummaryParagraphs(): string[] {
     const summary = this.profile()?.summary || '';
     const parts = summary.split('\n\n');
-    return parts.slice(1).filter(p => p.trim() !== '');
+    return parts.slice(1).filter((p) => p.trim() !== '');
   }
 
   getTopSkills() {

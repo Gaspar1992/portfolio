@@ -1,39 +1,46 @@
-import { Component, input, inject } from '@angular/core';
-import { ProfileService, type LinkedInProfile } from '../../services/profile.service';
+import { Component, inject, input } from '@angular/core';
+import { type LinkedInProfile, ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-education',
   standalone: true,
   template: `
-    <section class="section-transition education-section section-snap" id="education">
+    <section 
+      class="section-transition education-section section-snap" 
+      id="education"
+      aria-labelledby="education-title"
+      role="region">
       <div class="container">
-        <h2 class="text-center">Academy Training</h2>
+        <h2 class="text-center" id="education-title">Academy Training</h2>
         
-        <div class="divider-deco mb-6">
+        <div class="divider-deco mb-6" aria-hidden="true">
           <div class="divider-icon">
-            <span>🎓</span>
+            <span aria-hidden="true">🎓</span>
           </div>
         </div>
         
-        <div class="grid grid-2">
+        <div class="grid grid-2" role="list" aria-label="Academic education">
           @for (edu of profile()?.education; track edu.id) {
-            <div class="card-deco education-card">
-              <div class="education-year">
-                {{ profileService.formatEducationDate(edu.startDate, edu.endDate) }}
-              </div>
-              <h3>{{ edu.degree }}</h3>
-              <p class="education-school">{{ edu.school }}</p>
+            <article class="card-deco education-card" role="listitem" [attr.aria-labelledby]="'edu-' + edu.id">
+              <time class="education-year" [attr.datetime]="edu.startDate">
+                {{ edu.endDate ? profileService.formatEducationDate(edu.startDate, edu.endDate) : profileService.formatEducationDate(edu.startDate, edu.startDate) }}
+              </time>
+              <h3 [id]="'edu-' + edu.id">{{ edu.degree }}</h3>
+              <p class="education-school" role="doc-subtitle">{{ edu.school }}</p>
               <p class="education-field">{{ edu.fieldOfStudy }}</p>
               @if (edu.grade) {
-                <span class="education-grade">{{ edu.grade }}</span>
+                <span class="education-grade" aria-label="Grade: {{ edu.grade }}">{{ edu.grade }}</span>
               }
-            </div>
+            </article>
+          } @empty {
+            <p class="text-center" role="status">No education information available.</p>
           }
         </div>
       </div>
     </section>
   `,
-  styles: [`
+  styles: [
+    `
     .section-transition {
       position: relative;
       padding: 6rem 0;
@@ -185,7 +192,8 @@ import { ProfileService, type LinkedInProfile } from '../../services/profile.ser
         padding: 0 1rem;
       }
     }
-  `]
+  `,
+  ],
 })
 export class EducationComponent {
   profile = input<LinkedInProfile | null>(null);

@@ -1,0 +1,26 @@
+{
+  "original": "/profile-photo-original.jpg",
+  "versions": {
+    "thumbnail": {
+      "jpeg": "/profile-photo-thumbnail.jpg",
+      "webp": "/profile-photo-thumbnail.webp",
+      "size": "150x150"
+    },
+    "small": {
+      "jpeg": "/profile-photo-small.jpg",
+      "webp": "/profile-photo-small.webp",
+      "size": "300x300"
+    },
+    "medium": {
+      "jpeg": "/profile-photo-medium.jpg",
+      "webp": "/profile-photo-medium.webp",
+      "size": "500x500"
+    },
+    "large": {
+      "jpeg": "/profile-photo-large.jpg",
+      "webp": "/profile-photo-large.webp",
+      "size": "800x800"
+    }
+  },
+  "generatedAt": "2026-03-16T21:44:51.365Z"
+}

@@ -13,32 +13,32 @@ export interface ProfileMeta {
 }
 
 export interface ProfileLocation {
-  city: string;
-  country: string;
-  countryCode: string;
+  city: string | null;
+  country: string | null;
+  countryCode: string | null;
 }
 
 export interface ProfileExperience {
   id: string;
   title: string;
-  company: string;
+  company: string | null;
   companyLogoUrl: string | null;
-  location: string;
-  employmentType: string;
+  location: string | null;
+  employmentType: string | null;
   startDate: string;
   endDate: string | null;
   isCurrent: boolean;
-  description: string;
+  description: string | null;
   skills: string[];
 }
 
 export interface ProfileEducation {
   id: string;
   school: string;
-  degree: string;
-  fieldOfStudy: string;
+  degree: string | null;
+  fieldOfStudy: string | null;
   startDate: string;
-  endDate: string;
+  endDate: string | null;
   grade: string | null;
   activities: string | null;
 }
@@ -53,15 +53,15 @@ export interface ProfileCertification {
   name: string;
   issuingOrganization: string;
   issueDate: string;
-  expirationDate: string;
-  credentialUrl: string;
+  expirationDate: string | null;
+  credentialUrl: string | null;
 }
 
 export interface ProfileProject {
   id: string;
   name: string;
-  description: string;
-  url: string;
+  description: string | null;
+  url: string | null;
   technologies: string[];
   startDate: string;
   endDate: string | null;
@@ -73,10 +73,10 @@ export interface ProfileLanguage {
 }
 
 export interface ProfileContactInfo {
-  email: string;
-  website: string;
-  github: string;
-  twitter: string;
+  email: string | null;
+  website: string | null;
+  github: string | null;
+  twitter: string | null;
 }
 
 export interface ProfileHonor {
@@ -95,8 +95,8 @@ export interface LinkedInProfile {
   vanityName: string | null;
   profilePictureUrl: string | null;
   location: ProfileLocation;
-  summary: string;
-  industry: string;
+  summary: string | null;
+  industry: string | null;
   experience: ProfileExperience[];
   education: ProfileEducation[];
   skills: ProfileSkill[];
@@ -155,11 +155,11 @@ export class ProfileService {
   formatExperienceDate(startDate: string, endDate: string | null, isCurrent: boolean): string {
     const start = new Date(startDate);
     const startYear = start.getFullYear();
-    
+
     if (isCurrent || !endDate) {
       return `${startYear} — Present`;
     }
-    
+
     const end = new Date(endDate);
     const endYear = end.getFullYear();
     return `${startYear} — ${endYear}`;

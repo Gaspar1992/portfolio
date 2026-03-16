@@ -1,166 +1,480 @@
 {
   "_meta": {
-    "source": "mock",
-    "syncedAt": "2026-03-16T10:00:00.000Z",
-    "profileId": "mock-profile-001",
-    "note": "Este es un mock de desarrollo. Reemplazar con datos reales de LinkedIn cuando tengas el token."
+    "source": "linkedin-export",
+    "syncedAt": "2026-03-16T21:23:05.107Z",
+    "profileId": "grodriguez1992",
+    "note": "Datos obtenidos desde exportación oficial de LinkedIn",
+    "endorsementsCalculatedAt": "2026-03-16T21:46:07.396Z"
   },
   "firstName": "Gaspar",
-  "lastName": "Rodríguez",
-  "fullName": "Gaspar Rodríguez",
-  "headline": "Senior Full Stack Developer | Angular Specialist | Cloud Architecture Enthusiast",
-  "email": "contacto@gasparrodriguez.dev",
-  "linkedInUrl": "https://linkedin.com/in/gasparrv92",
-  "vanityName": "gasparrv92",
-  "profilePictureUrl": null,
+  "lastName": "Rodríguez Valero",
+  "fullName": "Gaspar Rodríguez Valero",
+  "headline": "Frontend Engineer",
+  "email": null,
+  "linkedInUrl": "https://linkedin.com/in/grodriguez1992",
+  "vanityName": "grodriguez1992",
+  "profilePictureUrl": "/profile-photo-medium.webp",
   "location": {
-    "city": "Madrid",
-    "country": "España",
-    "countryCode": "ES"
+    "city": "Alicante",
+    "country": "Valencian Community",
+    "countryCode": null
   },
-  "summary": "Desarrollador Full Stack con más de 8 años de experiencia construyendo aplicaciones web escalables. Especializado en Angular, TypeScript y arquitecturas cloud-native. Apasionado por el código limpio, el diseño de sistemas y el mentoring.\n\nHe liderado equipos técnicos en proyectos de migración a microservicios y he contribuido a proyectos open source en el ecosistema Angular. Busco constantemente nuevos desafíos que me permitan crecer profesionalmente mientras aporto valor real al negocio.",
-  "industry": "Tecnología y Desarrollo de Software",
+  "summary": "I have worked with all kinds of languages and this is reflected in the evolution and complexity of the projects I work with. Currently I continue to specialize in Front-End and I am looking to continue my career towards a Full-Stack and Software Architecture in the future.",
+  "industry": "Strategic Management Services",
   "experience": [
     {
       "id": "exp-001",
-      "title": "Senior Full Stack Developer",
-      "company": "TechCorp Solutions",
+      "title": "Front End Architect",
+      "company": "knowmad mood",
       "companyLogoUrl": null,
-      "location": "Madrid, España (Híbrido)",
-      "employmentType": "Jornada completa",
-      "startDate": "2022-03-01",
+      "location": "Spain · Remote",
+      "employmentType": "Full-time",
+      "startDate": "2022-07-01",
       "endDate": null,
       "isCurrent": true,
-      "description": "Liderazgo técnico del equipo frontend (5 desarrolladores). Arquitectura y desarrollo de aplicaciones Angular 17+ con standalone components.\n\n- Reduje el tiempo de build en 40% migrando a esbuild y optimizando dependencias\n- Implementé CI/CD pipelines con GitHub Actions reduciendo deploys de 30min a 8min\n- Diseñé e implementé sistema de feature flags para releases graduales\n- Mentoring de desarrolladores junior y code reviews",
-      "skills": ["Angular", "TypeScript", "Nx", "GitHub Actions", "AWS", "Node.js"]
+      "description": "Front-End Architecture Solutions\nAI configuration (skills, MCPs, Subagents, Context saving protocol,...)",
+      "skills": [
+        "Design Patterns",
+        "Front-end Engineering",
+        "PrimeNG",
+        "HTML",
+        "Git",
+        "Team Management",
+        "Angular",
+        "Jenkins",
+        "Tailwind CSS",
+        "Angular Material",
+        "Front-End Development",
+        "Webpack",
+        "Mentoring",
+        "Nx monorepo",
+        "Architectural Design",
+        "Formly",
+        "JavaScript",
+        "Cascading Style Sheets (CSS)",
+        "TypeScript",
+        "IA",
+        "Esbuild"
+      ]
     },
     {
       "id": "exp-002",
-      "title": "Full Stack Developer",
-      "company": "Startup Innovatech",
+      "title": "Senior Software Developer",
+      "company": "Tasafy",
       "companyLogoUrl": null,
-      "location": "Remoto",
-      "employmentType": "Jornada completa",
-      "startDate": "2019-06-01",
-      "endDate": "2022-02-28",
+      "location": "Alicante, Valencian Community, Spain · Hybrid",
+      "employmentType": "Full-time",
+      "startDate": "2021-11-01",
+      "endDate": "2022-07-01",
       "isCurrent": false,
-      "description": "Desarrollo de producto desde cero en una fintech en crecimiento. Stack Angular + Node.js + PostgreSQL.\n\n- Desarrollé el core del sistema de pagos procesando +1M transacciones/mes\n- Implementé sistema de notificaciones en tiempo real con WebSockets\n- Colaboré en el diseño de la arquitectura de microservicios\n- Participé en procesos de hiring y onboarding técnico",
-      "skills": ["Angular", "Node.js", "PostgreSQL", "Redis", "Docker", "RabbitMQ"]
+      "description": "Front-End Architect\nWeb & Mobile Development\nNx Monorepo\nNGRX (REDUX)",
+      "skills": [
+        "Design Patterns",
+        "Front-end Engineering",
+        "HTML",
+        "Git",
+        "Angular",
+        "Angular Material",
+        "Front-End Development",
+        "Architectural Design",
+        "JavaScript",
+        "Cascading Style Sheets (CSS)",
+        "TypeScript"
+      ]
     },
     {
       "id": "exp-003",
-      "title": "Frontend Developer",
-      "company": "Agencia Digital Creativa",
+      "title": "Business & Integration Arch Analyst",
+      "company": "Accenture España",
       "companyLogoUrl": null,
-      "location": "Barcelona, España",
-      "employmentType": "Jornada completa",
-      "startDate": "2017-01-15",
-      "endDate": "2019-05-30",
+      "location": "Alicante, Valencian Community, Spain · Remote",
+      "employmentType": "Full-time",
+      "startDate": "2020-12-01",
+      "endDate": "2021-11-01",
       "isCurrent": false,
-      "description": "Desarrollo de websites y aplicaciones web para clientes del sector retail y turismo.\n\n- Desarrollé 15+ proyectos con Angular y React\n- Implementé tiendas online con Shopify y WooCommerce\n- Optimicé rendimiento web (Core Web Vitals, lazy loading, code splitting)",
-      "skills": ["Angular", "React", "Sass", "Webpack", "SEO técnico"]
+      "description": "Angular 2+ Projects\nDevelopments with Nx Monorepo",
+      "skills": [
+        "Front-end Engineering",
+        "HTML",
+        "Git",
+        "Angular",
+        "Angular Material",
+        "Front-End Development",
+        "Nx monorepo",
+        "JavaScript",
+        "Cascading Style Sheets (CSS)",
+        "TypeScript"
+      ]
+    },
+    {
+      "id": "exp-004",
+      "title": "Middle Senior Developer",
+      "company": "Teralco (CONVOTIS Iberia)",
+      "companyLogoUrl": null,
+      "location": "Alicante · On-site",
+      "employmentType": "Full-time",
+      "startDate": "2019-07-01",
+      "endDate": "2020-12-01",
+      "isCurrent": false,
+      "description": "Developing WebApps (Angular 2+)\nDeveloping MobileApps (Ionic and Cordova)",
+      "skills": [
+        "Front-end Engineering",
+        "HTML",
+        "Git",
+        "Angular",
+        "Ionic Framework",
+        "Angular Material",
+        "Front-End Development",
+        "JavaScript",
+        "Cascading Style Sheets (CSS)",
+        "TypeScript"
+      ]
+    },
+    {
+      "id": "exp-005",
+      "title": "Analyst - Programmer",
+      "company": "Recursos en la Red",
+      "companyLogoUrl": null,
+      "location": "Greater Murcia Metropolitan Area · On-site",
+      "employmentType": "Full-time",
+      "startDate": "2017-08-01",
+      "endDate": "2019-06-01",
+      "isCurrent": false,
+      "description": "Zend PHP, JavaEE, Jquery, Git, GNU/Linux, Mongodb, SSI, MySQL y Prestashop",
+      "skills": [
+        "Front-end Engineering",
+        "Java",
+        "PHP",
+        "HTML",
+        "Git",
+        "JavaServer Pages (JSP)",
+        "Jenkins",
+        "Angular Material",
+        "Front-End Development",
+        "MySQL",
+        "jQuery",
+        "JavaScript",
+        "Cascading Style Sheets (CSS)"
+      ]
+    },
+    {
+      "id": "exp-006",
+      "title": "Web Developer",
+      "company": "Grupo Enfoca",
+      "companyLogoUrl": null,
+      "location": "Alicante · On-site",
+      "employmentType": "Internship",
+      "startDate": "2016-08-01",
+      "endDate": "2017-06-01",
+      "isCurrent": false,
+      "description": "Learning about web projects. PHP, Javascript, HTML5, CSS3, Symfony, Magento, wordpress and more...",
+      "skills": [
+        "Front-end Engineering",
+        "Java",
+        "PHP",
+        "HTML",
+        "Git",
+        "Front-End Development",
+        "JavaScript",
+        "Cascading Style Sheets (CSS)"
+      ]
     }
   ],
   "education": [
     {
       "id": "edu-001",
-      "school": "Universidad Politécnica de Madrid",
-      "degree": "Máster en Ingeniería del Software",
-      "fieldOfStudy": "Arquitectura de Software y Sistemas Distribuidos",
-      "startDate": "2015-09-01",
-      "endDate": "2017-07-30",
-      "grade": "Matrícula de Honor",
-      "activities": "Tesis sobre escalabilidad de arquitecturas event-driven"
+      "school": "Universitat d'Alacant",
+      "degree": "Master's degree",
+      "fieldOfStudy": "Application Development and Web Services",
+      "startDate": "2018-09-01",
+      "endDate": "2020-09-01",
+      "grade": null,
+      "activities": "Product Management (SCRUM, Lean Model), SEO and WEB technologies"
     },
     {
       "id": "edu-002",
-      "school": "Universidad Complutense de Madrid",
-      "degree": "Grado en Ingeniería Informática",
-      "fieldOfStudy": "Computación y Sistemas de Información",
-      "startDate": "2011-09-01",
-      "endDate": "2015-06-30",
+      "school": "Universitat d'Alacant",
+      "degree": "Degree",
+      "fieldOfStudy": "Multimedia Engineering, Graphic Design and Programming",
+      "startDate": "2012-09-01",
+      "endDate": "2018-06-01",
       "grade": null,
-      "activities": "Delegado de clase, participación en hackathones"
+      "activities": null
     }
   ],
   "skills": [
-    { "name": "Angular", "endorsements": 45 },
-    { "name": "TypeScript", "endorsements": 38 },
-    { "name": "Node.js", "endorsements": 32 },
-    { "name": "AWS", "endorsements": 28 },
-    { "name": "Docker", "endorsements": 25 },
-    { "name": "React", "endorsements": 22 },
-    { "name": "PostgreSQL", "endorsements": 18 },
-    { "name": "MongoDB", "endorsements": 15 },
-    { "name": "Git", "endorsements": 42 },
-    { "name": "CI/CD", "endorsements": 20 },
-    { "name": "RxJS", "endorsements": 16 },
-    { "name": "NgRx/Redux", "endorsements": 14 }
+    {
+      "name": "JavaScript",
+      "endorsements": 117
+    },
+    {
+      "name": "TypeScript",
+      "endorsements": 99
+    },
+    {
+      "name": "Front-End Development",
+      "endorsements": 69
+    },
+    {
+      "name": "Angular",
+      "endorsements": 69
+    },
+    {
+      "name": "Front-end Engineering",
+      "endorsements": 60
+    },
+    {
+      "name": "HTML",
+      "endorsements": 39
+    },
+    {
+      "name": "Cascading Style Sheets (CSS)",
+      "endorsements": 30
+    },
+    {
+      "name": "Git",
+      "endorsements": 30
+    },
+    {
+      "name": "Angular Material",
+      "endorsements": 27
+    },
+    {
+      "name": "Node.js",
+      "endorsements": 21
+    },
+    {
+      "name": "Team Management",
+      "endorsements": 18
+    },
+    {
+      "name": "Jenkins",
+      "endorsements": 18
+    },
+    {
+      "name": "PHP",
+      "endorsements": 18
+    },
+    {
+      "name": "Java",
+      "endorsements": 18
+    },
+    {
+      "name": "Nx monorepo",
+      "endorsements": 15
+    },
+    {
+      "name": "Architectural Design",
+      "endorsements": 15
+    },
+    {
+      "name": "Design Patterns",
+      "endorsements": 15
+    },
+    {
+      "name": "IA",
+      "endorsements": 12
+    },
+    {
+      "name": "Esbuild",
+      "endorsements": 12
+    },
+    {
+      "name": "Web Workers",
+      "endorsements": 12
+    },
+    {
+      "name": "Formly",
+      "endorsements": 12
+    },
+    {
+      "name": "PrimeNG",
+      "endorsements": 12
+    },
+    {
+      "name": "Tailwind CSS",
+      "endorsements": 12
+    },
+    {
+      "name": "Mentoring",
+      "endorsements": 12
+    },
+    {
+      "name": "Webpack",
+      "endorsements": 12
+    },
+    {
+      "name": "Ionic Framework",
+      "endorsements": 9
+    },
+    {
+      "name": "RxJS",
+      "endorsements": 6
+    },
+    {
+      "name": "MySQL",
+      "endorsements": 6
+    },
+    {
+      "name": "jQuery",
+      "endorsements": 6
+    },
+    {
+      "name": "JavaServer Pages (JSP)",
+      "endorsements": 6
+    },
+    {
+      "name": "Multithreaded Development",
+      "endorsements": 0
+    },
+    {
+      "name": "Java Servlets y JSP",
+      "endorsements": 0
+    }
   ],
   "certifications": [
     {
       "id": "cert-001",
-      "name": "AWS Certified Solutions Architect – Associate",
-      "issuingOrganization": "Amazon Web Services",
-      "issueDate": "2023-05-15",
-      "expirationDate": "2026-05-15",
-      "credentialUrl": "https://www.credly.com/badges/example"
+      "name": "Node: De Cero a Experto",
+      "issuingOrganization": "Udemy",
+      "issueDate": "2020-03-01",
+      "expirationDate": null,
+      "credentialUrl": "https://www.udemy.com/certificate/UC-a057e924-a845-4440-b4e6-679ceb24316a"
     },
     {
       "id": "cert-002",
-      "name": "Google Cloud Professional Cloud Architect",
-      "issuingOrganization": "Google",
-      "issueDate": "2024-01-20",
-      "expirationDate": "2026-01-20",
-      "credentialUrl": "https://www.credential.net/example"
+      "name": "Ionic 5: Crear aplicaciones IOS, Android y PWAs con Angular",
+      "issuingOrganization": "Udemy",
+      "issueDate": "2019-12-01",
+      "expirationDate": null,
+      "credentialUrl": "https://www.udemy.com/certificate/UC-GQAS37AE"
+    },
+    {
+      "id": "cert-003",
+      "name": "Flutter: Tu guía completa de desarrollo para IOS y Android",
+      "issuingOrganization": "Udemy",
+      "issueDate": "2019-12-01",
+      "expirationDate": null,
+      "credentialUrl": "https://www.udemy.com/certificate/UC-AHK9MIJ8"
+    },
+    {
+      "id": "cert-004",
+      "name": "Spring Framework 5: Creando webapp de cero a experto (2019)",
+      "issuingOrganization": "Udemy",
+      "issueDate": "2019-10-01",
+      "expirationDate": null,
+      "credentialUrl": "https://www.udemy.com/certificate/UC-A7RC0YYE"
+    },
+    {
+      "id": "cert-005",
+      "name": "REDUX en Angular con NGRX: Desde las bases hasta la práctica",
+      "issuingOrganization": "Udemy",
+      "issueDate": "2019-09-01",
+      "expirationDate": null,
+      "credentialUrl": "https://www.udemy.com/certificate/UC-LTX37O8H"
+    },
+    {
+      "id": "cert-006",
+      "name": "PWA - Aplicaciones Web Progresivas: De cero a experto",
+      "issuingOrganization": "Udemy",
+      "issueDate": "2019-08-01",
+      "expirationDate": null,
+      "credentialUrl": "https://www.udemy.com/certificate/UC-BV0W8YA9"
+    },
+    {
+      "id": "cert-007",
+      "name": "Angular Avanzado: Lleva tus bases al siguiente nivel - MEAN",
+      "issuingOrganization": "Udemy",
+      "issueDate": "2019-07-01",
+      "expirationDate": null,
+      "credentialUrl": "https://www.udemy.com/certificate/UC-S3CAR5MY"
+    },
+    {
+      "id": "cert-008",
+      "name": "Desarrollo web con JavaScript, Angular, NodeJS y MongoDB",
+      "issuingOrganization": "Udemy",
+      "issueDate": "2019-07-01",
+      "expirationDate": null,
+      "credentialUrl": "https://www.udemy.com/certificate/UC-Z3XE0M0I"
+    },
+    {
+      "id": "cert-009",
+      "name": "Angular: De cero a experto creando aplicaciones (Angular 8+)",
+      "issuingOrganization": "Udemy",
+      "issueDate": "2019-07-01",
+      "expirationDate": null,
+      "credentialUrl": "https://www.udemy.com/certificate/UC-3A4D2LJX"
+    },
+    {
+      "id": "cert-010",
+      "name": "SCRUM, LEAN y KANBAN. Metodologías ágiles para la gestión de proyectos de desarrollo e investigación",
+      "issuingOrganization": "Universitat d'Alacant",
+      "issueDate": "2019-05-01",
+      "expirationDate": null,
+      "credentialUrl": null
+    },
+    {
+      "id": "cert-011",
+      "name": "Preliminary English Test",
+      "issuingOrganization": "Universitat d'Alacant",
+      "issueDate": "2018-06-01",
+      "expirationDate": null,
+      "credentialUrl": null
     }
   ],
   "projects": [
     {
       "id": "proj-001",
-      "name": "Angular Performance Toolkit",
-      "description": "Librería open source para análisis y optimización de rendimiento en aplicaciones Angular. Incluye detección automática de memory leaks, análisis de bundle size y recomendaciones de mejora.",
-      "url": "https://github.com/gasparrv92/ng-perf-toolkit",
-      "technologies": ["Angular", "TypeScript", "Performance API"],
-      "startDate": "2024-06-01",
-      "endDate": null
+      "name": "Tradams - RetroGame",
+      "description": "Video game project for Amstrad CPC 464. Genre: Roguelike, Dungeon Crawl, Shooter, Action-Adventure. Developed in Assembly language and Machine language using CPCTelera game engine.",
+      "technologies": ["Assembly language", "Machine language", "CPCTelera"],
+      "startDate": "2017-01-01",
+      "endDate": "2018-01-01",
+      "url": "https://www.youtube.com/watch?v=Xv-AejgvziU",
+      "images": ["https://www.youtube.com/watch?v=a5fIzhD71VM"]
     },
     {
       "id": "proj-002",
-      "name": "DevPortfolio Template",
-      "description": "Template de portfolio para desarrolladores construido con Angular 17 y prerendering estático. Sincronización automática con LinkedIn API.",
-      "url": "https://github.com/gasparrv92/portfolio",
-      "technologies": ["Angular", "TypeScript", "SCSS", "GitHub Actions"],
-      "startDate": "2026-01-15",
-      "endDate": null
+      "name": "Vesper",
+      "description": "Third-person video game where the protagonist rescues his friends from monsters. University project demonstrating Game Programming knowledge using C++ and OpenGL.",
+      "technologies": ["C++", "OpenGL"],
+      "startDate": "2016-09-01",
+      "endDate": "2017-06-01",
+      "url": null,
+      "associatedWith": "Universitat d'Alacant",
+      "images": []
+    },
+    {
+      "id": "proj-003",
+      "name": "Dangerous Dave",
+      "description": "First Video Game project at University. Recreation of the original Dangerous Dave game, implementing the first two levels and part of the third level.",
+      "technologies": ["C++", "SFML"],
+      "startDate": "2016-06-01",
+      "endDate": "2016-07-01",
+      "url": "https://www.youtube.com/watch?v=ovoS_6A6TxA&index=4",
+      "images": []
     }
   ],
   "languages": [
-    { "language": "Español", "proficiency": "Nativo" },
-    { "language": "Inglés", "proficiency": "Profesional completo (C1)" },
-    { "language": "Francés", "proficiency": "Intermedio (B1)" }
-  ],
-  "contactInfo": {
-    "email": "contacto@gasparrodriguez.dev",
-    "website": "https://gasparrodriguez.dev",
-    "github": "https://github.com/gasparrv92",
-    "twitter": "https://twitter.com/gasparrv92"
-  },
-  "interests": [
-    "Arquitectura de Software",
-    "Open Source",
-    "Developer Experience",
-    "Cloud Computing",
-    "Mentoring"
-  ],
-  "honors": [
     {
-      "title": "Speaker en AngularMadrid 2024",
-      "description": "Ponencia: 'Optimizando bundles: más allá del tree-shaking'"
+      "language": "Spanish",
+      "proficiency": "Native or bilingual proficiency"
     },
     {
-      "title": "Top Contributor - Angular Community",
-      "description": "Reconocimiento por contribuciones al ecosistema Angular en 2023"
+      "language": "Catalan",
+      "proficiency": "Limited working proficiency"
+    },
+    {
+      "language": "English",
+      "proficiency": "Limited working proficiency"
     }
-  ]
+  ],
+  "contactInfo": {
+    "email": "gaspar.rodriguez1992@gmail.com",
+    "website": null,
+    "github": "https://github.com/gasparrodriguez",
+    "twitter": null
+  },
+  "interests": [],
+  "honors": []
 }

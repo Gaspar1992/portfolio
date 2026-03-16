@@ -1,62 +1,98 @@
-<div class="film-container snap-container pattern-deco">
-  <!-- Efectos de película -->
-  <div class="film-grain"></div>
-  <div class="vignette"></div>
-  <div class="film-stripes"></div>
-  <div class="dust-scratches"></div>
-  <div class="projector-flicker"></div>
+<div
+  class="film-container snap-container pattern-deco"
+  role="main"
+  aria-label="Portfolio of Gaspar Rodriguez Valero"
+>
+  <!-- Skip link for accessibility -->
+  <a href="#about" class="skip-link">Skip to main content</a>
+
+  <!-- Film effects -->
+  <div class="film-grain" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="film-stripes" aria-hidden="true"></div>
+  <div class="dust-scratches" aria-hidden="true"></div>
+  <div class="projector-flicker" aria-hidden="true"></div>
+
+  <!-- Main navigation -->
+  <nav class="main-nav" aria-label="Main navigation">
+    <ul class="nav-list">
+      <li><a href="#about" class="nav-link">About</a></li>
+      <li><a href="#experience" class="nav-link">Experience</a></li>
+      <li><a href="#skills" class="nav-link">Skills</a></li>
+      <li><a href="#projects" class="nav-link">Projects</a></li>
+      <li><a href="#contact" class="nav-link">Contact</a></li>
+    </ul>
+  </nav>
 
   <!-- Hero - carga inmediata -->
   <app-hero [profile]="profile()"></app-hero>
 
-  <!-- About - lazy loading con @defer -->
+  <!-- About - lazy loading with @defer -->
   @defer (on viewport) {
-    <app-about [profile]="profile()"></app-about>
+    <app-about [profile]="profile()" id="about" tabindex="-1"></app-about>
   } @placeholder {
-    <div class="section-placeholder">Loading...</div>
+    <div class="section-placeholder" role="status" aria-live="polite">
+      <span class="sr-only">Loading about section...</span>
+      <div class="loading-spinner" aria-hidden="true"></div>
+    </div>
   }
 
   <!-- Experience - lazy loading -->
   @defer (on viewport) {
-    <app-experience [profile]="profile()"></app-experience>
+    <app-experience [profile]="profile()" id="experience" tabindex="-1"></app-experience>
   } @placeholder {
-    <div class="section-placeholder">Loading...</div>
+    <div class="section-placeholder" role="status" aria-live="polite">
+      <span class="sr-only">Loading experience section...</span>
+      <div class="loading-spinner" aria-hidden="true"></div>
+    </div>
   }
 
   <!-- Skills - lazy loading -->
   @defer (on viewport) {
-    <app-skills [profile]="profile()"></app-skills>
+    <app-skills [profile]="profile()" id="skills" tabindex="-1"></app-skills>
   } @placeholder {
-    <div class="section-placeholder">Loading...</div>
+    <div class="section-placeholder" role="status" aria-live="polite">
+      <span class="sr-only">Loading skills section...</span>
+      <div class="loading-spinner" aria-hidden="true"></div>
+    </div>
   }
 
   <!-- Education - lazy loading -->
   @defer (on viewport) {
-    <app-education [profile]="profile()"></app-education>
+    <app-education [profile]="profile()" id="education" tabindex="-1"></app-education>
   } @placeholder {
-    <div class="section-placeholder">Loading...</div>
+    <div class="section-placeholder" role="status" aria-live="polite">
+      <span class="sr-only">Loading education section...</span>
+      <div class="loading-spinner" aria-hidden="true"></div>
+    </div>
   }
 
   <!-- Projects - lazy loading -->
   @defer (on viewport) {
-    <app-projects [profile]="profile()"></app-projects>
+    <app-projects [profile]="profile()" id="projects" tabindex="-1"></app-projects>
   } @placeholder {
-    <div class="section-placeholder">Loading...</div>
+    <div class="section-placeholder" role="status" aria-live="polite">
+      <span class="sr-only">Loading projects section...</span>
+      <div class="loading-spinner" aria-hidden="true"></div>
+    </div>
   }
 
   <!-- Certifications - lazy loading -->
   @defer (on viewport) {
-    <app-certifications [profile]="profile()"></app-certifications>
+    <app-certifications
+      [profile]="profile()"
+      id="certifications"
+      tabindex="-1"
+    ></app-certifications>
   } @placeholder {
-    <div class="section-placeholder">Loading...</div>
+    <div class="section-placeholder" role="status" aria-live="polite">
+      <span class="sr-only">Loading certifications section...</span>
+      <div class="loading-spinner" aria-hidden="true"></div>
+    </div>
   }
 
-  <!-- Contact & Footer - lazy loading -->
-  @defer (on viewport) {
-    <app-contact [profile]="profile()"></app-contact>
-  } @placeholder {
-    <div class="section-placeholder">Loading...</div>
-  }
+  <!-- Contact & Footer - render immediately for navigation -->
+  <app-contact [profile]="profile()" id="contact" tabindex="-1"></app-contact>
 </div>
 
 <router-outlet></router-outlet>
