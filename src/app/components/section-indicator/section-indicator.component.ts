@@ -78,7 +78,9 @@ export class SectionIndicatorComponent {
 
   currentIndex = this.keyboardNav.currentSectionIndex;
   totalSections = computed(() => this.keyboardNav.getTotalSections());
-  isVisible = this.keyboardNav.isNavigatingWithKeyboard;
+  isVisible = computed(
+    () => this.keyboardNav.isNavigatingWithKeyboard() && !this.keyboardNav.isKeyboardPanelOpen()
+  );
 
   currentSectionLabel = computed(() => {
     const index = this.currentIndex();

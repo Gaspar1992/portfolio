@@ -25,6 +25,7 @@ export class KeyboardNavigationService {
 
   currentSectionIndex = signal(0);
   isNavigatingWithKeyboard = signal(false);
+  isKeyboardPanelOpen = signal(false);
 
   constructor() {
     this.setupKeyboardNavigation();

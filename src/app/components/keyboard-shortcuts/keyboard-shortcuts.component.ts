@@ -1,13 +1,14 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { KeyboardNavigationService } from '../../services/keyboard-navigation.service';
 
 @Component({
   selector: 'app-keyboard-shortcuts',
   standalone: true,
   template: `
-    <!-- Toggle button -->
+    <!-- Toggle button - hidden when panel is open -->
     <button 
       class="keyboard-toggle"
+      [class.hidden]="isPanelOpen()"
       (click)="togglePanel()"
       [attr.aria-label]="isPanelOpen() ? 'Hide keyboard shortcuts' : 'Show keyboard shortcuts'"
       aria-controls="keyboard-panel"
@@ -131,6 +132,10 @@ import { KeyboardNavigationService } from '../../services/keyboard-navigation.se
       display: none;
     }
 
+    .keyboard-toggle.hidden {
+      display: none;
+    }
+
     .keyboard-shortcuts:hover {
       opacity: 1;
     }
@@ -244,12 +249,10 @@ import { KeyboardNavigationService } from '../../services/keyboard-navigation.se
       }
     }
   `,
-  ],
-})
 export class KeyboardShortcutsComponent {
   private readonly keyboardNav = inject(KeyboardNavigationService);
 
-  // Local state for panel visibility
+  // Local state for panel visibility - sync with service
   isPanelOpen = signal(true);
 
   currentIndex = this.keyboardNav.currentSectionIndex;
@@ -257,9 +260,7 @@ export class KeyboardShortcutsComponent {
   totalSections = computed(() => this.keyboardNav.getTotalSections());
 
   // Combined visibility: visible if panel is open AND user is navigating with keyboard
-  isVisible = computed(
-    () => this.isPanelOpen() && (this.isNavigating() || this.currentIndex() >= 0)
-  );
+  isVisible = computed(() => this.isPanelOpen() && (this.isNavigating() || this.currentIndex() >= 0));
 
   currentSectionLabel = computed(() => {
     const index = this.currentIndex();
@@ -268,6 +269,10 @@ export class KeyboardShortcutsComponent {
 
   constructor() {
     this.setupEscapeKey();
+    // Sync local state with service
+    effect(() => {
+      this.keyboardNav.isKeyboardPanelOpen.set(this.isPanelOpen());
+    });
   }
 
   private setupEscapeKey(): void {
