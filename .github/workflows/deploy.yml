@@ -30,6 +30,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Generate favicons from SVG
+        run: node scripts/generate-favicon.mjs
+
       - name: Create .env file
         run: |
           if [ -n "${{ secrets.LINKEDIN_ACCESS_TOKEN }}" ]; then
