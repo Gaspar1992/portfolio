@@ -1,0 +1,70 @@
+<!-- Toggle button - hidden when panel is open -->
+<button
+  type="button"
+  class="keyboard-toggle"
+  [class.hidden]="isPanelOpen()"
+  (click)="togglePanel()"
+  [attr.aria-label]="isPanelOpen() ? 'Hide keyboard shortcuts' : 'Show keyboard shortcuts'"
+  aria-controls="keyboard-panel"
+  [attr.aria-expanded]="isPanelOpen()"
+>
+  <span class="toggle-icon">⌨️</span>
+</button>
+
+<!-- Keyboard shortcuts panel -->
+<div
+  id="keyboard-panel"
+  class="keyboard-shortcuts"
+  [class.visible]="isVisible()"
+  [class.hidden]="!isPanelOpen()"
+  role="complementary"
+  aria-label="Keyboard shortcuts"
+>
+  <div class="shortcuts-header">
+    <span class="shortcuts-title">Keyboard</span>
+    <button
+      type="button"
+      class="close-btn"
+      (click)="closePanel()"
+      aria-label="Close keyboard shortcuts"
+    >
+      ×
+    </button>
+  </div>
+
+  <div class="shortcuts-list">
+    <div class="shortcut-item">
+      <div class="shortcut-keys">
+        <kbd>↑</kbd>
+        <kbd>↓</kbd>
+      </div>
+      <span class="shortcut-desc">Sections</span>
+    </div>
+
+    <div class="shortcut-item">
+      <div class="shortcut-keys">
+        <kbd>Tab</kbd>
+      </div>
+      <span class="shortcut-desc">Focus items</span>
+    </div>
+
+    <div class="shortcut-item">
+      <div class="shortcut-keys">
+        <kbd>Enter</kbd>
+      </div>
+      <span class="shortcut-desc">Activate</span>
+    </div>
+
+    <div class="shortcut-item">
+      <div class="shortcut-keys">
+        <kbd>Esc</kbd>
+      </div>
+      <span class="shortcut-desc">Close panel</span>
+    </div>
+  </div>
+
+  <div class="shortcut-section-indicator">
+    <span class="current-section">{{ currentSectionLabel() }}</span>
+    <span class="section-progress">{{ currentIndex() + 1 }} / {{ totalSections() }}</span>
+  </div>
+</div>
