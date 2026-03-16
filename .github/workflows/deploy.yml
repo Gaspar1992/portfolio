@@ -36,7 +36,8 @@ jobs:
             echo "LINKEDIN_ACCESS_TOKEN=${{ secrets.LINKEDIN_ACCESS_TOKEN }}" > .env
             echo "✅ .env file created with LINKEDIN_ACCESS_TOKEN"
           else
-            echo "⚠️ LINKEDIN_ACCESS_TOKEN not set, skipping .env creation"
+            touch .env
+            echo "⚠️ LINKEDIN_ACCESS_TOKEN not set, created empty .env"
           fi
 
       - name: Build
