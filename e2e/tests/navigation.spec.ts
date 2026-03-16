@@ -43,8 +43,8 @@ test.describe('Portfolio E2E Tests', () => {
       await page.evaluate(() => window.scrollTo(0, 0));
       await page.waitForTimeout(100);
 
-      // Find and click the navigation link
-      const link = page.locator(`a[href="#${sectionId}"]`).first();
+      // Find and click the navigation link (exclude skip-links)
+      const link = page.locator(`a[href="#${sectionId}"]:not(.skip-link)`).first();
       await link.click({ force: true });
 
       // Wait for scroll animation

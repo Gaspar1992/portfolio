@@ -39,16 +39,18 @@ test.describe('Accessibility E2E Tests', () => {
     const main = page.locator('main, [role="main"]');
     await expect(main).toHaveCount(1);
 
-    // Check for banner/header
-    const banner = page.locator('header, [role="banner"]');
+    // Check for banner/header (main site header, not section headers)
+    const banner = page
+      .locator('[data-testid="hero-section"][role="banner"], header.main-header')
+      .first();
     await expect(banner).toBeVisible();
 
     // Check for contentinfo/footer
-    const footer = page.locator('footer, [role="contentinfo"]');
+    const footer = page.locator('[data-testid="footer"]');
     await expect(footer).toBeVisible();
 
     // Check for navigation
-    const navigation = page.locator('nav, [role="navigation"]');
+    const navigation = page.locator('nav, [role="navigation"]').first();
     await expect(navigation).toBeVisible();
   });
 

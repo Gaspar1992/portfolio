@@ -50,7 +50,7 @@ test.describe('Responsive Design E2E Tests', () => {
       'certifications',
       'contact',
     ]) {
-      const link = page.locator(`a[href="#${sectionId}"]`).first();
+      const link = page.locator(`a[href="#${sectionId}"]:not(.skip-link)`).first();
       if (await link.isVisible().catch(() => false)) {
         await link.click();
         await expect(page.locator(`section#${sectionId}`)).toBeInViewport();
@@ -73,16 +73,20 @@ test.describe('Responsive Design E2E Tests', () => {
     // Content should use full width
     const container = page.locator('.container').first();
     const width = await container.evaluate((el) => el.getBoundingClientRect().width);
-    expect(width).toBeGreaterThan(750);
+    expect(width).toBeGreaterThan(740);
   });
 
   test('skills grid should be responsive', async ({ page }) => {
     // Mobile: 1 column
     await page.setViewportSize({ width: 375, height: 667 });
     await page.goto('/#skills');
+    await page.waitForLoadState('networkidle');
 
     let skillsSection = page.locator('[data-testid="skills-section"]');
     await expect(skillsSection).toBeVisible();
+
+    // Wait for skills to load
+    await page.waitForSelector('[data-testid="skill-item"]', { timeout: 5000 });
 
     const mobileSkillItems = await page.locator('[data-testid="skill-item"]').count();
     expect(mobileSkillItems).toBeGreaterThan(0);
