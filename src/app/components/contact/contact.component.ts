@@ -8,7 +8,7 @@ import type { LinkedInProfile } from '../../services/profile.service';
   imports: [UpperCasePipe],
   template: `
     <section 
-      class="section-transition contact-section section-snap" 
+      class="section-transition contact-section" 
       id="contact"
       aria-labelledby="contact-title"
       role="region">
