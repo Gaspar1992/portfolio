@@ -331,11 +331,12 @@ function transformLinkedInExport() {
 
   // Transformar skills
   const skillsList = (skills || [])
-    .map((skill, index) => ({
-      name: skill['Name'] || skill.name || skill['Habilidad'] || '',
+    .map((skill) => ({
+      name: skill['Name'] || skill.name || skill.Habilidad || '',
       endorsements:
         parseInt(
-          skill['Endorsement Count'] || skill.endorsements || skill['Número de validaciones']
+          skill['Endorsement Count'] || skill.endorsements || skill['Número de validaciones'],
+          10
         ) || 0,
     }))
     .filter((s) => s.name);
@@ -346,7 +347,7 @@ function transformLinkedInExport() {
       id: `cert-${index}`,
       name: cert['Name'] || cert.name || cert['Nombre'] || '',
       issuingOrganization:
-        cert['Authority'] ||
+        cert.Authority ||
         cert.authority ||
         cert['Organización emisora'] ||
         cert.issuingOrganization ||
