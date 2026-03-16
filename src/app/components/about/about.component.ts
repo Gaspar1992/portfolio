@@ -9,7 +9,8 @@ import type { LinkedInProfile } from '../../services/profile.service';
       class="section-transition about-section" 
       id="about"
       aria-labelledby="about-title"
-      role="region">
+      role="region"
+      data-testid="about-section">
       <div class="container">
         <div class="corner-deco card-deco about-card">
           <h2 class="text-center" id="about-title">The Artist</h2>
@@ -21,7 +22,7 @@ import type { LinkedInProfile } from '../../services/profile.service';
           </div>
           
           <div class="about-content">
-            <div class="about-portrait">
+            <div class="about-portrait" data-testid="about-portrait">
               <figure class="film-frame portrait-frame" aria-label="Profile photo">
                 @if (profile()?.profilePictureUrl) {
                   <img [src]="profile()?.profilePictureUrl" 
@@ -30,9 +31,10 @@ import type { LinkedInProfile } from '../../services/profile.service';
                        width="180" 
                        height="270" 
                        loading="lazy"
-                       role="img">
+                       role="img"
+                       data-testid="about-portrait-image">
                 } @else {
-                  <div class="portrait-placeholder" role="img" aria-label="Name initials">
+                  <div class="portrait-placeholder" role="img" aria-label="Name initials" data-testid="about-portrait-placeholder">
                     <span class="portrait-initials" aria-hidden="true">
                       {{ getInitials(profile()?.fullName) }}
                     </span>
@@ -41,7 +43,7 @@ import type { LinkedInProfile } from '../../services/profile.service';
               </figure>
             </div>
             
-            <article class="about-text" aria-label="Biography">
+            <article class="about-text" aria-label="Biography" data-testid="about-biography">
               @if (getFirstParagraph(); as firstPara) {
                 <p class="quote-deco" role="text">{{ firstPara }}</p>
               }
@@ -50,9 +52,9 @@ import type { LinkedInProfile } from '../../services/profile.service';
                 <p role="text">{{ paragraph }}</p>
               }
               
-              <div class="about-tags" role="list" aria-label="Top skills">
+              <div class="about-tags" role="list" aria-label="Top skills" data-testid="about-skills">
                 @for (skill of getTopSkills(); track skill.name) {
-                  <span class="tag-deco" role="listitem">{{ skill.name }}</span>
+                  <span class="tag-deco" role="listitem" data-testid="about-skill-tag">{{ skill.name }}</span>
                 }
               </div>
             </article>

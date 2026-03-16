@@ -1,5 +1,5 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, inject, type OnInit, signal } from '@angular/core';
 import { ProfileService } from '../../services/profile.service';
 
 @Component({
@@ -11,16 +11,17 @@ import { ProfileService } from '../../services/profile.service';
         @if (p.profilePictureUrl) {
           <img
             [src]="p.profilePictureUrl"
-            [alt]="'Foto de ' + p.fullName"
+            [alt]="'Professional photo of ' + p.fullName"
             class="profile-picture"
             width="150"
             height="150"
+            data-testid="profile-picture"
           />
         }
-        <div class="profile-info">
-          <h1>{{ p.fullName }}</h1>
+        <div class="profile-info" data-testid="profile-info">
+          <h1 data-testid="profile-name">{{ p.fullName }}</h1>
           @if (p.headline) {
-            <p class="headline">{{ p.headline }}</p>
+            <p class="headline" data-testid="profile-headline">{{ p.headline }}</p>
           }
           @if (p.linkedInUrl) {
             <a
@@ -28,13 +29,14 @@ import { ProfileService } from '../../services/profile.service';
               target="_blank"
               rel="noopener noreferrer"
               class="linkedin-link"
+              data-testid="profile-linkedin"
             >
-              Ver en LinkedIn
+              View on LinkedIn
             </a>
           }
         </div>
         @if (lastSynced()) {
-          <small class="sync-info">Sincronizado: {{ lastSynced() }}</small>
+          <small class="sync-info" data-testid="sync-info">Synced: {{ lastSynced() }}</small>
         }
       </header>
     } @else {

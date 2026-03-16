@@ -11,7 +11,8 @@ import type { LinkedInProfile } from '../../services/profile.service';
       class="hero-section" 
       id="hero"
       aria-label="Main presentation"
-      role="banner">
+      role="banner"
+      data-testid="hero-section">
       <div class="container">
         <div class="hero-content text-center">
           <div class="film-badge mb-4" aria-hidden="true">
@@ -19,7 +20,7 @@ import type { LinkedInProfile } from '../../services/profile.service';
             <span class="film-label">PRESENTS</span>
           </div>
           
-          <h1 class="hero-title">
+          <h1 class="hero-title" data-testid="hero-title">
             <span class="title-line" role="text">{{ profile()?.firstName | uppercase }}</span>
             <span class="title-line title-accent" role="text">{{ profile()?.lastName | uppercase }}</span>
           </h1>
@@ -30,20 +31,20 @@ import type { LinkedInProfile } from '../../services/profile.service';
             </div>
           </div>
           
-          <p class="hero-subtitle" role="doc-subtitle">
+          <p class="hero-subtitle" role="doc-subtitle" data-testid="hero-headline">
             {{ profile()?.headline }}
           </p>
           
-          <div class="hero-location" aria-label="Location">
+          <div class="hero-location" aria-label="Location" data-testid="hero-location">
             <span class="location-icon" aria-hidden="true">📍</span>
             <span>{{ profile()?.location?.city }}, {{ profile()?.location?.country }}</span>
           </div>
           
-          <div class="hero-actions mt-4" role="navigation" aria-label="Main actions">
-            <a href="#experience" class="btn-deco" aria-label="View my work experience">
+          <div class="hero-actions mt-4" role="navigation" aria-label="Main actions" data-testid="hero-actions">
+            <a href="#experience" class="btn-deco" aria-label="View my work experience" data-testid="hero-experience-link">
               <span>View Experience</span>
             </a>
-            <a href="#contact" class="btn-deco btn-dark" aria-label="Get in touch with me">
+            <a href="#contact" class="btn-deco btn-dark" aria-label="Get in touch with me" data-testid="hero-contact-link">
               <span>Get In Touch</span>
             </a>
           </div>

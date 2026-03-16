@@ -9,7 +9,8 @@ import type { LinkedInProfile } from '../../services/profile.service';
       class="section-transition certs-section" 
       id="certifications"
       aria-labelledby="certs-title"
-      role="region">
+      role="region"
+      data-testid="certifications-section">
       <div class="container">
         <h2 class="text-center" id="certs-title">Credentials</h2>
         
@@ -19,14 +20,14 @@ import type { LinkedInProfile } from '../../services/profile.service';
           </div>
         </div>
         
-        <div class="certs-list" role="list" aria-label="Certifications obtained">
+        <div class="certs-list" role="list" aria-label="Certifications obtained" data-testid="certifications-list">
           @for (cert of profile()?.certifications; track cert.id) {
-            <article class="cert-item card-deco" role="listitem" [attr.aria-labelledby]="'cert-' + cert.id">
+            <article class="cert-item card-deco" role="listitem" [attr.aria-labelledby]="'cert-' + cert.id" data-testid="certification-card">
               <div class="cert-badge" aria-hidden="true">{{ getBadge(cert.issuingOrganization) }}</div>
               <div class="cert-info">
-                <h3 [id]="'cert-' + cert.id" [title]="cert.name">{{ shortenTitle(cert.name) }}</h3>
+                <h3 [id]="'cert-' + cert.id" [title]="cert.name" data-testid="certification-name">{{ shortenTitle(cert.name) }}</h3>
                 <div class="cert-meta">
-                  <span class="cert-org">{{ cert.issuingOrganization }}</span>
+                  <span class="cert-org" data-testid="certification-org">{{ cert.issuingOrganization }}</span>
                   <span class="cert-dates">
                     <time [attr.datetime]="cert.issueDate">{{ formatDate(cert.issueDate) }}</time>
                     @if (cert.expirationDate) {
@@ -41,14 +42,15 @@ import type { LinkedInProfile } from '../../services/profile.service';
                      target="_blank" 
                      rel="noopener noreferrer"
                      class="cert-link"
-                     [attr.aria-label]="'View credential for ' + cert.name">
+                     [attr.aria-label]="'View credential for ' + cert.name"
+                     data-testid="certification-link">
                     View Credential
                   </a>
                 }
               </div>
             </article>
           } @empty {
-            <p class="text-center" role="status">No certifications available.</p>
+            <p class="text-center" role="status" data-testid="certifications-empty">No certifications available.</p>
           }
         </div>
       </div>

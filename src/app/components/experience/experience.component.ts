@@ -9,7 +9,8 @@ import { type LinkedInProfile, ProfileService } from '../../services/profile.ser
       class="section-transition experience-section" 
       id="experience"
       aria-labelledby="experience-title"
-      role="region">
+      role="region"
+      data-testid="experience-section">
       <div class="container">
         <h2 class="text-center" id="experience-title">Motion Picture Credits</h2>
         
@@ -19,15 +20,15 @@ import { type LinkedInProfile, ProfileService } from '../../services/profile.ser
           </div>
         </div>
         
-        <div class="timeline" role="list" aria-label="Work experience">
+        <div class="timeline" role="list" aria-label="Work experience" data-testid="experience-timeline">
           @for (exp of profile()?.experience; track exp.id) {
-            <article class="timeline-item" role="listitem" [attr.aria-label]="exp.title + ' at ' + exp.company">
+            <article class="timeline-item" role="listitem" [attr.aria-label]="exp.title + ' at ' + exp.company" data-testid="experience-item">
               <div class="timeline-marker" aria-hidden="true"></div>
               <div class="card-deco timeline-card">
                 <header class="timeline-header">
-                  <h3>{{ exp.title }}</h3>
-                  <span class="timeline-company">{{ exp.company }}</span>
-                  <time class="timeline-date" [attr.datetime]="exp.startDate">
+                  <h3 data-testid="experience-title">{{ exp.title }}</h3>
+                  <span class="timeline-company" data-testid="experience-company">{{ exp.company }}</span>
+                  <time class="timeline-date" [attr.datetime]="exp.startDate" data-testid="experience-date">
                     {{ profileService.formatExperienceDate(exp.startDate, exp.endDate, exp.isCurrent) }}
                   </time>
                 </header>

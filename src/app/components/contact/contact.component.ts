@@ -11,7 +11,8 @@ import type { LinkedInProfile } from '../../services/profile.service';
       class="section-transition contact-section" 
       id="contact"
       aria-labelledby="contact-title"
-      role="region">
+      role="region"
+      data-testid="contact-section">
       <div class="container">
         <div class="corner-deco card-deco contact-card">
           <h2 class="text-center" id="contact-title">Get In Touch</h2>
@@ -26,46 +27,52 @@ import type { LinkedInProfile } from '../../services/profile.service';
             Interested in collaborating? I am available for freelance projects and professional opportunities.
           </p>
           
-          <div class="contact-methods" role="list" aria-label="Contact methods">
+          <ul class="contact-methods" aria-label="Contact methods">
             @if (profile()?.contactInfo?.email) {
-              <a [href]="'mailto:' + profile()?.contactInfo?.email" 
-                 class="contact-link" 
-                 role="listitem"
-                 [attr.aria-label]="'Send email to ' + profile()?.contactInfo?.email">
-                <span class="contact-icon" aria-hidden="true">@</span>
-                <span>{{ profile()?.contactInfo?.email }}</span>
-              </a>
+              <li class="contact-method-item">
+                <a [href]="'mailto:' + profile()?.contactInfo?.email" 
+                   class="contact-link"
+                   [attr.aria-label]="'Send email to ' + profile()?.contactInfo?.email"
+                   data-testid="contact-email">
+                  <span class="contact-icon" aria-hidden="true">@</span>
+                  <span>{{ profile()?.contactInfo?.email }}</span>
+                </a>
+              </li>
             }
             
             @if (profile()?.linkedInUrl) {
-              <a [href]="profile()?.linkedInUrl" 
-                 target="_blank" 
-                 rel="noopener noreferrer"
-                 class="contact-link"
-                 role="listitem"
-                 aria-label="View LinkedIn profile">
-                <span class="contact-icon" aria-hidden="true">in</span>
-                <span>LinkedIn</span>
-              </a>
+              <li class="contact-method-item">
+                <a [href]="profile()?.linkedInUrl" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   class="contact-link"
+                   aria-label="View LinkedIn profile"
+                   data-testid="contact-linkedin">
+                  <span class="contact-icon" aria-hidden="true">in</span>
+                  <span>LinkedIn</span>
+                </a>
+              </li>
             }
             
             @if (profile()?.contactInfo?.github) {
-              <a [href]="profile()?.contactInfo?.github" 
-                 target="_blank" 
-                 rel="noopener noreferrer"
-                 class="contact-link"
-                 role="listitem"
-                 aria-label="View GitHub profile">
-                <span class="contact-icon" aria-hidden="true">gh</span>
-                <span>GitHub</span>
-              </a>
+              <li class="contact-method-item">
+                <a [href]="profile()?.contactInfo?.github" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   class="contact-link"
+                   aria-label="View GitHub profile"
+                   data-testid="contact-github">
+                  <span class="contact-icon" aria-hidden="true">gh</span>
+                  <span>GitHub</span>
+                </a>
+              </li>
             }
-          </div>
+          </ul>
         </div>
       </div>
     </section>
 
-    <footer class="footer-section" role="contentinfo">
+    <footer class="footer-section" role="contentinfo" data-testid="footer">
       <div class="container">
         <div class="footer-content">
           <div class="footer-brand">
@@ -82,7 +89,7 @@ import type { LinkedInProfile } from '../../services/profile.service';
         
         <div class="footer-credits">
           <p>Designed in the style of the Golden Age of Cinema</p>
-          <p class="footer-film" aria-label="End of portfolio">THE END</p>
+          <p class="footer-film" aria-label="End of portfolio" data-testid="footer-end">THE END</p>
         </div>
       </div>
     </footer>
@@ -110,6 +117,12 @@ import type { LinkedInProfile } from '../../services/profile.service';
       flex-direction: column;
       gap: 1rem;
       margin-top: 2rem;
+      list-style: none;
+      padding: 0;
+    }
+
+    .contact-method-item {
+      display: block;
     }
 
     .contact-link {

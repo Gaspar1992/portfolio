@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach } from 'vitest';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ContactComponent } from './contact.component';
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it } from 'vitest';
 import type { LinkedInProfile } from '../../services/profile.service';
+import { ContactComponent } from './contact.component';
 
 describe('ContactComponent', () => {
   let component: ContactComponent;
@@ -67,7 +67,10 @@ describe('ContactComponent', () => {
   });
 
   it('should not display email link when email is not available', () => {
-    const profileNoEmail = { ...mockProfile, contactInfo: { ...mockProfile.contactInfo, email: null } };
+    const profileNoEmail = {
+      ...mockProfile,
+      contactInfo: { ...mockProfile.contactInfo, email: null },
+    };
     fixture.componentRef.setInput('profile', profileNoEmail);
     fixture.detectChanges();
 
@@ -79,7 +82,9 @@ describe('ContactComponent', () => {
     fixture.componentRef.setInput('profile', mockProfile);
     fixture.detectChanges();
 
-    const linkedInLink = fixture.nativeElement.querySelector('a[href="https://linkedin.com/in/johndoe"]');
+    const linkedInLink = fixture.nativeElement.querySelector(
+      'a[href="https://linkedin.com/in/johndoe"]'
+    );
     expect(linkedInLink).toBeTruthy();
     expect(linkedInLink.getAttribute('target')).toBe('_blank');
   });
@@ -132,5 +137,31 @@ describe('ContactComponent', () => {
 
     const footer = fixture.nativeElement.querySelector('footer');
     expect(footer.getAttribute('role')).toBe('contentinfo');
+  });
+
+  it('should use native ul and li elements for contact methods', () => {
+    fixture.componentRef.setInput('profile', mockProfile);
+    fixture.detectChanges();
+
+    const contactList = fixture.nativeElement.querySelector('ul.contact-methods');
+    expect(contactList).toBeTruthy();
+
+    const contactItems = fixture.nativeElement.querySelectorAll('li.contact-method-item');
+    expect(contactItems.length).toBeGreaterThan(0);
+  });
+
+  it('should have proper data-testid attributes on contact elements', () => {
+    fixture.componentRef.setInput('profile', mockProfile);
+    fixture.detectChanges();
+
+    const contactSection = fixture.nativeElement.querySelector('[data-testid="contact-section"]');
+    expect(contactSection).toBeTruthy();
+
+    const footer = fixture.nativeElement.querySelector('[data-testid="footer"]');
+    expect(footer).toBeTruthy();
+
+    const footerEnd = fixture.nativeElement.querySelector('[data-testid="footer-end"]');
+    expect(footerEnd).toBeTruthy();
+    expect(footerEnd.textContent).toContain('THE END');
   });
 });

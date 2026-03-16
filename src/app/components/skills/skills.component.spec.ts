@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach } from 'vitest';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkillsComponent } from './skills.component';
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it } from 'vitest';
 import type { LinkedInProfile } from '../../services/profile.service';
+import { SkillsComponent } from './skills.component';
 
 describe('SkillsComponent', () => {
   let component: SkillsComponent;
@@ -108,5 +108,29 @@ describe('SkillsComponent', () => {
 
     const section = fixture.nativeElement.querySelector('section');
     expect(section.getAttribute('id')).toBe('skills');
+  });
+
+  it('should use native ul and li elements for skills list', () => {
+    fixture.componentRef.setInput('profile', mockProfile);
+    fixture.detectChanges();
+
+    const skillsList = fixture.nativeElement.querySelector('ul.skills-grid');
+    expect(skillsList).toBeTruthy();
+
+    const skillItems = fixture.nativeElement.querySelectorAll('li.skill-item');
+    expect(skillItems.length).toBeGreaterThan(0);
+  });
+
+  it('should have proper ARIA attributes on skill items', () => {
+    fixture.componentRef.setInput('profile', mockProfile);
+    fixture.detectChanges();
+
+    const skillItems = fixture.nativeElement.querySelectorAll('li.skill-item');
+    expect(skillItems.length).toBeGreaterThan(0);
+
+    // Check first skill item has aria-label
+    const firstItem = skillItems[0];
+    expect(firstItem.getAttribute('aria-label')).toBeTruthy();
+    expect(firstItem.getAttribute('data-testid')).toBe('skill-item');
   });
 });

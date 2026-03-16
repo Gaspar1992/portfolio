@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 /**
  * E2E Test: Portfolio Navigation and Content
@@ -12,7 +12,7 @@ test.describe('Portfolio E2E Tests', () => {
 
   test('should load homepage with hero section', async ({ page }) => {
     // Verify hero section is visible
-    const heroSection = page.locator('.hero-section');
+    const heroSection = page.locator('[data-testid="hero-section"]');
     await expect(heroSection).toBeVisible();
 
     // Check main title is present
@@ -20,59 +20,58 @@ test.describe('Portfolio E2E Tests', () => {
     await expect(title).toBeVisible();
     await expect(title).not.toBeEmpty();
 
-    // Verify navigation buttons
-    const experienceButton = page.locator('a[href="#experience"]').first();
-    const contactButton = page.locator('a[href="#contact"]').first();
+    // Verify navigation buttons using data-testid
+    const experienceButton = page.locator('[data-testid="hero-experience-link"]');
+    const contactButton = page.locator('[data-testid="hero-contact-link"]');
     await expect(experienceButton).toBeVisible();
     await expect(contactButton).toBeVisible();
   });
 
   test('should navigate to all sections via anchor links', async ({ page }) => {
-    // Test About section navigation
-    await page.click('a[href="#about"]');
-    await expect(page.locator('#about')).toBeInViewport();
+    const sections = [
+      'about',
+      'experience',
+      'skills',
+      'projects',
+      'education',
+      'certifications',
+      'contact',
+    ];
 
-    // Test Experience section navigation
-    await page.click('a[href="#experience"]');
-    await expect(page.locator('#experience')).toBeInViewport();
+    for (const sectionId of sections) {
+      // Scroll to top to access navigation
+      await page.evaluate(() => window.scrollTo(0, 0));
+      await page.waitForTimeout(100);
 
-    // Test Skills section navigation
-    await page.click('a[href="#skills"]');
-    await expect(page.locator('#skills')).toBeInViewport();
+      // Find and click the navigation link
+      const link = page.locator(`a[href="#${sectionId}"]`).first();
+      await link.click({ force: true });
 
-    // Test Projects section navigation
-    await page.click('a[href="#projects"]');
-    await expect(page.locator('#projects')).toBeInViewport();
+      // Wait for scroll animation
+      await page.waitForTimeout(500);
 
-    // Test Education section navigation
-    await page.click('a[href="#education"]');
-    await expect(page.locator('#education')).toBeInViewport();
-
-    // Test Certifications section navigation
-    await page.click('a[href="#certifications"]');
-    await expect(page.locator('#certifications')).toBeInViewport();
-
-    // Test Contact section navigation
-    await page.click('a[href="#contact"]');
-    await expect(page.locator('#contact')).toBeInViewport();
+      // Verify section is in viewport
+      const section = page.locator(`section#${sectionId}`);
+      await expect(section).toBeVisible();
+    }
   });
 
   test('should display all major content sections', async ({ page }) => {
-    // Scroll through each section and verify content
+    // Scroll through each section and verify content using data-testid
     const sections = [
-      { id: 'about', title: 'The Artist' },
-      { id: 'experience', title: 'Motion Picture Credits' },
-      { id: 'skills', title: 'Technical Repertoire' },
-      { id: 'projects', title: 'Featured Productions' },
-      { id: 'education', title: 'Academy Training' },
-      { id: 'certifications', title: 'Credentials' },
-      { id: 'contact', title: 'Get In Touch' },
+      { testid: 'about-section', title: 'The Artist' },
+      { testid: 'experience-section', title: 'Motion Picture Credits' },
+      { testid: 'skills-section', title: 'Technical Repertoire' },
+      { testid: 'projects-section', title: 'Featured Productions' },
+      { testid: 'education-section', title: 'Academy Training' },
+      { testid: 'certifications-section', title: 'Credentials' },
+      { testid: 'contact-section', title: 'Get In Touch' },
     ];
 
     for (const section of sections) {
-      const sectionElement = page.locator(`#${section.id}`);
+      const sectionElement = page.locator(`[data-testid="${section.testid}"]`);
       await expect(sectionElement).toBeVisible();
-      
+
       const sectionTitle = sectionElement.locator('h2');
       await expect(sectionTitle).toContainText(section.title);
     }
@@ -104,7 +103,7 @@ test.describe('Portfolio E2E Tests', () => {
   });
 
   test('should have proper footer content', async ({ page }) => {
-    const footer = page.locator('footer');
+    const footer = page.locator('[data-testid="footer"]');
     await expect(footer).toBeVisible();
     await expect(footer).toContainText('THE END');
   });

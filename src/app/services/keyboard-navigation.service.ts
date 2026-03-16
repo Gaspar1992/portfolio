@@ -36,13 +36,14 @@ export class KeyboardNavigationService {
     if (typeof window === 'undefined') return;
 
     window.addEventListener('keydown', (event: KeyboardEvent) => {
-      // Only handle arrow keys when not in an input/textarea
       const target = event.target as HTMLElement;
-      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
-        return;
-      }
 
+      // Handle arrow keys for section navigation (when not in input)
       if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
+          return;
+        }
+
         event.preventDefault();
         this.isNavigatingWithKeyboard.set(true);
 
@@ -52,10 +53,23 @@ export class KeyboardNavigationService {
           this.navigateToPrevious();
         }
 
-        // Reset keyboard navigation flag after animation
         setTimeout(() => {
           this.isNavigatingWithKeyboard.set(false);
         }, 1000);
+        return;
+      }
+
+      // Handle Tab for intra-section navigation
+      if (event.key === 'Tab') {
+        this.isNavigatingWithKeyboard.set(true);
+        // Let default Tab behavior work, but show indicator
+        setTimeout(() => {
+          this.updateCurrentSectionFromFocus();
+        }, 0);
+
+        setTimeout(() => {
+          this.isNavigatingWithKeyboard.set(false);
+        }, 500);
       }
     });
   }
@@ -160,5 +174,20 @@ export class KeyboardNavigationService {
 
   getTotalSections(): number {
     return this.sections.length;
+  }
+
+  updateCurrentSectionFromFocus(): void {
+    const activeElement = this.document.activeElement;
+    if (!activeElement) return;
+
+    // Find which section contains the focused element
+    for (let i = 0; i < this.sections.length; i++) {
+      const section = this.sections[i];
+      const sectionElement = this.document.getElementById(section.id);
+      if (sectionElement && sectionElement.contains(activeElement)) {
+        this.currentSectionIndex.set(i);
+        break;
+      }
+    }
   }
 }

@@ -9,7 +9,8 @@ import type { LinkedInProfile } from '../../services/profile.service';
       class="section-transition skills-section" 
       id="skills"
       aria-labelledby="skills-title"
-      role="region">
+      role="region"
+      data-testid="skills-section">
       <div class="container">
         <h2 class="text-center" id="skills-title">Technical Repertoire</h2>
         
@@ -19,9 +20,9 @@ import type { LinkedInProfile } from '../../services/profile.service';
           </div>
         </div>
         
-        <div class="skills-grid" role="list" aria-label="Technical skills">
+        <ul class="skills-grid" aria-label="Technical skills">
           @for (skill of getTopSkills(); track skill.name) {
-            <div class="skill-item card-deco" role="listitem" [attr.aria-label]="skill.name">
+            <li class="skill-item card-deco" [attr.aria-label]="skill.name" data-testid="skill-item">
               <div class="skill-header">
                 <span class="skill-name">{{ skill.name }}</span>
                 @if (skill.endorsements > 0) {
@@ -31,9 +32,9 @@ import type { LinkedInProfile } from '../../services/profile.service';
               <div class="skill-bar" role="progressbar" [attr.aria-valuenow]="getSkillPercentage(skill.endorsements)" aria-valuemin="0" aria-valuemax="100" [attr.aria-label]="'Skill level for ' + skill.name">
                 <div class="skill-fill" [style.width.%]="getSkillPercentage(skill.endorsements)"></div>
               </div>
-            </div>
+            </li>
           }
-        </div>
+        </ul>
       </div>
     </section>
   `,

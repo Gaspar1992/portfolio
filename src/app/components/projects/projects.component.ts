@@ -9,7 +9,8 @@ import type { LinkedInProfile } from '../../services/profile.service';
       class="section-transition projects-section" 
       id="projects"
       aria-labelledby="projects-title"
-      role="region">
+      role="region"
+      data-testid="projects-section">
       <div class="container">
         <h2 class="text-center" id="projects-title">Featured Productions</h2>
         
@@ -19,21 +20,22 @@ import type { LinkedInProfile } from '../../services/profile.service';
           </div>
         </div>
         
-        <div class="grid grid-2" role="list" aria-label="Proyectos destacados">
+        <div class="grid grid-2" role="list" aria-label="Proyectos destacados" data-testid="projects-grid">
           @for (project of profile()?.projects; track project.id) {
-            <article class="card-deco project-card" role="listitem" [attr.aria-labelledby]="'project-' + project.id">
+            <article class="card-deco project-card" role="listitem" [attr.aria-labelledby]="'project-' + project.id" data-testid="project-card">
               <header class="project-header">
-                <h3 [id]="'project-' + project.id">{{ project.name }}</h3>
-                <span class="project-type">{{ project.technologies.join(', ') }}</span>
+                <h3 [id]="'project-' + project.id" data-testid="project-name">{{ project.name }}</h3>
+                <span class="project-type" data-testid="project-technologies">{{ project.technologies.join(', ') }}</span>
               </header>
-              <p role="text">{{ project.description }}</p>
+              <p role="text" data-testid="project-description">{{ project.description }}</p>
               @if (project.url) {
-                <div class="project-links">
+                <div class="project-links" data-testid="project-links">
                   <a [href]="project.url" 
                      target="_blank" 
                      rel="noopener noreferrer"
                      class="btn-deco"
-                     [attr.aria-label]="'View project ' + project.name + ' on GitHub'">
+                     [attr.aria-label]="'View project ' + project.name + ' on GitHub'"
+                     data-testid="project-link">
                     <span>View Project</span>
                   </a>
                 </div>
@@ -45,7 +47,7 @@ import type { LinkedInProfile } from '../../services/profile.service';
               </div>
             </article>
           } @empty {
-            <p class="text-center" role="status">No projects available at this time.</p>
+            <p class="text-center" role="status" data-testid="projects-empty">No projects available at this time.</p>
           }
         </div>
       </div>

@@ -6,6 +6,7 @@ import { ContactComponent } from './components/contact/contact.component';
 import { EducationComponent } from './components/education/education.component';
 import { ExperienceComponent } from './components/experience/experience.component';
 import { HeroComponent } from './components/hero/hero.component';
+import { KeyboardShortcutsComponent } from './components/keyboard-shortcuts/keyboard-shortcuts.component';
 import { ProjectsComponent } from './components/projects/projects.component';
 import { SectionIndicatorComponent } from './components/section-indicator/section-indicator.component';
 import { SkillsComponent } from './components/skills/skills.component';
@@ -25,6 +26,7 @@ import { ProfileService } from './services/profile.service';
     CertificationsComponent,
     ContactComponent,
     SectionIndicatorComponent,
+    KeyboardShortcutsComponent,
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
