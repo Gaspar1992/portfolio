@@ -1,3 +1,4 @@
+import { signal } from '@angular/core';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { vi } from 'vitest';
 import { App } from './app';
@@ -35,8 +36,9 @@ describe('App', () => {
   };
 
   const mockKeyboardNavService = {
-    currentSectionIndex: vi.fn().mockReturnValue(0),
-    isNavigatingWithKeyboard: vi.fn().mockReturnValue(false),
+    currentSectionIndex: signal(0),
+    isNavigatingWithKeyboard: signal(false),
+    isKeyboardPanelOpen: signal(false),
     getTotalSections: vi.fn().mockReturnValue(8),
     getAllSections: vi.fn().mockReturnValue([
       { id: 'hero', label: 'Home' },
