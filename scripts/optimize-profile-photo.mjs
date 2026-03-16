@@ -4,10 +4,10 @@
  * Genera múltiples versiones: original, optimizada, thumbnail, y WebP.
  */
 
-import { readFileSync, existsSync } from 'fs';
-import { writeFile } from 'fs/promises';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { existsSync, readFileSync } from 'node:fs';
+import { writeFile } from 'node:fs/promises';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -23,8 +23,8 @@ const CONFIG = {
     thumbnail: { width: 150, height: 150, quality: 80 },
     small: { width: 300, height: 300, quality: 85 },
     medium: { width: 500, height: 500, quality: 90 },
-    large: { width: 800, height: 800, quality: 90 }
-  }
+    large: { width: 800, height: 800, quality: 90 },
+  },
 };
 
 async function checkSharp() {
@@ -44,7 +44,9 @@ async function optimizeImage() {
   // Verificar que existe la imagen original
   if (!existsSync(CONFIG.inputFile)) {
     console.error(`❌ No se encontró: ${CONFIG.inputFile}`);
-    console.log('Asegúrate de colocar tu foto como "profile-photo-original.jpg" en la carpeta public/');
+    console.log(
+      'Asegúrate de colocar tu foto como "profile-photo-original.jpg" en la carpeta public/'
+    );
     process.exit(1);
   }
 
@@ -57,7 +59,9 @@ async function optimizeImage() {
   const inputBuffer = readFileSync(CONFIG.inputFile);
   const metadata = await sharp(inputBuffer).metadata();
 
-  console.log(`📊 Imagen original: ${metadata.width}x${metadata.height} (${Math.round(inputBuffer.length / 1024)}KB)`);
+  console.log(
+    `📊 Imagen original: ${metadata.width}x${metadata.height} (${Math.round(inputBuffer.length / 1024)}KB)`
+  );
   console.log('🔄 Generando versiones optimizadas...\n');
 
   const results = [];
@@ -69,12 +73,12 @@ async function optimizeImage() {
       const jpegBuffer = await sharp(inputBuffer)
         .resize(config.width, config.height, {
           fit: 'cover',
-          position: 'center'
+          position: 'center',
         })
         .jpeg({
           quality: config.quality,
           progressive: true,
-          mozjpeg: true
+          mozjpeg: true,
         })
         .toBuffer();
 
@@ -85,11 +89,11 @@ async function optimizeImage() {
       const webpBuffer = await sharp(inputBuffer)
         .resize(config.width, config.height, {
           fit: 'cover',
-          position: 'center'
+          position: 'center',
         })
         .webp({
           quality: config.quality,
-          effort: 6
+          effort: 6,
         })
         .toBuffer();
 
@@ -105,7 +109,7 @@ async function optimizeImage() {
         dimensions: `${config.width}x${config.height}`,
         jpeg: { path: jpegPath, size: jpegSize },
         webp: { path: webpPath, size: webpSize },
-        savings
+        savings,
       });
 
       console.log(`✅ ${name}: ${config.width}x${config.height}`);
@@ -119,12 +123,28 @@ async function optimizeImage() {
   const manifest = {
     original: '/profile-photo-original.jpg',
     versions: {
-      thumbnail: { jpeg: '/profile-photo-thumbnail.jpg', webp: '/profile-photo-thumbnail.webp', size: '150x150' },
-      small: { jpeg: '/profile-photo-small.jpg', webp: '/profile-photo-small.webp', size: '300x300' },
-      medium: { jpeg: '/profile-photo-medium.jpg', webp: '/profile-photo-medium.webp', size: '500x500' },
-      large: { jpeg: '/profile-photo-large.jpg', webp: '/profile-photo-large.webp', size: '800x800' }
+      thumbnail: {
+        jpeg: '/profile-photo-thumbnail.jpg',
+        webp: '/profile-photo-thumbnail.webp',
+        size: '150x150',
+      },
+      small: {
+        jpeg: '/profile-photo-small.jpg',
+        webp: '/profile-photo-small.webp',
+        size: '300x300',
+      },
+      medium: {
+        jpeg: '/profile-photo-medium.jpg',
+        webp: '/profile-photo-medium.webp',
+        size: '500x500',
+      },
+      large: {
+        jpeg: '/profile-photo-large.jpg',
+        webp: '/profile-photo-large.webp',
+        size: '800x800',
+      },
     },
-    generatedAt: new Date().toISOString()
+    generatedAt: new Date().toISOString(),
   };
 
   await writeFile(

@@ -6,8 +6,6 @@ class MockIntersectionObserver implements IntersectionObserver {
   readonly rootMargin: string = '0px';
   readonly thresholds: readonly number[] = [0];
 
-  constructor(_callback: IntersectionObserverCallback, _options?: IntersectionObserverInit) {}
-
   disconnect(): void {
     // noop
   }
