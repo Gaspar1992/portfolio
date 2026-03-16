@@ -6,7 +6,7 @@ import type { LinkedInProfile } from '../../services/profile.service';
   standalone: true,
   template: `
     <section 
-      class="section-transition projects-section section-snap" 
+      class="section-transition projects-section" 
       id="projects"
       aria-labelledby="projects-title"
       role="region">
