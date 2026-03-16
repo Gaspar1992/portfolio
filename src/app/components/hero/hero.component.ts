@@ -9,6 +9,7 @@ import type { LinkedInProfile } from '../../services/profile.service';
   template: `
     <section 
       class="hero-section" 
+      id="hero"
       aria-label="Main presentation"
       role="banner">
       <div class="container">

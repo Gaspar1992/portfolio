@@ -77,7 +77,7 @@ export class SectionIndicatorComponent {
   private readonly keyboardNav = inject(KeyboardNavigationService);
 
   currentIndex = this.keyboardNav.currentSectionIndex;
-  totalSections = this.keyboardNav.getTotalSections;
+  totalSections = computed(() => this.keyboardNav.getTotalSections());
   isVisible = this.keyboardNav.isNavigatingWithKeyboard;
 
   currentSectionLabel = computed(() => {

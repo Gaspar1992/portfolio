@@ -1,6 +1,7 @@
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { vi } from 'vitest';
 import { App } from './app';
+import { KeyboardNavigationService } from './services/keyboard-navigation.service';
 import { ProfileService } from './services/profile.service';
 
 describe('App', () => {
@@ -33,10 +34,30 @@ describe('App', () => {
     }),
   };
 
+  const mockKeyboardNavService = {
+    currentSectionIndex: vi.fn().mockReturnValue(0),
+    isNavigatingWithKeyboard: vi.fn().mockReturnValue(false),
+    getTotalSections: vi.fn().mockReturnValue(8),
+    getAllSections: vi.fn().mockReturnValue([
+      { id: 'hero', label: 'Home' },
+      { id: 'about', label: 'About' },
+      { id: 'experience', label: 'Experience' },
+      { id: 'skills', label: 'Skills' },
+      { id: 'education', label: 'Education' },
+      { id: 'projects', label: 'Projects' },
+      { id: 'certifications', label: 'Certifications' },
+      { id: 'contact', label: 'Contact' },
+    ]),
+    getCurrentSection: vi.fn().mockReturnValue({ id: 'hero', label: 'Home' }),
+  };
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
-      providers: [{ provide: ProfileService, useValue: mockProfileService }],
+      providers: [
+        { provide: ProfileService, useValue: mockProfileService },
+        { provide: KeyboardNavigationService, useValue: mockKeyboardNavService },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(App);
