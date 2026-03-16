@@ -20,7 +20,7 @@ module.exports = [
     languageOptions: {
       parser: tsParser,
       parserOptions: {
-        project: "tsconfig.json",
+        project: "tsconfig.app.json",
         createDefaultProgram: true,
         sourceType: "module",
         ecmaVersion: 2020,

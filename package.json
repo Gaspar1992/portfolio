@@ -4,7 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "npm run sync:linkedin && ng build",
+    "build:prod": "npm run sync:linkedin && ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "biome lint .",
@@ -16,7 +17,8 @@
     "format": "biome format .",
     "format:fix": "biome format . --write",
     "check": "biome check .",
-    "check:fix": "biome check . --fix"
+    "check:fix": "biome check . --fix",
+    "sync:linkedin": "node --env-file=.env scripts/sync-linkedin.mjs"
   },
   "private": true,
   "packageManager": "npm@10.9.4",

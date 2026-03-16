@@ -1,0 +1,344 @@
+import { Component, input } from '@angular/core';
+import { UpperCasePipe } from '@angular/common';
+import type { LinkedInProfile } from '../../services/profile.service';
+
+@Component({
+  selector: 'app-contact',
+  standalone: true,
+  imports: [UpperCasePipe],
+  template: `
+    <section class="section-transition contact-section section-snap" id="contact">
+      <div class="container">
+        <div class="corner-deco card-deco contact-card">
+          <h2 class="text-center">Get In Touch</h2>
+          
+          <div class="divider-deco mb-4">
+            <div class="divider-icon">
+              <span>✉</span>
+            </div>
+          </div>
+          
+          <p class="text-center contact-text">
+            ¿Interesado en colaborar? Estoy disponible para proyectos freelance y oportunidades profesionales.
+          </p>
+          
+          <div class="contact-methods">
+            @if (profile()?.contactInfo?.email) {
+              <a [href]="'mailto:' + profile()?.contactInfo?.email" class="contact-link">
+                <span class="contact-icon">@</span>
+                <span>{{ profile()?.contactInfo?.email }}</span>
+              </a>
+            }
+            
+            @if (profile()?.linkedInUrl) {
+              <a [href]="profile()?.linkedInUrl" target="_blank" class="contact-link">
+                <span class="contact-icon">in</span>
+                <span>{{ profile()?.linkedInUrl }}</span>
+              </a>
+            }
+            
+            @if (profile()?.contactInfo?.github) {
+              <a [href]="profile()?.contactInfo?.github" target="_blank" class="contact-link">
+                <span class="contact-icon">gh</span>
+                <span>{{ profile()?.contactInfo?.github }}</span>
+              </a>
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer-section">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-brand">
+            <span class="footer-name">{{ profile()?.fullName | uppercase }}</span>
+            <span class="footer-tagline">Full Stack Developer</span>
+          </div>
+          
+          <div class="footer-year">
+            <span>Est. 2017</span>
+            <span class="footer-divider">|</span>
+            <span>{{ profile()?.location?.city }}, {{ profile()?.location?.country }}</span>
+          </div>
+        </div>
+        
+        <div class="footer-credits">
+          <p>Designed in the style of the Golden Age of Cinema</p>
+          <p class="footer-film">THE END</p>
+        </div>
+      </div>
+    </footer>
+  `,
+  styles: [`
+    .section-transition {
+      position: relative;
+      padding: 6rem 0;
+    }
+
+    .contact-card {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 3rem;
+    }
+
+    .contact-text {
+      font-size: 1.1rem;
+      color: var(--color-black-soft);
+    }
+
+    .contact-methods {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      border: 1px solid var(--color-cream-dark);
+      text-decoration: none;
+      color: var(--color-black);
+      border-bottom: 1px solid var(--color-cream-dark);
+      transition: all 0.3s ease;
+    }
+
+    .contact-link:hover {
+      border-color: var(--color-gold);
+      background: var(--color-cream-light);
+    }
+
+    .contact-icon {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-black);
+      color: var(--color-gold);
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .corner-deco {
+      position: relative;
+    }
+
+    .corner-deco::before,
+    .corner-deco::after {
+      content: '';
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      border-color: var(--color-gold);
+      border-style: solid;
+      z-index: 10;
+    }
+
+    .corner-deco::before {
+      top: -1px;
+      left: -1px;
+      border-width: 2px 0 0 2px;
+    }
+
+    .corner-deco::after {
+      bottom: -1px;
+      right: -1px;
+      border-width: 0 2px 2px 0;
+    }
+
+    .card-deco {
+      background: var(--color-white);
+      border: 1px solid var(--color-cream-dark);
+      padding: 2rem;
+      position: relative;
+    }
+
+    .card-deco::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      right: 8px;
+      bottom: 8px;
+      border: 1px solid var(--color-gold);
+      pointer-events: none;
+      opacity: 0.5;
+      z-index: 2;
+    }
+
+    .card-deco::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--color-gold),
+        transparent
+      );
+      z-index: 3;
+    }
+
+    .footer-section {
+      padding: 4rem 2rem;
+      border-top: 1px solid var(--color-cream-dark);
+      margin-top: 4rem;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .footer-name {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      letter-spacing: 0.2em;
+      color: var(--color-black);
+    }
+
+    .footer-tagline {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-style: italic;
+      color: var(--color-bronze);
+    }
+
+    .footer-year {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      color: var(--color-bronze);
+    }
+    .card-deco {
+      background: var(--color-white);
+      border: 1px solid var(--color-cream-dark);
+      padding: 2rem;
+      position: relative;
+    }
+
+    /* Línea superior dorada para card-deco */
+    .card-deco::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--color-gold),
+        transparent
+      );
+      z-index: 3;
+    }
+
+    /* Marco interno para card-deco */
+    .card-deco::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      right: 8px;
+      bottom: 8px;
+      border: 1px solid var(--color-gold);
+      pointer-events: none;
+      opacity: 0.5;
+      z-index: 2;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .mb-4 {
+      margin-bottom: 2rem;
+    }
+
+    .divider-deco {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 3rem 0;
+    }
+
+    .divider-deco::before,
+    .divider-deco::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--color-gold),
+        transparent
+      );
+    }
+
+    .divider-deco .divider-icon {
+      width: 40px;
+      height: 40px;
+      margin: 0 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--color-gold);
+      transform: rotate(45deg);
+    }
+
+    .divider-deco .divider-icon span {
+      transform: rotate(-45deg);
+      color: var(--color-gold);
+      font-size: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .section-transition {
+        padding: 3rem 0;
+      }
+      
+      .container {
+        padding: 0 1rem;
+      }
+      
+      .contact-link {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .contact-link span:last-child {
+        word-break: break-all;
+      }
+    }
+  `]
+})
+export class ContactComponent {
+  profile = input<LinkedInProfile | null>(null);
+}

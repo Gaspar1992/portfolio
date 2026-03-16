@@ -1,0 +1,303 @@
+import { Component, input } from '@angular/core';
+import type { LinkedInProfile } from '../../services/profile.service';
+
+@Component({
+  selector: 'app-about',
+  standalone: true,
+  template: `
+    <section class="section-transition about-section section-snap" id="about">
+      <div class="container">
+        <div class="corner-deco card-deco about-card">
+          <h2 class="text-center">The Artist</h2>
+          
+          <div class="divider-deco mb-4">
+            <div class="divider-icon">
+              <span>◆</span>
+            </div>
+          </div>
+          
+          <div class="about-content">
+            <div class="about-portrait">
+              <div class="film-frame portrait-frame">
+                <div class="portrait-placeholder">
+                  <span class="portrait-initials">
+                    {{ getInitials(profile()?.fullName) }}
+                  </span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="about-text">
+              @if (profile()?.summary; as summary) {
+                <p class="quote-deco">
+                  {{ summary.split('\n\n')[0] }}
+                </p>
+              }
+              
+              @for (paragraph of getSummaryParagraphs(); track $index) {
+                <p>{{ paragraph }}</p>
+              }
+              
+              <div class="about-tags">
+                @for (skill of getTopSkills(); track skill.name) {
+                  <span class="tag-deco">{{ skill.name }}</span>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  `,
+  styles: [`
+    .section-transition {
+      position: relative;
+      padding: 6rem 0;
+    }
+
+    .about-card {
+      padding: 3rem;
+    }
+
+    .about-content {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    @media (max-width: 768px) {
+      .about-content {
+        grid-template-columns: 1fr;
+      }
+      
+      .about-portrait {
+        margin: 0 auto;
+      }
+    }
+
+    .portrait-frame {
+      width: 180px;
+      height: 220px;
+    }
+
+    .portrait-placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--color-cream-dark), var(--color-cream));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .portrait-initials {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--color-gold);
+    }
+
+    .about-tags {
+      margin-top: 1.5rem;
+    }
+
+    .tag-deco {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.4rem 0.8rem;
+      border: 1px solid var(--color-gold);
+      color: var(--color-gold);
+      margin: 0.25rem;
+      transition: all 0.3s ease;
+    }
+
+    .tag-deco:hover {
+      background: var(--color-gold);
+      color: var(--color-white);
+    }
+
+    .quote-deco {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      font-style: italic;
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+      color: var(--color-black);
+    }
+
+    .quote-deco::before,
+    .quote-deco::after {
+      content: '"';
+      font-family: var(--font-display);
+      font-size: 4rem;
+      color: var(--color-gold);
+      opacity: 0.5;
+      position: absolute;
+    }
+
+    .quote-deco::before {
+      top: 0;
+      left: 0;
+    }
+
+    .quote-deco::after {
+      bottom: -1rem;
+      right: 0;
+      transform: rotate(180deg);
+    }
+
+    .card-deco {
+      background: var(--color-white);
+      border: 1px solid var(--color-cream-dark);
+      padding: 2rem;
+      position: relative;
+    }
+
+    .card-deco::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      right: 8px;
+      bottom: 8px;
+      border: 1px solid var(--color-gold);
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    .card-deco::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--color-gold),
+        transparent
+      );
+    }
+
+    .corner-deco {
+      position: relative;
+    }
+
+    .corner-deco::before,
+    .corner-deco::after {
+      content: '';
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      border-color: var(--color-gold);
+      border-style: solid;
+    }
+
+    .corner-deco::before {
+      top: 0;
+      left: 0;
+      border-width: 2px 0 0 2px;
+    }
+
+    .corner-deco::after {
+      bottom: 0;
+      right: 0;
+      border-width: 0 2px 2px 0;
+    }
+
+    .film-frame {
+      border: 3px solid var(--color-black);
+      padding: 4px;
+      background: var(--color-white);
+      box-shadow: 
+        0 0 0 1px var(--color-gold),
+        inset 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .mb-4 {
+      margin-bottom: 2rem;
+    }
+
+    .divider-deco {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 3rem 0;
+    }
+
+    .divider-deco::before,
+    .divider-deco::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--color-gold),
+        transparent
+      );
+    }
+
+    .divider-deco .divider-icon {
+      width: 40px;
+      height: 40px;
+      margin: 0 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--color-gold);
+      transform: rotate(45deg);
+    }
+
+    .divider-deco .divider-icon span {
+      transform: rotate(-45deg);
+      color: var(--color-gold);
+      font-size: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .section-transition {
+        padding: 3rem 0;
+      }
+      
+      .container {
+        padding: 0 1rem;
+      }
+    }
+  `]
+})
+export class AboutComponent {
+  profile = input<LinkedInProfile | null>(null);
+
+  getInitials(fullName: string | undefined): string {
+    if (!fullName) return '';
+    return fullName.split(' ').map(n => n[0]).join('').toUpperCase();
+  }
+
+  getSummaryParagraphs(): string[] {
+    const summary = this.profile()?.summary || '';
+    const parts = summary.split('\n\n');
+    return parts.slice(1).filter(p => p.trim() !== '');
+  }
+
+  getTopSkills() {
+    return (this.profile()?.skills || []).slice(0, 6);
+  }
+}
