@@ -17,10 +17,10 @@ const __dirname = dirname(__filename);
 const LINKEDIN_ACCESS_TOKEN = process.env.LINKEDIN_ACCESS_TOKEN;
 
 if (!LINKEDIN_ACCESS_TOKEN) {
-  console.error('❌ Error: LINKEDIN_ACCESS_TOKEN no está definido');
-  console.error('Crea un archivo .env en la raíz con:');
-  console.error('LINKEDIN_ACCESS_TOKEN=tu_token_aqui');
-  process.exit(1);
+  console.warn('⚠️ Warning: LINKEDIN_ACCESS_TOKEN no está definido');
+  console.warn('   Saltando sincronización de LinkedIn');
+  console.warn('   El build continuará con los datos existentes');
+  process.exit(0);
 }
 
 const OUTPUT_DIR = join(__dirname, '..', 'src', 'assets', 'data');

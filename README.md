@@ -62,9 +62,8 @@ This project is configured for automatic deployment to GitHub Pages via GitHub A
 
 1. **Enable GitHub Pages**: Go to repository Settings → Pages → Source, select "GitHub Actions"
 
-2. **Configure Secrets**: Add these repository secrets (Settings → Secrets and variables → Actions):
-   - `LINKEDIN_EMAIL`: Your LinkedIn email for sync
-   - `LINKEDIN_PASSWORD`: Your LinkedIn password for sync
+2. **Configure Secrets**: Add this repository secret (Settings → Secrets and variables → Actions):
+   - `LINKEDIN_ACCESS_TOKEN`: Your LinkedIn OAuth access token (see LINKEDIN_SETUP.md)
 
 3. **Deploy**: Push to `main` branch or run workflow manually from Actions tab.
 
