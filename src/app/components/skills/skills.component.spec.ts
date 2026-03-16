@@ -1,0 +1,112 @@
+import { describe, it, expect, beforeEach } from 'vitest';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SkillsComponent } from './skills.component';
+import type { LinkedInProfile } from '../../services/profile.service';
+
+describe('SkillsComponent', () => {
+  let component: SkillsComponent;
+  let fixture: ComponentFixture<SkillsComponent>;
+
+  const mockProfile: LinkedInProfile = {
+    _meta: {
+      source: 'linkedin',
+      syncedAt: '2024-01-15T10:00:00Z',
+      profileId: 'test-id',
+    },
+    firstName: 'John',
+    lastName: 'Doe',
+    fullName: 'John Doe',
+    headline: 'Senior Developer',
+    email: 'john@example.com',
+    linkedInUrl: 'https://linkedin.com/in/johndoe',
+    vanityName: 'johndoe',
+    profilePictureUrl: null,
+    location: {
+      city: 'Madrid',
+      country: 'Spain',
+      countryCode: 'ES',
+    },
+    summary: 'Developer',
+    industry: 'Technology',
+    experience: [],
+    education: [],
+    skills: [
+      { name: 'Angular', endorsements: 50 },
+      { name: 'TypeScript', endorsements: 45 },
+      { name: 'Node.js', endorsements: 40 },
+      { name: 'React', endorsements: 35 },
+      { name: 'Python', endorsements: 30 },
+      { name: 'AWS', endorsements: 25 },
+      { name: 'Docker', endorsements: 20 },
+      { name: 'Kubernetes', endorsements: 15 },
+      { name: 'GraphQL', endorsements: 10 },
+    ],
+    certifications: [],
+    projects: [],
+    languages: [],
+    contactInfo: {
+      email: 'john@example.com',
+      website: null,
+      github: null,
+      twitter: null,
+    },
+    interests: [],
+    honors: [],
+  };
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [SkillsComponent],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(SkillsComponent);
+    component = fixture.componentInstance;
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should get top 12 skills sorted by endorsements', () => {
+    fixture.componentRef.setInput('profile', mockProfile);
+    const topSkills = component.getTopSkills();
+
+    expect(topSkills.length).toBeLessThanOrEqual(12);
+    expect(topSkills[0].name).toBe('Angular');
+    expect(topSkills[0].endorsements).toBe(50);
+    expect(topSkills[topSkills.length - 1].name).toBe('GraphQL');
+  });
+
+  it('should calculate skill percentage based on max endorsements', () => {
+    fixture.componentRef.setInput('profile', mockProfile);
+
+    const maxSkillPercentage = component.getSkillPercentage(50);
+    expect(maxSkillPercentage).toBe(100);
+
+    const halfSkillPercentage = component.getSkillPercentage(25);
+    expect(halfSkillPercentage).toBe(50);
+  });
+
+  it('should handle empty skills array', () => {
+    const profileNoSkills = { ...mockProfile, skills: [] };
+    fixture.componentRef.setInput('profile', profileNoSkills);
+
+    expect(component.getTopSkills()).toEqual([]);
+    expect(component.getSkillPercentage(0)).toBe(0);
+  });
+
+  it('should handle null profile', () => {
+    fixture.componentRef.setInput('profile', null);
+
+    expect(component.getTopSkills()).toEqual([]);
+    expect(component.getSkillPercentage(0)).toBe(0);
+  });
+
+  it('should have correct section id for navigation', () => {
+    fixture.componentRef.setInput('profile', mockProfile);
+    fixture.detectChanges();
+
+    const section = fixture.nativeElement.querySelector('section');
+    expect(section.getAttribute('id')).toBe('skills');
+  });
+});

@@ -6,7 +6,7 @@ import type { LinkedInProfile } from '../../services/profile.service';
   standalone: true,
   template: `
     <section 
-      class="section-transition certs-section section-snap" 
+      class="section-transition certs-section" 
       id="certifications"
       aria-labelledby="certs-title"
       role="region">
@@ -25,15 +25,17 @@ import type { LinkedInProfile } from '../../services/profile.service';
               <div class="cert-badge" aria-hidden="true">{{ getBadge(cert.issuingOrganization) }}</div>
               <div class="cert-info">
                 <h3 [id]="'cert-' + cert.id" [title]="cert.name">{{ shortenTitle(cert.name) }}</h3>
-                <p>
+                <div class="cert-meta">
                   <span class="cert-org">{{ cert.issuingOrganization }}</span>
-                  <time [attr.datetime]="cert.issueDate">{{ formatDate(cert.issueDate) }}</time>
-                  @if (cert.expirationDate) {
-                    — <time [attr.datetime]="cert.expirationDate">{{ formatDate(cert.expirationDate) }}</time>
-                  } @else {
-                    <span class="cert-valid">— Valid indefinitely</span>
-                  }
-                </p>
+                  <span class="cert-dates">
+                    <time [attr.datetime]="cert.issueDate">{{ formatDate(cert.issueDate) }}</time>
+                    @if (cert.expirationDate) {
+                      — <time [attr.datetime]="cert.expirationDate">{{ formatDate(cert.expirationDate) }}</time>
+                    } @else {
+                      <span class="cert-valid">— Valid indefinitely</span>
+                    }
+                  </span>
+                </div>
                 @if (cert.credentialUrl) {
                   <a [href]="cert.credentialUrl" 
                      target="_blank" 
@@ -104,10 +106,22 @@ import type { LinkedInProfile } from '../../services/profile.service';
       overflow: visible;
     }
 
-    .cert-info p {
+    .cert-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      margin-top: 0.5rem;
+    }
+
+    .cert-org {
       font-size: 0.9rem;
       color: var(--color-bronze);
-      margin: 0;
+      font-weight: 500;
+    }
+
+    .cert-dates {
+      font-size: 0.85rem;
+      color: var(--color-copper);
     }
 
     .card-deco {
