@@ -54,6 +54,24 @@ ng e2e
 
 Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
 
+## Deploying to GitHub Pages
+
+This project is configured for automatic deployment to GitHub Pages via GitHub Actions.
+
+### Setup
+
+1. **Enable GitHub Pages**: Go to repository Settings → Pages → Source, select "GitHub Actions"
+
+2. **Configure Secrets**: Add these repository secrets (Settings → Secrets and variables → Actions):
+   - `LINKEDIN_EMAIL`: Your LinkedIn email for sync
+   - `LINKEDIN_PASSWORD`: Your LinkedIn password for sync
+
+3. **Deploy**: Push to `main` branch or run workflow manually from Actions tab.
+
+The site will be available at: `https://gaspar1992.github.io/portfolio/`
+
+---
+
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

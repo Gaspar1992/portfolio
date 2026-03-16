@@ -6,8 +6,8 @@
  * y lo guarda en src/assets/data/profile.json para consumo en Angular.
  */
 
-import { writeFileSync, mkdirSync, existsSync } from 'node:fs';
-import { join, dirname } from 'node:path';
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -43,15 +43,12 @@ const PROFILE_FIELDS = [
 async function fetchLinkedInProfile() {
   console.log('🔍 Obteniendo perfil de LinkedIn...');
 
-  const response = await fetch(
-    `https://api.linkedin.com/v2/me?projection=(${PROFILE_FIELDS})`,
-    {
-      headers: {
-        Authorization: `Bearer ${LINKEDIN_ACCESS_TOKEN}`,
-        'X-Restli-Protocol-Version': '2.0.0',
-      },
-    }
-  );
+  const response = await fetch(`https://api.linkedin.com/v2/me?projection=(${PROFILE_FIELDS})`, {
+    headers: {
+      Authorization: `Bearer ${LINKEDIN_ACCESS_TOKEN}`,
+      'X-Restli-Protocol-Version': '2.0.0',
+    },
+  });
 
   if (!response.ok) {
     const errorText = await response.text();
@@ -104,8 +101,10 @@ function extractBestImageUrl(profilePicture) {
   const sortedBySize = elements
     .filter((e) => e.identifiers && e.identifiers.length > 0)
     .sort((a, b) => {
-      const sizeA = a.data?.['com.linkedin.digitalmedia.mediaartifact.StillImage']?.displaySize?.width || 0;
-      const sizeB = b.data?.['com.linkedin.digitalmedia.mediaartifact.StillImage']?.displaySize?.width || 0;
+      const sizeA =
+        a.data?.['com.linkedin.digitalmedia.mediaartifact.StillImage']?.displaySize?.width || 0;
+      const sizeB =
+        b.data?.['com.linkedin.digitalmedia.mediaartifact.StillImage']?.displaySize?.width || 0;
       return sizeB - sizeA;
     });
 
@@ -113,7 +112,8 @@ function extractBestImageUrl(profilePicture) {
 }
 
 function transformProfileData(linkedinData, email) {
-  const firstName = linkedinData.localizedFirstName || linkedinData.firstName?.localized?.en_US || '';
+  const firstName =
+    linkedinData.localizedFirstName || linkedinData.firstName?.localized?.en_US || '';
   const lastName = linkedinData.localizedLastName || linkedinData.lastName?.localized?.en_US || '';
   const headline = linkedinData.localizedHeadline || linkedinData.headline?.localized?.en_US || '';
 
@@ -170,7 +170,6 @@ async function main() {
     console.log(`   - Email: ${profileData.email || '(no disponible)'}`);
     console.log(`   - Foto: ${profileData.profilePictureUrl ? '✅' : '❌'}`);
     console.log(`   - URL: ${profileData.linkedInUrl || '(no disponible)'}`);
-
   } catch (error) {
     console.error('\n❌ Error durante la sincronización:');
     console.error(error.message);
