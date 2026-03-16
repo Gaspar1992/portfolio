@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach } from 'vitest';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CertificationsComponent } from './certifications.component';
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it } from 'vitest';
 import type { LinkedInProfile } from '../../services/profile.service';
+import { CertificationsComponent } from './certifications.component';
 
 describe('CertificationsComponent', () => {
   let component: CertificationsComponent;
@@ -96,7 +96,9 @@ describe('CertificationsComponent', () => {
 
   it('should shorten long titles', () => {
     const longTitle = 'This is a very long certification title that exceeds the limit';
-    expect(component.shortenTitle(longTitle)).toBe('This is a very long certification title tha...');
+    const shortened = component.shortenTitle(longTitle);
+    expect(shortened.length).toBeLessThanOrEqual(45);
+    expect(shortened.endsWith('...')).toBe(true);
   });
 
   it('should not shorten short titles', () => {

@@ -8,7 +8,7 @@ import type { LinkedInProfile } from '../../services/profile.service';
   imports: [UpperCasePipe],
   template: `
     <section 
-      class="hero-section section-snap" 
+      class="hero-section" 
       aria-label="Main presentation"
       role="banner">
       <div class="container">

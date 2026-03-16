@@ -1,23 +1,67 @@
-import { TestBed } from "@angular/core/testing";
-import { App } from "./app";
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
+import { App } from './app';
+import { ProfileService } from './services/profile.service';
 
-describe("App", () => {
+describe('App', () => {
+  let fixture: ComponentFixture<App>;
+  let component: App;
+
+  const mockProfileService = {
+    loadProfile: vi.fn().mockResolvedValue({
+      _meta: { source: 'test', syncedAt: '2024-01-01', profileId: 'test' },
+      firstName: 'Test',
+      lastName: 'User',
+      fullName: 'Test User',
+      headline: 'Test Developer',
+      email: 'test@example.com',
+      linkedInUrl: null,
+      vanityName: null,
+      profilePictureUrl: null,
+      location: { city: 'Madrid', country: 'Spain', countryCode: 'ES' },
+      summary: 'Test summary',
+      industry: 'Technology',
+      experience: [],
+      education: [],
+      skills: [],
+      certifications: [],
+      projects: [],
+      languages: [],
+      contactInfo: { email: 'test@example.com', website: null, github: null, twitter: null },
+      interests: [],
+      honors: [],
+    }),
+  };
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
+      providers: [{ provide: ProfileService, useValue: mockProfileService }],
     }).compileComponents();
+
+    fixture = TestBed.createComponent(App);
+    component = fixture.componentInstance;
   });
 
-  it("should create the app", () => {
-    const fixture = TestBed.createComponent(App);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+  it('should create the app', () => {
+    expect(component).toBeTruthy();
   });
 
-  it("should render title", async () => {
-    const fixture = TestBed.createComponent(App);
+  it('should have correct title', () => {
+    expect((component as unknown as { title: () => string }).title()).toBe('portfolio');
+  });
+
+  it('should load profile on init', async () => {
+    fixture.detectChanges();
     await fixture.whenStable();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector("h1")?.textContent).toContain("Hello, portfolio");
+    expect(mockProfileService.loadProfile).toHaveBeenCalled();
+    expect((component as unknown as { profile: () => unknown }).profile()).not.toBeNull();
+  });
+
+  it('should set loading to false after profile loads', async () => {
+    fixture.detectChanges();
+    expect((component as unknown as { loading: () => boolean }).loading()).toBe(true);
+    await fixture.whenStable();
+    expect((component as unknown as { loading: () => boolean }).loading()).toBe(false);
   });
 });

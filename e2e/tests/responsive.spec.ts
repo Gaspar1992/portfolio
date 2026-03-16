@@ -1,0 +1,157 @@
+import { test, expect } from '@playwright/test';
+
+/**
+ * E2E Responsive Design Tests
+ * Verifies mobile and desktop layouts work correctly
+ */
+
+test.describe('Responsive Design E2E Tests', () => {
+  test('hero section should adapt to mobile viewport', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 667 }); // iPhone SE
+    await page.goto('/');
+
+    // Hero section should be visible
+    const heroSection = page.locator('.hero-section');
+    await expect(heroSection).toBeVisible();
+
+    // Title should still be readable
+    const title = page.locator('h1');
+    await expect(title).toBeVisible();
+    
+    // Buttons should be accessible
+    const buttons = page.locator('.hero-actions a');
+    await expect(buttons.first()).toBeVisible();
+  });
+
+  test('grid layouts should stack on mobile', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 667 });
+    await page.goto('/#projects');
+
+    // Project grid should be visible
+    const projectsSection = page.locator('#projects');
+    await expect(projectsSection).toBeVisible();
+
+    // Check that grid adapts (cards should still be visible)
+    const projectCards = page.locator('#projects .project-card');
+    await expect(projectCards.first()).toBeVisible();
+  });
+
+  test('navigation should work on tablet viewport', async ({ page }) => {
+    await page.setViewportSize({ width: 768, height: 1024 }); // iPad
+    await page.goto('/');
+
+    // All sections should be navigable
+    for (const sectionId of ['about', 'experience', 'skills', 'projects', 'education', 'certifications', 'contact']) {
+      const link = page.locator(`a[href="#${sectionId}"]`).first();
+      if (await link.isVisible().catch(() => false)) {
+        await link.click();
+        await expect(page.locator(`#${sectionId}`)).toBeInViewport();
+      }
+    }
+  });
+
+  test('desktop layout should show full navigation', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 720 }); // Desktop
+    await page.goto('/');
+
+    // Hero section should be visible
+    const heroSection = page.locator('.hero-section');
+    await expect(heroSection).toBeVisible();
+
+    // Navigation should be visible
+    const mainNav = page.locator('.main-nav, nav');
+    await expect(mainNav).toBeVisible();
+
+    // Content should use full width
+    const container = page.locator('.container').first();
+    const width = await container.evaluate(el => el.getBoundingClientRect().width);
+    expect(width).toBeGreaterThan(800);
+  });
+
+  test('skills grid should be responsive', async ({ page }) => {
+    // Mobile: 1 column
+    await page.setViewportSize({ width: 375, height: 667 });
+    await page.goto('/#skills');
+    
+    let skillsSection = page.locator('#skills');
+    await expect(skillsSection).toBeVisible();
+    
+    const mobileSkillItems = await page.locator('#skills .skill-item').count();
+    expect(mobileSkillItems).toBeGreaterThan(0);
+
+    // Desktop: 3 columns
+    await page.setViewportSize({ width: 1280, height: 720 });
+    await page.reload();
+    
+    skillsSection = page.locator('#skills');
+    await expect(skillsSection).toBeVisible();
+    
+    const desktopSkillItems = await page.locator('#skills .skill-item').count();
+    expect(desktopSkillItems).toBeGreaterThan(0);
+  });
+
+  test('education grid should adapt to viewport', async ({ page }) => {
+    // Mobile
+    await page.setViewportSize({ width: 375, height: 667 });
+    await page.goto('/#education');
+    
+    const educationSection = page.locator('#education');
+    await expect(educationSection).toBeVisible();
+    
+    // Check education cards are visible
+    const eduCards = page.locator('#education .education-card');
+    await expect(eduCards.first()).toBeVisible();
+
+    // Desktop
+    await page.setViewportSize({ width: 1280, height: 720 });
+    await page.reload();
+    
+    await expect(page.locator('#education')).toBeVisible();
+    await expect(page.locator('#education .education-card').first()).toBeVisible();
+  });
+
+  test('footer should be visible on all viewports', async ({ page }) => {
+    const viewports = [
+      { width: 375, height: 667, name: 'mobile' },
+      { width: 768, height: 1024, name: 'tablet' },
+      { width: 1280, height: 720, name: 'desktop' },
+    ];
+
+    for (const viewport of viewports) {
+      await page.setViewportSize({ width: viewport.width, height: viewport.height });
+      await page.goto('/');
+      
+      const footer = page.locator('footer');
+      await expect(footer).toBeVisible();
+      await expect(footer).toContainText('THE END');
+    }
+  });
+
+  test('images should be responsive', async ({ page }) => {
+    await page.goto('/#about');
+    
+    const portraitImage = page.locator('.portrait-image, .portrait-placeholder');
+    
+    // Check if image exists and is responsive
+    if (await portraitImage.isVisible().catch(() => false)) {
+      const mobileViewport = { width: 375, height: 667 };
+      const desktopViewport = { width: 1280, height: 720 };
+
+      // Mobile size
+      await page.setViewportSize(mobileViewport);
+      await page.reload();
+      await page.waitForLoadState('networkidle');
+      
+      const mobileWidth = await portraitImage.evaluate(el => el.getBoundingClientRect().width);
+      expect(mobileWidth).toBeLessThanOrEqual(375);
+
+      // Desktop size
+      await page.setViewportSize(desktopViewport);
+      await page.reload();
+      await page.waitForLoadState('networkidle');
+      
+      const desktopWidth = await portraitImage.evaluate(el => el.getBoundingClientRect().width);
+      expect(desktopWidth).toBeGreaterThan(100);
+    }
+  });
+});

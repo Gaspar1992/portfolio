@@ -30,7 +30,6 @@
 html {
   font-size: 16px;
   scroll-behavior: smooth;
-  scroll-snap-type: y proximity;
   overflow-y: scroll;
   height: 100vh;
 }
@@ -77,7 +76,6 @@ body {
 .film-container.snap-container {
   height: 100vh;
   overflow-y: scroll;
-  scroll-snap-type: y proximity;
   scroll-behavior: smooth;
 }
 
@@ -365,11 +363,10 @@ body {
   margin: 0;
 }
 
-/* Contenedor principal para scroll snap */
+/* Contenedor principal para scroll - sin snap */
 .snap-container {
   height: 100vh;
   overflow-y: scroll;
-  scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
 }
 
@@ -385,10 +382,8 @@ body {
   background: var(--color-gold);
 }
 
-/* Scroll Snap para secciones - altura mínima 100vh pero puede crecer */
+/* Secciones - sin scroll snap */
 .section-snap {
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -400,8 +395,6 @@ body {
 }
 
 .section-snap-center {
-  scroll-snap-align: center;
-  scroll-snap-stop: always;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -417,7 +410,6 @@ body {
   .section-snap-center {
     height: auto;
     min-height: 100vh;
-    scroll-snap-align: start;
     flex-shrink: 0;
   }
 
@@ -425,7 +417,6 @@ body {
     height: auto;
     min-height: 100vh;
     overflow-y: auto;
-    scroll-snap-type: none;
   }
 
   .film-container.snap-container {
