@@ -29,26 +29,71 @@
   <!-- Hero - carga inmediata -->
   <app-hero [profile]="profile()"></app-hero>
 
-  <!-- About - render immediately -->
-  <app-about [profile]="profile()" id="about" tabindex="-1"></app-about>
+  <!-- Lazy loaded sections using @defer -->
+  @if (profile()) {
+    <!-- About - lazy loaded when visible -->
+    <div id="about" tabindex="-1">
+      @defer (on viewport) {
+        <app-about [profile]="profile()"></app-about>
+      } @placeholder {
+        <div class="section-placeholder">Loading About...</div>
+      }
+    </div>
 
-  <!-- Experience - render immediately -->
-  <app-experience [profile]="profile()" id="experience" tabindex="-1"></app-experience>
+    <!-- Experience - lazy loaded when visible -->
+    <div id="experience" tabindex="-1">
+      @defer (on viewport) {
+        <app-experience [profile]="profile()"></app-experience>
+      } @placeholder {
+        <div class="section-placeholder">Loading Experience...</div>
+      }
+    </div>
 
-  <!-- Skills - render immediately -->
-  <app-skills [profile]="profile()" id="skills" tabindex="-1"></app-skills>
+    <!-- Skills - lazy loaded when visible -->
+    <div id="skills" tabindex="-1">
+      @defer (on viewport) {
+        <app-skills [profile]="profile()"></app-skills>
+      } @placeholder {
+        <div class="section-placeholder">Loading Skills...</div>
+      }
+    </div>
 
-  <!-- Education - render immediately -->
-  <app-education [profile]="profile()" id="education" tabindex="-1"></app-education>
+    <!-- Education - lazy loaded when visible -->
+    <div id="education" tabindex="-1">
+      @defer (on viewport) {
+        <app-education [profile]="profile()"></app-education>
+      } @placeholder {
+        <div class="section-placeholder">Loading Education...</div>
+      }
+    </div>
 
-  <!-- Projects - render immediately -->
-  <app-projects [profile]="profile()" id="projects" tabindex="-1"></app-projects>
+    <!-- Projects - lazy loaded when visible -->
+    <div id="projects" tabindex="-1">
+      @defer (on viewport) {
+        <app-projects [profile]="profile()"></app-projects>
+      } @placeholder {
+        <div class="section-placeholder">Loading Projects...</div>
+      }
+    </div>
 
-  <!-- Certifications - render immediately -->
-  <app-certifications [profile]="profile()" id="certifications" tabindex="-1"></app-certifications>
+    <!-- Certifications - lazy loaded when visible -->
+    <div id="certifications" tabindex="-1">
+      @defer (on viewport) {
+        <app-certifications [profile]="profile()"></app-certifications>
+      } @placeholder {
+        <div class="section-placeholder">Loading Certifications...</div>
+      }
+    </div>
 
-  <!-- Contact & Footer - render immediately for navigation -->
-  <app-contact [profile]="profile()" id="contact" tabindex="-1"></app-contact>
+    <!-- Contact - lazy loaded when visible -->
+    <div id="contact" tabindex="-1">
+      @defer (on viewport) {
+        <app-contact [profile]="profile()"></app-contact>
+      } @placeholder {
+        <div class="section-placeholder">Loading Contact...</div>
+      }
+    </div>
+  }
 
   <!-- Section indicator for keyboard navigation -->
   <app-section-indicator></app-section-indicator>

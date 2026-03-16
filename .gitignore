@@ -65,3 +65,7 @@ Desktop.ini
 *.log
 *.bak
 *.orig
+
+# Lighthouse reports
+lighthouse-report*.html
+.lighthouseci/
