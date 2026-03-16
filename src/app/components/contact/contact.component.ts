@@ -145,6 +145,8 @@ import type { LinkedInProfile } from '../../services/profile.service';
 
     .corner-deco {
       position: relative;
+      z-index: 1;
+      overflow: visible;
     }
 
     .corner-deco::before,
@@ -156,18 +158,19 @@ import type { LinkedInProfile } from '../../services/profile.service';
       border-color: var(--color-gold);
       border-style: solid;
       z-index: 10;
+      pointer-events: none;
     }
 
     .corner-deco::before {
-      top: -1px;
-      left: -1px;
-      border-width: 2px 0 0 2px;
+      top: -2px;
+      left: -2px;
+      border-width: 3px 0 0 3px;
     }
 
     .corner-deco::after {
-      bottom: -1px;
-      right: -1px;
-      border-width: 0 2px 2px 0;
+      bottom: -2px;
+      right: -2px;
+      border-width: 0 3px 3px 0;
     }
 
     .card-deco {
@@ -175,6 +178,7 @@ import type { LinkedInProfile } from '../../services/profile.service';
       border: 1px solid var(--color-cream-dark);
       padding: 2rem;
       position: relative;
+      z-index: 1;
     }
 
     .card-deco::before {
@@ -187,15 +191,15 @@ import type { LinkedInProfile } from '../../services/profile.service';
       border: 1px solid var(--color-gold);
       pointer-events: none;
       opacity: 0.5;
-      z-index: 2;
+      z-index: 1;
     }
 
     .card-deco::after {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: -1px;
+      left: -1px;
+      right: -1px;
       height: 3px;
       background: linear-gradient(
         90deg,
@@ -203,7 +207,7 @@ import type { LinkedInProfile } from '../../services/profile.service';
         var(--color-gold),
         transparent
       );
-      z-index: 3;
+      z-index: 2;
     }
 
     .footer-section {
