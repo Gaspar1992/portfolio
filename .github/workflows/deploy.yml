@@ -15,9 +15,9 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Primero ejecutar tests
-  unit-tests:
-    name: Unit Tests
+  # Job inicial: instala y cachea dependencias
+  install:
+    name: Install Dependencies
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -29,18 +29,77 @@ jobs:
           node-version: 22
           cache: npm
 
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v5
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+
       - name: Install dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: npm ci
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v5
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
+
+      - name: Install Playwright browsers
+        run: npx playwright install chromium firefox
 
       - name: Generate favicons
         run: node scripts/generate-favicon.mjs
 
+      - name: Upload node_modules
+        uses: actions/upload-artifact@v6
+        with:
+          name: node_modules
+          path: node_modules
+          retention-days: 1
+
+      - name: Upload favicons
+        uses: actions/upload-artifact@v6
+        with:
+          name: favicons
+          path: public/favicon*.png
+          retention-days: 1
+
+  # Tests unitarios
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    needs: install
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+
+      - name: Download node_modules
+        uses: actions/download-artifact@v4
+        with:
+          name: node_modules
+          path: node_modules
+
+      - name: Download favicons
+        uses: actions/download-artifact@v4
+        with:
+          name: favicons
+          path: public
+
       - name: Run unit tests
         run: npm test -- --watch=false
 
+  # Tests E2E
   e2e-tests:
     name: E2E Tests
     runs-on: ubuntu-latest
+    needs: install
     timeout-minutes: 10
     steps:
       - name: Checkout
@@ -50,16 +109,24 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version: 22
-          cache: npm
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Download node_modules
+        uses: actions/download-artifact@v4
+        with:
+          name: node_modules
+          path: node_modules
 
-      - name: Install Playwright browsers
-        run: npx playwright install chromium firefox
+      - name: Download favicons
+        uses: actions/download-artifact@v4
+        with:
+          name: favicons
+          path: public
 
-      - name: Generate favicons
-        run: node scripts/generate-favicon.mjs
+      - name: Restore Playwright cache
+        uses: actions/cache@v5
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
 
       - name: Run E2E tests
         run: npm run test:e2e -- --reporter=line
@@ -76,13 +143,18 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version: 22
-          cache: npm
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Download node_modules
+        uses: actions/download-artifact@v4
+        with:
+          name: node_modules
+          path: node_modules
 
-      - name: Generate favicons from SVG
-        run: node scripts/generate-favicon.mjs
+      - name: Download favicons
+        uses: actions/download-artifact@v4
+        with:
+          name: favicons
+          path: public
 
       - name: Create .env file
         run: |
