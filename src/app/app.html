@@ -27,69 +27,23 @@
   <!-- Hero - carga inmediata -->
   <app-hero [profile]="profile()"></app-hero>
 
-  <!-- About - lazy loading with @defer -->
-  @defer (on viewport) {
-    <app-about [profile]="profile()" id="about" tabindex="-1"></app-about>
-  } @placeholder {
-    <div class="section-placeholder" role="status" aria-live="polite">
-      <span class="sr-only">Loading about section...</span>
-      <div class="loading-spinner" aria-hidden="true"></div>
-    </div>
-  }
+  <!-- About - render immediately -->
+  <app-about [profile]="profile()" id="about" tabindex="-1"></app-about>
 
-  <!-- Experience - lazy loading -->
-  @defer (on viewport) {
-    <app-experience [profile]="profile()" id="experience" tabindex="-1"></app-experience>
-  } @placeholder {
-    <div class="section-placeholder" role="status" aria-live="polite">
-      <span class="sr-only">Loading experience section...</span>
-      <div class="loading-spinner" aria-hidden="true"></div>
-    </div>
-  }
+  <!-- Experience - render immediately -->
+  <app-experience [profile]="profile()" id="experience" tabindex="-1"></app-experience>
 
-  <!-- Skills - lazy loading -->
-  @defer (on viewport) {
-    <app-skills [profile]="profile()" id="skills" tabindex="-1"></app-skills>
-  } @placeholder {
-    <div class="section-placeholder" role="status" aria-live="polite">
-      <span class="sr-only">Loading skills section...</span>
-      <div class="loading-spinner" aria-hidden="true"></div>
-    </div>
-  }
+  <!-- Skills - render immediately -->
+  <app-skills [profile]="profile()" id="skills" tabindex="-1"></app-skills>
 
-  <!-- Education - lazy loading -->
-  @defer (on viewport) {
-    <app-education [profile]="profile()" id="education" tabindex="-1"></app-education>
-  } @placeholder {
-    <div class="section-placeholder" role="status" aria-live="polite">
-      <span class="sr-only">Loading education section...</span>
-      <div class="loading-spinner" aria-hidden="true"></div>
-    </div>
-  }
+  <!-- Education - render immediately -->
+  <app-education [profile]="profile()" id="education" tabindex="-1"></app-education>
 
-  <!-- Projects - lazy loading -->
-  @defer (on viewport) {
-    <app-projects [profile]="profile()" id="projects" tabindex="-1"></app-projects>
-  } @placeholder {
-    <div class="section-placeholder" role="status" aria-live="polite">
-      <span class="sr-only">Loading projects section...</span>
-      <div class="loading-spinner" aria-hidden="true"></div>
-    </div>
-  }
+  <!-- Projects - render immediately -->
+  <app-projects [profile]="profile()" id="projects" tabindex="-1"></app-projects>
 
-  <!-- Certifications - lazy loading -->
-  @defer (on viewport) {
-    <app-certifications
-      [profile]="profile()"
-      id="certifications"
-      tabindex="-1"
-    ></app-certifications>
-  } @placeholder {
-    <div class="section-placeholder" role="status" aria-live="polite">
-      <span class="sr-only">Loading certifications section...</span>
-      <div class="loading-spinner" aria-hidden="true"></div>
-    </div>
-  }
+  <!-- Certifications - render immediately -->
+  <app-certifications [profile]="profile()" id="certifications" tabindex="-1"></app-certifications>
 
   <!-- Contact & Footer - render immediately for navigation -->
   <app-contact [profile]="profile()" id="contact" tabindex="-1"></app-contact>
