@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach } from 'vitest';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AboutComponent } from './about.component';
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it } from 'vitest';
 import type { LinkedInProfile } from '../../services/profile.service';
+import { AboutComponent } from './about.component';
 
 describe('AboutComponent', () => {
   let component: AboutComponent;
@@ -26,7 +26,8 @@ describe('AboutComponent', () => {
       country: 'Spain',
       countryCode: 'ES',
     },
-    summary: 'First paragraph of summary.\n\nSecond paragraph with more details.\n\nThird paragraph.',
+    summary:
+      'First paragraph of summary.\n\nSecond paragraph with more details.\n\nThird paragraph.',
     industry: 'Technology',
     experience: [],
     education: [],

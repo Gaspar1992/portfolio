@@ -6,10 +6,7 @@ class MockIntersectionObserver implements IntersectionObserver {
   readonly rootMargin: string = '0px';
   readonly thresholds: readonly number[] = [0];
 
-  constructor(
-    private _callback: IntersectionObserverCallback,
-    private _options?: IntersectionObserverInit
-  ) {}
+  constructor(_callback: IntersectionObserverCallback, _options?: IntersectionObserverInit) {}
 
   disconnect(): void {
     // noop
@@ -47,10 +44,6 @@ if (!globalThis.matchMedia) {
 
 // Mock ResizeObserver if not available
 class MockResizeObserver implements ResizeObserver {
-  constructor(_callback: ResizeObserverCallback) {
-    // noop
-  }
-
   disconnect(): void {
     // noop
   }

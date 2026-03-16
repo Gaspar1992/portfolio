@@ -161,7 +161,7 @@ export class KeyboardNavigationService {
     }
   }
 
-  getCurrentSection(): Section {
+  getCurrentSection(): Section | undefined {
     return this.sections[this.currentSectionIndex()];
   }
 
@@ -185,7 +185,7 @@ export class KeyboardNavigationService {
     for (let i = 0; i < this.sections.length; i++) {
       const section = this.sections[i];
       const sectionElement = this.document.getElementById(section.id);
-      if (sectionElement && sectionElement.contains(activeElement)) {
+      if (sectionElement?.contains(activeElement)) {
         this.currentSectionIndex.set(i);
         break;
       }

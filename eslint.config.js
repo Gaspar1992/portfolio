@@ -1,87 +1,104 @@
-const tsParser = require("@typescript-eslint/parser");
-const tsPlugin = require("@typescript-eslint/eslint-plugin");
-const angularPlugin = require("@angular-eslint/eslint-plugin");
-const htmlParser = require("@html-eslint/parser");
-const htmlPlugin = require("@html-eslint/eslint-plugin");
+const tsParser = require('@typescript-eslint/parser');
+const tsPlugin = require('@typescript-eslint/eslint-plugin');
+const angularPlugin = require('@angular-eslint/eslint-plugin');
+const htmlParser = require('@html-eslint/parser');
+const htmlPlugin = require('@html-eslint/eslint-plugin');
 
 module.exports = [
   {
-    ignores: [
-      "node_modules",
-      "dist",
-      ".angular",
-      "coverage",
-      ".git",
-      "*.spec.ts",
-    ],
+    ignores: ['node_modules', 'dist', '.angular', 'coverage', '.git'],
   },
   {
-    files: ["src/**/*.ts"],
+    files: ['src/**/*.ts'],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
-        project: "tsconfig.app.json",
+        project: 'tsconfig.app.json',
         createDefaultProgram: true,
-        sourceType: "module",
+        sourceType: 'module',
         ecmaVersion: 2020,
       },
       globals: {
-        document: "readonly",
-        window: "readonly",
-        console: "readonly",
-        setTimeout: "readonly",
-        setInterval: "readonly",
+        document: 'readonly',
+        window: 'readonly',
+        console: 'readonly',
+        setTimeout: 'readonly',
+        setInterval: 'readonly',
       },
     },
     plugins: {
-      "@typescript-eslint": tsPlugin,
-      "@angular-eslint": angularPlugin,
+      '@typescript-eslint': tsPlugin,
+      '@angular-eslint': angularPlugin,
     },
     rules: {
-      "@angular-eslint/directive-selector": [
-        "error",
+      '@angular-eslint/directive-selector': [
+        'error',
         {
-          type: "attribute",
-          prefix: "app",
-          style: "camelCase",
+          type: 'attribute',
+          prefix: 'app',
+          style: 'camelCase',
         },
       ],
-      "@angular-eslint/component-selector": [
-        "error",
+      '@angular-eslint/component-selector': [
+        'error',
         {
-          type: "element",
-          prefix: "app",
-          style: "kebab-case",
+          type: 'element',
+          prefix: 'app',
+          style: 'kebab-case',
         },
       ],
-      "@typescript-eslint/no-unused-vars": [
-        "warn",
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
         {
-          argsIgnorePattern: "^_",
-          varsIgnorePattern: "^_",
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
         },
       ],
     },
   },
   {
-    files: ["src/**/*.html"],
+    files: ['src/**/*.spec.ts'],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        project: 'tsconfig.spec.json',
+        createDefaultProgram: true,
+        sourceType: 'module',
+        ecmaVersion: 2020,
+      },
+    },
+    plugins: {
+      '@typescript-eslint': tsPlugin,
+    },
+    rules: {
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+        },
+      ],
+    },
+  },
+  {
+    files: ['src/**/*.html'],
     languageOptions: {
       parser: htmlParser,
     },
     plugins: {
-      "@html-eslint": htmlPlugin,
+      '@html-eslint': htmlPlugin,
     },
     rules: {
-      "@html-eslint/require-lang": "off",
-      "@html-eslint/require-meta-charset": "off",
-      "@html-eslint/no-inline-styles": "warn",
-      "@html-eslint/indent": "off",
-      "@html-eslint/no-duplicate-attrs": "error",
-      "@html-eslint/require-button-type": "warn",
-      "@html-eslint/require-closing-tags": [
-        "error",
+      '@html-eslint/require-lang': 'off',
+      '@html-eslint/require-meta-charset': 'off',
+      '@html-eslint/no-inline-styles': 'warn',
+      '@html-eslint/indent': 'off',
+      '@html-eslint/no-duplicate-attrs': 'error',
+      '@html-eslint/require-button-type': 'warn',
+      '@html-eslint/require-closing-tags': [
+        'error',
         {
-          selfClosing: "never",
+          selfClosing: 'never',
         },
       ],
     },

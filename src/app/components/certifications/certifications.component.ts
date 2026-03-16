@@ -245,6 +245,6 @@ export class CertificationsComponent {
 
   shortenTitle(title: string): string {
     if (title.length <= 45) return title;
-    return title.substring(0, 42) + '...';
+    return `${title.substring(0, 42)}...`;
   }
 }

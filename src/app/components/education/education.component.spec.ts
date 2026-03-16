@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { EducationComponent } from './education.component';
 import { ProfileService, type LinkedInProfile } from '../../services/profile.service';
 
