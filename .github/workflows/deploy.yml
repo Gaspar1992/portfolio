@@ -89,16 +89,6 @@ jobs:
       - name: Generate favicons from SVG
         run: node scripts/generate-favicon.mjs
 
-      - name: Create .env file
-        run: |
-          if [ -n "${{ secrets.LINKEDIN_ACCESS_TOKEN }}" ]; then
-            echo "LINKEDIN_ACCESS_TOKEN=${{ secrets.LINKEDIN_ACCESS_TOKEN }}" > .env
-            echo "✅ .env file created with LINKEDIN_ACCESS_TOKEN"
-          else
-            touch .env
-            echo "⚠️ LINKEDIN_ACCESS_TOKEN not set, created empty .env"
-          fi
-
       - name: Build
         run: npm run build:prod -- --base-href /portfolio/
 
@@ -169,11 +159,6 @@ jobs:
           *.ico
             Cache-Control: public, max-age=31536000, immutable
           EOF
-
-      - name: Run Lighthouse CI
-        run: |
-          npm install -g @lhci/cli@0.12.x
-          npx lhci autorun --config=lighthouserc.js || echo "Lighthouse check completed with warnings"
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
