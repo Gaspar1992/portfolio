@@ -59,16 +59,23 @@ test.describe('Portfolio E2E Tests', () => {
   test('should display all major content sections', async ({ page }) => {
     // Scroll through each section and verify content using data-testid
     const sections = [
-      { testid: 'about-section', title: 'The Artist' },
-      { testid: 'experience-section', title: 'Motion Picture Credits' },
-      { testid: 'skills-section', title: 'Technical Repertoire' },
-      { testid: 'projects-section', title: 'Featured Productions' },
-      { testid: 'education-section', title: 'Academy Training' },
-      { testid: 'certifications-section', title: 'Credentials' },
-      { testid: 'contact-section', title: 'Get In Touch' },
+      { testid: 'about-section', title: 'The Artist', id: 'about' },
+      { testid: 'experience-section', title: 'Motion Picture Credits', id: 'experience' },
+      { testid: 'skills-section', title: 'Technical Repertoire', id: 'skills' },
+      { testid: 'projects-section', title: 'Featured Productions', id: 'projects' },
+      { testid: 'education-section', title: 'Academy Training', id: 'education' },
+      { testid: 'certifications-section', title: 'Credentials', id: 'certifications' },
+      { testid: 'contact-section', title: 'Get In Touch', id: 'contact' },
     ];
 
     for (const section of sections) {
+      // Navigate to the section first to trigger lazy loading
+      await page.goto(`/#${section.id}`);
+      await page.waitForLoadState('networkidle');
+
+      // Wait a bit more for lazy loading to complete
+      await page.waitForTimeout(1000);
+
       const sectionElement = page.locator(`[data-testid="${section.testid}"]`);
       await expect(sectionElement).toBeVisible();
 
@@ -103,6 +110,15 @@ test.describe('Portfolio E2E Tests', () => {
   });
 
   test('should have proper footer content', async ({ page }) => {
+    // Navigate to contact section and scroll to bottom to ensure footer is loaded
+    await page.goto('/#contact');
+    await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(1000);
+
+    // Scroll to bottom to make sure footer is in viewport
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    await page.waitForTimeout(500);
+
     const footer = page.locator('[data-testid="footer"]');
     await expect(footer).toBeVisible();
     await expect(footer).toContainText('THE END');

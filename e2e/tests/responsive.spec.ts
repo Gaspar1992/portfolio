@@ -26,6 +26,8 @@ test.describe('Responsive Design E2E Tests', () => {
   test('grid layouts should stack on mobile', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
     await page.goto('/#projects');
+    await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(1000); // Wait for lazy loading
 
     // Project grid should be visible using data-testid
     const projectsSection = page.locator('[data-testid="projects-section"]');
@@ -63,7 +65,7 @@ test.describe('Responsive Design E2E Tests', () => {
     await page.goto('/');
 
     // Hero section should be visible
-    const heroSection = page.locator('.hero-section');
+    const heroSection = page.locator('[data-testid="hero-section"]');
     await expect(heroSection).toBeVisible();
 
     // Navigation should be visible
@@ -81,6 +83,7 @@ test.describe('Responsive Design E2E Tests', () => {
     await page.setViewportSize({ width: 375, height: 667 });
     await page.goto('/#skills');
     await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(1000); // Wait for lazy loading
 
     let skillsSection = page.locator('[data-testid="skills-section"]');
     await expect(skillsSection).toBeVisible();
@@ -94,6 +97,8 @@ test.describe('Responsive Design E2E Tests', () => {
     // Desktop: 3 columns
     await page.setViewportSize({ width: 1280, height: 720 });
     await page.reload();
+    await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(1000);
 
     skillsSection = page.locator('[data-testid="skills-section"]');
     await expect(skillsSection).toBeVisible();
@@ -106,6 +111,8 @@ test.describe('Responsive Design E2E Tests', () => {
     // Mobile
     await page.setViewportSize({ width: 375, height: 667 });
     await page.goto('/#education');
+    await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(1000); // Wait for lazy loading
 
     const educationSection = page.locator('[data-testid="education-section"]');
     await expect(educationSection).toBeVisible();
@@ -117,6 +124,8 @@ test.describe('Responsive Design E2E Tests', () => {
     // Desktop
     await page.setViewportSize({ width: 1280, height: 720 });
     await page.reload();
+    await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(1000);
 
     await expect(page.locator('[data-testid="education-section"]')).toBeVisible();
     await expect(page.locator('[data-testid="education-card"]').first()).toBeVisible();
@@ -131,7 +140,13 @@ test.describe('Responsive Design E2E Tests', () => {
 
     for (const viewport of viewports) {
       await page.setViewportSize({ width: viewport.width, height: viewport.height });
-      await page.goto('/');
+      await page.goto('/#contact');
+      await page.waitForLoadState('networkidle');
+      await page.waitForTimeout(1000);
+
+      // Scroll to bottom to ensure footer is visible
+      await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+      await page.waitForTimeout(500);
 
       // Use data-testid for footer
       const footer = page.locator('[data-testid="footer"]');

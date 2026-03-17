@@ -27,7 +27,7 @@ import type { LinkedInProfile } from '../../services/profile.service';
             Interested in collaborating? I am available for freelance projects and professional opportunities.
           </p>
           
-          <ul class="contact-methods" aria-label="Contact methods">
+          <ul class="contact-methods" aria-label="Contact methods" data-testid="contact-methods">
             @if (profile()?.contactInfo?.email) {
               <li class="contact-method-item">
                 <a [href]="'mailto:' + profile()?.contactInfo?.email" 

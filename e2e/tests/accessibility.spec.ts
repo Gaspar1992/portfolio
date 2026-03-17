@@ -36,21 +36,19 @@ test.describe('Accessibility E2E Tests', () => {
 
   test('should have ARIA landmarks', async ({ page }) => {
     // Check for main landmark
-    const main = page.locator('main, [role="main"]');
+    const main = page.locator('div[role="main"]');
     await expect(main).toHaveCount(1);
 
-    // Check for banner/header (main site header, not section headers)
-    const banner = page
-      .locator('[data-testid="hero-section"][role="banner"], header.main-header')
-      .first();
+    // Check for banner/header (hero section has role="banner")
+    const banner = page.locator('[data-testid="hero-section"][role="banner"]');
     await expect(banner).toBeVisible();
 
     // Check for contentinfo/footer
-    const footer = page.locator('[data-testid="footer"]');
+    const footer = page.locator('[data-testid="footer"][role="contentinfo"]');
     await expect(footer).toBeVisible();
 
     // Check for navigation
-    const navigation = page.locator('nav, [role="navigation"]').first();
+    const navigation = page.locator('nav[aria-label="Main navigation"]');
     await expect(navigation).toBeVisible();
   });
 
@@ -130,12 +128,22 @@ test.describe('Accessibility E2E Tests', () => {
     const navLists = page.locator('nav ul, nav ol, [role="navigation"] ul');
     await expect(navLists.first()).toBeVisible();
 
+    // Navigate to skills section to ensure it's loaded
+    await page.goto('/#skills');
+    await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(1000);
+
     // Check that skills use native ul/li elements
-    const skillsList = page.locator('[data-testid="skills-section"] ul');
+    const skillsList = page.locator('[data-testid="skills-list"]');
     await expect(skillsList).toBeVisible();
 
+    // Navigate to contact section to ensure it's loaded
+    await page.goto('/#contact');
+    await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(1000);
+
     // Check that contact methods use native ul/li elements
-    const contactList = page.locator('[data-testid="contact-section"] ul.contact-methods');
+    const contactList = page.locator('[data-testid="contact-methods"]');
     await expect(contactList).toBeVisible();
 
     // Check that list items are direct children of lists

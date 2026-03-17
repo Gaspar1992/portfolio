@@ -20,7 +20,7 @@ import type { LinkedInProfile } from '../../services/profile.service';
           </div>
         </div>
         
-        <ul class="skills-grid" aria-label="Technical skills">
+        <ul class="skills-grid" aria-label="Technical skills" data-testid="skills-list">
           @for (skill of getTopSkills(); track skill.name) {
             <li class="skill-item card-deco" [attr.aria-label]="skill.name" data-testid="skill-item">
               <div class="skill-header">

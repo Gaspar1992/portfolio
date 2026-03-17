@@ -11,6 +11,8 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:debug": "playwright test --debug",
+    "test:e2e:ci": "playwright test --project=chromium",
+    "test:all": "npm run test && npm run test:e2e",
     "lint": "biome lint .",
     "lint:fix": "biome lint . --fix",
     "lint:html": "eslint 'src/**/*.html'",
@@ -28,7 +30,9 @@
     "lighthouse:desktop": "lighthouse http://localhost:4200 --output=html --output-path=./lighthouse-report.html --config-path=./lighthouse.config.js",
     "lighthouse:mobile": "lighthouse http://localhost:4200 --output=html --output-path=./lighthouse-report-mobile.html --config-path=./lighthouse.config.js --emulated-form-factor=mobile",
     "lighthouse:ci": "npm run build:prod && lhci autorun --config=lighthouserc.js",
-    "quality:check": "npm run lint:all && npm run test && npm run lighthouse:ci"
+    "predeploy": "npm run lint:all && npm run test",
+    "deploy:check": "npm run predeploy && npm run lighthouse:ci",
+    "quality:check": "npm run predeploy"
   },
   "private": true,
   "packageManager": "npm@10.9.4",
