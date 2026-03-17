@@ -96,7 +96,7 @@
         "prerender": {
           "builder": "@angular/build:prerender",
           "options": {
-            "routes": ["/", "/about", "/projects", "/contact"]
+            "routes": ["/"]
           }
         }
       }
