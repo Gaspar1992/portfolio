@@ -89,8 +89,8 @@ jobs:
       - name: Generate favicons from SVG
         run: node scripts/generate-favicon.mjs
 
-      - name: Build
-        run: npm run build:prod -- --base-href /portfolio/
+      - name: Build with SSG
+        run: npm run build:ssg
 
       - name: Compress assets
         run: node scripts/compress-assets.mjs

@@ -29,7 +29,15 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/styles.scss"]
+            "styles": ["src/styles.scss"],
+            "server": "src/main.server.ts",
+            "outputMode": "server",
+            "security": {
+              "allowedHosts": []
+            },
+            "ssr": {
+              "entry": "src/server.ts"
+            }
           },
           "configurations": {
             "production": {
@@ -84,6 +92,12 @@
             "tsConfig": "tsconfig.spec.json",
             "setupFiles": ["src/test-setup.ts"],
             "watch": false
+          }
+        },
+        "prerender": {
+          "builder": "@angular/build:prerender",
+          "options": {
+            "routes": ["/", "/about", "/projects", "/contact"]
           }
         }
       }
