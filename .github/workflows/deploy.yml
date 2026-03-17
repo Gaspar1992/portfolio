@@ -90,7 +90,7 @@ jobs:
         run: node scripts/generate-favicon.mjs
 
       - name: Build with SSG
-        run: npm run build:ssg
+        run: npm run build:ssg -- --base-href /portfolio/
 
       - name: Compress assets
         run: node scripts/compress-assets.mjs
