@@ -1,5 +1,6 @@
 import { UpperCasePipe } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
+import { KeyboardNavigationService } from '../../services/keyboard-navigation.service';
 import type { LinkedInProfile } from '../../services/profile.service';
 
 @Component({
@@ -41,12 +42,12 @@ import type { LinkedInProfile } from '../../services/profile.service';
           </div>
           
           <div class="hero-actions mt-4" role="navigation" aria-label="Main actions" data-testid="hero-actions">
-            <a href="#experience" class="btn-deco" aria-label="View my work experience" data-testid="hero-experience-link">
+            <button (click)="navigateToSection('experience')" class="btn-deco" aria-label="View my work experience" data-testid="hero-experience-link">
               <span>View Experience</span>
-            </a>
-            <a href="#contact" class="btn-deco btn-dark" aria-label="Get in touch with me" data-testid="hero-contact-link">
+            </button>
+            <button (click)="navigateToSection('contact')" class="btn-deco btn-dark" aria-label="Get in touch with me" data-testid="hero-contact-link">
               <span>Get In Touch</span>
-            </a>
+            </button>
           </div>
         </div>
       </div>
@@ -324,4 +325,13 @@ import type { LinkedInProfile } from '../../services/profile.service';
 })
 export class HeroComponent {
   profile = input<LinkedInProfile | null>(null);
+  private keyboardNav = inject(KeyboardNavigationService);
+
+  navigateToSection(sectionId: string): void {
+    const sections = this.keyboardNav.getAllSections();
+    const index = sections.findIndex((s) => s.id === sectionId);
+    if (index !== -1) {
+      this.keyboardNav.navigateToSection(index);
+    }
+  }
 }

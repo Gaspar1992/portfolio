@@ -1,5 +1,5 @@
 import { UpperCasePipe } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import type { LinkedInProfile } from '../../services/profile.service';
 
 @Component({
@@ -77,11 +77,11 @@ import type { LinkedInProfile } from '../../services/profile.service';
         <div class="footer-content">
           <div class="footer-brand">
             <span class="footer-name">{{ profile()?.fullName | uppercase }}</span>
-            <span class="footer-tagline">Full Stack Developer</span>
+            <span class="footer-tagline">{{ profile()?.headline }}</span>
           </div>
           
           <div class="footer-year" aria-label="Footer information">
-            <span>Est. 2017</span>
+            <span>Est. {{ careerStartYear() }}</span>
             <span class="footer-divider" aria-hidden="true">|</span>
             <span>{{ profile()?.location?.city }}, {{ profile()?.location?.country }}</span>
           </div>
@@ -377,4 +377,20 @@ import type { LinkedInProfile } from '../../services/profile.service';
 })
 export class ContactComponent {
   profile = input<LinkedInProfile | null>(null);
+
+  careerStartYear = computed(() => {
+    const profileData = this.profile();
+    if (!profileData?.experience || profileData.experience.length === 0) {
+      return '2017'; // fallback to original hardcoded value
+    }
+
+    // Find the earliest start date from all experiences
+    const earliestYear = Math.min(
+      ...profileData.experience
+        .map((exp) => new Date(exp.startDate).getFullYear())
+        .filter((year) => Number.isNaN(year) === false)
+    );
+
+    return earliestYear.toString();
+  });
 }
