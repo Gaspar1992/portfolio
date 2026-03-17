@@ -1,15 +1,36 @@
 # Enable compression for all text-based files
-/*
+/*.html
   Content-Encoding: gzip
-  X-Content-Type-Options: nosniff
-
-# Cache static assets
-/*.js
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=0, must-revalidate
 
 /*.css
+  Content-Encoding: gzip
   Cache-Control: public, max-age=31536000, immutable
 
+/*.js
+  Content-Encoding: gzip
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.json
+  Content-Encoding: gzip
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.svg
+  Content-Encoding: gzip
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.txt
+  Content-Encoding: gzip
+  Cache-Control: public, max-age=31536000, immutable
+
+# Security headers
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+
+# Cache static assets
 /*.woff2
   Cache-Control: public, max-age=31536000, immutable
 
@@ -31,12 +52,5 @@
 /*.webp
   Cache-Control: public, max-age=31536000, immutable
 
-/*.svg
-  Cache-Control: public, max-age=31536000, immutable
-
 /*.ico
   Cache-Control: public, max-age=31536000, immutable
-
-# HTML files
-/*.html
-  Cache-Control: public, max-age=0, must-revalidate

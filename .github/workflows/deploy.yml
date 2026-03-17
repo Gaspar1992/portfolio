@@ -102,6 +102,74 @@ jobs:
       - name: Build
         run: npm run build:prod -- --base-href /portfolio/
 
+      - name: Compress assets
+        run: node scripts/compress-assets.mjs
+
+      - name: Setup compression headers for GitHub Pages
+        run: |
+          # Create .nojekyll file
+          touch dist/portfolio/browser/.nojekyll
+
+          # Create _headers file for GitHub Pages
+          cat > dist/portfolio/browser/_headers << 'EOF'
+          # Enable compression for text-based files
+          *.html
+            Content-Encoding: gzip
+            Cache-Control: public, max-age=0, must-revalidate
+
+          *.css
+            Content-Encoding: gzip
+            Cache-Control: public, max-age=31536000, immutable
+
+          *.js
+            Content-Encoding: gzip
+            Cache-Control: public, max-age=31536000, immutable
+
+          *.json
+            Content-Encoding: gzip
+            Cache-Control: public, max-age=31536000, immutable
+
+          *.svg
+            Content-Encoding: gzip
+            Cache-Control: public, max-age=31536000, immutable
+
+          *.txt
+            Content-Encoding: gzip
+            Cache-Control: public, max-age=31536000, immutable
+
+          # Security headers
+          /*
+            X-Content-Type-Options: nosniff
+            X-Frame-Options: DENY
+            X-XSS-Protection: 1; mode=block
+            Referrer-Policy: strict-origin-when-cross-origin
+
+          # Cache static assets
+          *.woff2
+            Cache-Control: public, max-age=31536000, immutable
+
+          *.woff
+            Cache-Control: public, max-age=31536000, immutable
+
+          *.ttf
+            Cache-Control: public, max-age=31536000, immutable
+
+          *.png
+            Cache-Control: public, max-age=31536000, immutable
+
+          *.jpg
+            Cache-Control: public, max-age=31536000, immutable
+
+          *.jpeg
+            Cache-Control: public, max-age=31536000, immutable
+
+          *.webp
+            Cache-Control: public, max-age=31536000, immutable
+
+          *.ico
+            Cache-Control: public, max-age=31536000, immutable
+          EOF
+
       - name: Run Lighthouse CI
         run: |
           npm install -g @lhci/cli@0.12.x
