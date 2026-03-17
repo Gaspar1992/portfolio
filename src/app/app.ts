@@ -1,5 +1,4 @@
 import { Component, inject, type OnInit, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { AboutComponent } from './components/about/about.component';
 import { CertificationsComponent } from './components/certifications/certifications.component';
 import { ContactComponent } from './components/contact/contact.component';
@@ -16,7 +15,6 @@ import { ProfileService } from './services/profile.service';
 @Component({
   selector: 'app-root',
   imports: [
-    RouterOutlet,
     HeroComponent,
     AboutComponent,
     ExperienceComponent,
