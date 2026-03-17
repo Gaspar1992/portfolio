@@ -1,9 +1,10 @@
 {
   "_meta": {
     "source": "linkedin-export",
-    "syncedAt": "2026-03-17T19:54:45.172Z",
+    "syncedAt": "2026-03-16T21:23:05.107Z",
     "profileId": "grodriguez1992",
-    "note": "Datos obtenidos desde exportación oficial de LinkedIn"
+    "note": "Datos obtenidos desde exportación oficial de LinkedIn",
+    "endorsementsCalculatedAt": "2026-03-16T21:46:07.396Z"
   },
   "firstName": "Gaspar",
   "lastName": "Rodríguez Valero",
@@ -12,7 +13,7 @@
   "email": null,
   "linkedInUrl": "https://linkedin.com/in/grodriguez1992",
   "vanityName": "grodriguez1992",
-  "profilePictureUrl": null,
+  "profilePictureUrl": "profile-photo-medium.webp",
   "location": {
     "city": "Alicante",
     "country": "Valencian Community",
@@ -20,16 +21,458 @@
   },
   "summary": "I have worked with all kinds of languages and this is reflected in the evolution and complexity of the projects I work with. Currently I continue to specialize in Front-End and I am looking to continue my career towards a Full-Stack and Software Architecture in the future.",
   "industry": "Strategic Management Services",
-  "experience": [],
-  "education": [],
-  "skills": [],
-  "certifications": [],
-  "projects": [],
-  "languages": [],
+  "experience": [
+    {
+      "id": "exp-001",
+      "title": "Front End Architect",
+      "company": "knowmad mood",
+      "companyLogoUrl": null,
+      "location": "Spain · Remote",
+      "employmentType": "Full-time",
+      "startDate": "2022-07-01",
+      "endDate": null,
+      "isCurrent": true,
+      "description": "Front-End Architecture Solutions\nAI configuration (skills, MCPs, Subagents, Context saving protocol,...)",
+      "skills": [
+        "Design Patterns",
+        "Front-end Engineering",
+        "PrimeNG",
+        "HTML",
+        "Git",
+        "Team Management",
+        "Angular",
+        "Jenkins",
+        "Tailwind CSS",
+        "Angular Material",
+        "Front-End Development",
+        "Webpack",
+        "Mentoring",
+        "Nx monorepo",
+        "Architectural Design",
+        "Formly",
+        "JavaScript",
+        "Cascading Style Sheets (CSS)",
+        "TypeScript",
+        "IA",
+        "Esbuild"
+      ]
+    },
+    {
+      "id": "exp-002",
+      "title": "Senior Software Developer",
+      "company": "Tasafy",
+      "companyLogoUrl": null,
+      "location": "Alicante, Valencian Community, Spain · Hybrid",
+      "employmentType": "Full-time",
+      "startDate": "2021-11-01",
+      "endDate": "2022-07-01",
+      "isCurrent": false,
+      "description": "Front-End Architect\nWeb & Mobile Development\nNx Monorepo\nNGRX (REDUX)",
+      "skills": [
+        "Design Patterns",
+        "Front-end Engineering",
+        "HTML",
+        "Git",
+        "Angular",
+        "Angular Material",
+        "Front-End Development",
+        "Architectural Design",
+        "JavaScript",
+        "Cascading Style Sheets (CSS)",
+        "TypeScript"
+      ]
+    },
+    {
+      "id": "exp-003",
+      "title": "Business & Integration Arch Analyst",
+      "company": "Accenture España",
+      "companyLogoUrl": null,
+      "location": "Alicante, Valencian Community, Spain · Remote",
+      "employmentType": "Full-time",
+      "startDate": "2020-12-01",
+      "endDate": "2021-11-01",
+      "isCurrent": false,
+      "description": "Angular 2+ Projects\nDevelopments with Nx Monorepo",
+      "skills": [
+        "Front-end Engineering",
+        "HTML",
+        "Git",
+        "Angular",
+        "Angular Material",
+        "Front-End Development",
+        "Nx monorepo",
+        "JavaScript",
+        "Cascading Style Sheets (CSS)",
+        "TypeScript"
+      ]
+    },
+    {
+      "id": "exp-004",
+      "title": "Middle Senior Developer",
+      "company": "Teralco (CONVOTIS Iberia)",
+      "companyLogoUrl": null,
+      "location": "Alicante · On-site",
+      "employmentType": "Full-time",
+      "startDate": "2019-07-01",
+      "endDate": "2020-12-01",
+      "isCurrent": false,
+      "description": "Developing WebApps (Angular 2+)\nDeveloping MobileApps (Ionic and Cordova)",
+      "skills": [
+        "Front-end Engineering",
+        "HTML",
+        "Git",
+        "Angular",
+        "Ionic Framework",
+        "Angular Material",
+        "Front-End Development",
+        "JavaScript",
+        "Cascading Style Sheets (CSS)",
+        "TypeScript"
+      ]
+    },
+    {
+      "id": "exp-005",
+      "title": "Analyst - Programmer",
+      "company": "Recursos en la Red",
+      "companyLogoUrl": null,
+      "location": "Greater Murcia Metropolitan Area · On-site",
+      "employmentType": "Full-time",
+      "startDate": "2017-08-01",
+      "endDate": "2019-06-01",
+      "isCurrent": false,
+      "description": "Zend PHP, JavaEE, Jquery, Git, GNU/Linux, Mongodb, SSI, MySQL y Prestashop",
+      "skills": [
+        "Front-end Engineering",
+        "Java",
+        "PHP",
+        "HTML",
+        "Git",
+        "JavaServer Pages (JSP)",
+        "Jenkins",
+        "Angular Material",
+        "Front-End Development",
+        "MySQL",
+        "jQuery",
+        "JavaScript",
+        "Cascading Style Sheets (CSS)"
+      ]
+    },
+    {
+      "id": "exp-006",
+      "title": "Web Developer",
+      "company": "Grupo Enfoca",
+      "companyLogoUrl": null,
+      "location": "Alicante · On-site",
+      "employmentType": "Internship",
+      "startDate": "2016-08-01",
+      "endDate": "2017-06-01",
+      "isCurrent": false,
+      "description": "Learning about web projects. PHP, Javascript, HTML5, CSS3, Symfony, Magento, wordpress and more...",
+      "skills": [
+        "Front-end Engineering",
+        "Java",
+        "PHP",
+        "HTML",
+        "Git",
+        "Front-End Development",
+        "JavaScript",
+        "Cascading Style Sheets (CSS)"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "id": "edu-001",
+      "school": "Universitat d'Alacant",
+      "degree": "Master's degree",
+      "fieldOfStudy": "Application Development and Web Services",
+      "startDate": "2018-09-01",
+      "endDate": "2020-09-01",
+      "grade": null,
+      "activities": "Product Management (SCRUM, Lean Model), SEO and WEB technologies"
+    },
+    {
+      "id": "edu-002",
+      "school": "Universitat d'Alacant",
+      "degree": "Degree",
+      "fieldOfStudy": "Multimedia Engineering, Graphic Design and Programming",
+      "startDate": "2012-09-01",
+      "endDate": "2018-06-01",
+      "grade": null,
+      "activities": null
+    }
+  ],
+  "skills": [
+    {
+      "name": "JavaScript",
+      "endorsements": 117
+    },
+    {
+      "name": "TypeScript",
+      "endorsements": 99
+    },
+    {
+      "name": "Front-End Development",
+      "endorsements": 69
+    },
+    {
+      "name": "Angular",
+      "endorsements": 69
+    },
+    {
+      "name": "Front-end Engineering",
+      "endorsements": 60
+    },
+    {
+      "name": "HTML",
+      "endorsements": 39
+    },
+    {
+      "name": "Cascading Style Sheets (CSS)",
+      "endorsements": 30
+    },
+    {
+      "name": "Git",
+      "endorsements": 30
+    },
+    {
+      "name": "Angular Material",
+      "endorsements": 27
+    },
+    {
+      "name": "Node.js",
+      "endorsements": 21
+    },
+    {
+      "name": "Team Management",
+      "endorsements": 18
+    },
+    {
+      "name": "Jenkins",
+      "endorsements": 18
+    },
+    {
+      "name": "PHP",
+      "endorsements": 18
+    },
+    {
+      "name": "Java",
+      "endorsements": 18
+    },
+    {
+      "name": "Nx monorepo",
+      "endorsements": 15
+    },
+    {
+      "name": "Architectural Design",
+      "endorsements": 15
+    },
+    {
+      "name": "Design Patterns",
+      "endorsements": 15
+    },
+    {
+      "name": "IA",
+      "endorsements": 12
+    },
+    {
+      "name": "Esbuild",
+      "endorsements": 12
+    },
+    {
+      "name": "Web Workers",
+      "endorsements": 12
+    },
+    {
+      "name": "Formly",
+      "endorsements": 12
+    },
+    {
+      "name": "PrimeNG",
+      "endorsements": 12
+    },
+    {
+      "name": "Tailwind CSS",
+      "endorsements": 12
+    },
+    {
+      "name": "Mentoring",
+      "endorsements": 12
+    },
+    {
+      "name": "Webpack",
+      "endorsements": 12
+    },
+    {
+      "name": "Ionic Framework",
+      "endorsements": 9
+    },
+    {
+      "name": "RxJS",
+      "endorsements": 6
+    },
+    {
+      "name": "MySQL",
+      "endorsements": 6
+    },
+    {
+      "name": "jQuery",
+      "endorsements": 6
+    },
+    {
+      "name": "JavaServer Pages (JSP)",
+      "endorsements": 6
+    },
+    {
+      "name": "Multithreaded Development",
+      "endorsements": 0
+    },
+    {
+      "name": "Java Servlets y JSP",
+      "endorsements": 0
+    }
+  ],
+  "certifications": [
+    {
+      "id": "cert-001",
+      "name": "Node: De Cero a Experto",
+      "issuingOrganization": "Udemy",
+      "issueDate": "2020-03-01",
+      "expirationDate": null,
+      "credentialUrl": "https://www.udemy.com/certificate/UC-a057e924-a845-4440-b4e6-679ceb24316a"
+    },
+    {
+      "id": "cert-002",
+      "name": "Ionic 5: Crear aplicaciones IOS, Android y PWAs con Angular",
+      "issuingOrganization": "Udemy",
+      "issueDate": "2019-12-01",
+      "expirationDate": null,
+      "credentialUrl": "https://www.udemy.com/certificate/UC-GQAS37AE"
+    },
+    {
+      "id": "cert-003",
+      "name": "Flutter: Tu guía completa de desarrollo para IOS y Android",
+      "issuingOrganization": "Udemy",
+      "issueDate": "2019-12-01",
+      "expirationDate": null,
+      "credentialUrl": "https://www.udemy.com/certificate/UC-AHK9MIJ8"
+    },
+    {
+      "id": "cert-004",
+      "name": "Spring Framework 5: Creando webapp de cero a experto (2019)",
+      "issuingOrganization": "Udemy",
+      "issueDate": "2019-10-01",
+      "expirationDate": null,
+      "credentialUrl": "https://www.udemy.com/certificate/UC-A7RC0YYE"
+    },
+    {
+      "id": "cert-005",
+      "name": "REDUX en Angular con NGRX: Desde las bases hasta la práctica",
+      "issuingOrganization": "Udemy",
+      "issueDate": "2019-09-01",
+      "expirationDate": null,
+      "credentialUrl": "https://www.udemy.com/certificate/UC-LTX37O8H"
+    },
+    {
+      "id": "cert-006",
+      "name": "PWA - Aplicaciones Web Progresivas: De cero a experto",
+      "issuingOrganization": "Udemy",
+      "issueDate": "2019-08-01",
+      "expirationDate": null,
+      "credentialUrl": "https://www.udemy.com/certificate/UC-BV0W8YA9"
+    },
+    {
+      "id": "cert-007",
+      "name": "Angular Avanzado: Lleva tus bases al siguiente nivel - MEAN",
+      "issuingOrganization": "Udemy",
+      "issueDate": "2019-07-01",
+      "expirationDate": null,
+      "credentialUrl": "https://www.udemy.com/certificate/UC-S3CAR5MY"
+    },
+    {
+      "id": "cert-008",
+      "name": "Desarrollo web con JavaScript, Angular, NodeJS y MongoDB",
+      "issuingOrganization": "Udemy",
+      "issueDate": "2019-07-01",
+      "expirationDate": null,
+      "credentialUrl": "https://www.udemy.com/certificate/UC-Z3XE0M0I"
+    },
+    {
+      "id": "cert-009",
+      "name": "Angular: De cero a experto creando aplicaciones (Angular 8+)",
+      "issuingOrganization": "Udemy",
+      "issueDate": "2019-07-01",
+      "expirationDate": null,
+      "credentialUrl": "https://www.udemy.com/certificate/UC-3A4D2LJX"
+    },
+    {
+      "id": "cert-010",
+      "name": "SCRUM, LEAN y KANBAN. Metodologías ágiles para la gestión de proyectos de desarrollo e investigación",
+      "issuingOrganization": "Universitat d'Alacant",
+      "issueDate": "2019-05-01",
+      "expirationDate": null,
+      "credentialUrl": null
+    },
+    {
+      "id": "cert-011",
+      "name": "Preliminary English Test",
+      "issuingOrganization": "Universitat d'Alacant",
+      "issueDate": "2018-06-01",
+      "expirationDate": null,
+      "credentialUrl": null
+    }
+  ],
+  "projects": [
+    {
+      "id": "proj-001",
+      "name": "Tradams - RetroGame",
+      "description": "Video game project for Amstrad CPC 464. Genre: Roguelike, Dungeon Crawl, Shooter, Action-Adventure. Developed in Assembly language and Machine language using CPCTelera game engine.",
+      "technologies": ["Assembly language", "Machine language", "CPCTelera"],
+      "startDate": "2017-01-01",
+      "endDate": "2018-01-01",
+      "url": "https://www.youtube.com/watch?v=Xv-AejgvziU",
+      "images": ["https://www.youtube.com/watch?v=a5fIzhD71VM"]
+    },
+    {
+      "id": "proj-002",
+      "name": "Vesper",
+      "description": "Third-person video game where the protagonist rescues his friends from monsters. University project demonstrating Game Programming knowledge using C++ and OpenGL.",
+      "technologies": ["C++", "OpenGL"],
+      "startDate": "2016-09-01",
+      "endDate": "2017-06-01",
+      "url": null,
+      "associatedWith": "Universitat d'Alacant",
+      "images": []
+    },
+    {
+      "id": "proj-003",
+      "name": "Dangerous Dave",
+      "description": "First Video Game project at University. Recreation of the original Dangerous Dave game, implementing the first two levels and part of the third level.",
+      "technologies": ["C++", "SFML"],
+      "startDate": "2016-06-01",
+      "endDate": "2016-07-01",
+      "url": "https://www.youtube.com/watch?v=ovoS_6A6TxA&index=4",
+      "images": []
+    }
+  ],
+  "languages": [
+    {
+      "language": "Spanish",
+      "proficiency": "Native or bilingual proficiency"
+    },
+    {
+      "language": "Catalan",
+      "proficiency": "Limited working proficiency"
+    },
+    {
+      "language": "English",
+      "proficiency": "Limited working proficiency"
+    }
+  ],
   "contactInfo": {
-    "email": null,
+    "email": "gaspar.rodriguez1992@gmail.com",
     "website": null,
-    "github": null,
+    "github": "https://github.com/gasparrodriguez",
     "twitter": null
   },
   "interests": [],
