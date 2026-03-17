@@ -4,8 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "npm run sync:linkedin && ng build",
-    "build:prod": "npm run sync:linkedin && ng build --configuration production --base-href /portfolio/",
+    "build": "ng build",
+    "build:prod": "ng build --configuration production --base-href /portfolio/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:e2e": "playwright test",
@@ -23,7 +23,6 @@
     "format:fix": "biome format . --write",
     "check": "biome check .",
     "check:fix": "biome check . --fix",
-    "sync:linkedin": "node --env-file=.env scripts/sync-linkedin.mjs",
     "import:linkedin": "node scripts/import-linkedin-export.mjs",
     "optimize:photo": "node scripts/optimize-profile-photo.mjs",
     "lighthouse": "lhci autorun",
