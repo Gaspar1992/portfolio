@@ -14,60 +14,62 @@ import type { LinkedInProfile } from '../../services/profile.service';
       role="region"
       data-testid="contact-section">
       <div class="container">
-        <div class="corner-deco card-deco contact-card">
-          <h2 class="text-center" id="contact-title">Get In Touch</h2>
+        <div class="corner-deco contact-shell">
+          <div class="card-deco contact-card">
+            <h2 class="text-center" id="contact-title">Get In Touch</h2>
           
-          <div class="divider-deco mb-4" aria-hidden="true">
-            <div class="divider-icon">
-              <span aria-hidden="true">✉</span>
+            <div class="divider-deco mb-4" aria-hidden="true">
+              <div class="divider-icon">
+                <span aria-hidden="true">✉</span>
+              </div>
             </div>
+          
+            <p class="text-center contact-text" role="text">
+              Interested in collaborating? I am available for freelance projects and professional opportunities.
+            </p>
+          
+            <ul class="contact-methods" aria-label="Contact methods" data-testid="contact-methods">
+              @if (profile()?.contactInfo?.email) {
+                <li class="contact-method-item">
+                  <a [href]="'mailto:' + profile()?.contactInfo?.email" 
+                     class="contact-link"
+                     [attr.aria-label]="'Send email to ' + profile()?.contactInfo?.email"
+                     data-testid="contact-email">
+                    <span class="contact-icon" aria-hidden="true">@</span>
+                    <span>{{ profile()?.contactInfo?.email }}</span>
+                  </a>
+                </li>
+              }
+              
+              @if (profile()?.linkedInUrl) {
+                <li class="contact-method-item">
+                  <a [href]="profile()?.linkedInUrl" 
+                     target="_blank" 
+                     rel="noopener noreferrer"
+                     class="contact-link"
+                     aria-label="View LinkedIn profile"
+                     data-testid="contact-linkedin">
+                    <span class="contact-icon" aria-hidden="true">in</span>
+                    <span>LinkedIn</span>
+                  </a>
+                </li>
+              }
+              
+              @if (profile()?.contactInfo?.github) {
+                <li class="contact-method-item">
+                  <a [href]="profile()?.contactInfo?.github" 
+                     target="_blank" 
+                     rel="noopener noreferrer"
+                     class="contact-link"
+                     aria-label="View GitHub profile"
+                     data-testid="contact-github">
+                    <span class="contact-icon" aria-hidden="true">gh</span>
+                    <span>GitHub</span>
+                  </a>
+                </li>
+              }
+            </ul>
           </div>
-          
-          <p class="text-center contact-text" role="text">
-            Interested in collaborating? I am available for freelance projects and professional opportunities.
-          </p>
-          
-          <ul class="contact-methods" aria-label="Contact methods" data-testid="contact-methods">
-            @if (profile()?.contactInfo?.email) {
-              <li class="contact-method-item">
-                <a [href]="'mailto:' + profile()?.contactInfo?.email" 
-                   class="contact-link"
-                   [attr.aria-label]="'Send email to ' + profile()?.contactInfo?.email"
-                   data-testid="contact-email">
-                  <span class="contact-icon" aria-hidden="true">@</span>
-                  <span>{{ profile()?.contactInfo?.email }}</span>
-                </a>
-              </li>
-            }
-            
-            @if (profile()?.linkedInUrl) {
-              <li class="contact-method-item">
-                <a [href]="profile()?.linkedInUrl" 
-                   target="_blank" 
-                   rel="noopener noreferrer"
-                   class="contact-link"
-                   aria-label="View LinkedIn profile"
-                   data-testid="contact-linkedin">
-                  <span class="contact-icon" aria-hidden="true">in</span>
-                  <span>LinkedIn</span>
-                </a>
-              </li>
-            }
-            
-            @if (profile()?.contactInfo?.github) {
-              <li class="contact-method-item">
-                <a [href]="profile()?.contactInfo?.github" 
-                   target="_blank" 
-                   rel="noopener noreferrer"
-                   class="contact-link"
-                   aria-label="View GitHub profile"
-                   data-testid="contact-github">
-                  <span class="contact-icon" aria-hidden="true">gh</span>
-                  <span>GitHub</span>
-                </a>
-              </li>
-            }
-          </ul>
         </div>
       </div>
     </section>
@@ -101,9 +103,13 @@ import type { LinkedInProfile } from '../../services/profile.service';
       padding: 6rem 0;
     }
 
-    .contact-card {
+    .contact-shell {
       max-width: 600px;
       margin: 0 auto;
+      position: relative;
+    }
+
+    .contact-card {
       padding: 3rem;
     }
 
@@ -166,8 +172,8 @@ import type { LinkedInProfile } from '../../services/profile.service';
     .corner-deco::after {
       content: '';
       position: absolute;
-      width: 25px;
-      height: 25px;
+      width: 30px;
+      height: 30px;
       border-color: var(--color-gold);
       border-style: solid;
       z-index: 10;
@@ -262,43 +268,6 @@ import type { LinkedInProfile } from '../../services/profile.service';
       font-size: 0.8rem;
       letter-spacing: 0.15em;
       color: var(--color-bronze);
-    }
-    .card-deco {
-      background: var(--color-white);
-      border: 1px solid var(--color-cream-dark);
-      padding: 2rem;
-      position: relative;
-    }
-
-    /* Línea superior dorada para card-deco */
-    .card-deco::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        var(--color-gold),
-        transparent
-      );
-      z-index: 3;
-    }
-
-    /* Marco interno para card-deco */
-    .card-deco::before {
-      content: '';
-      position: absolute;
-      top: 8px;
-      left: 8px;
-      right: 8px;
-      bottom: 8px;
-      border: 1px solid var(--color-gold);
-      pointer-events: none;
-      opacity: 0.5;
-      z-index: 2;
     }
 
     .container {
