@@ -11,6 +11,7 @@ export interface Section {
 })
 export class KeyboardNavigationService {
   private readonly document = inject(DOCUMENT);
+  private readonly observedSectionIds = new Set<string>();
 
   private readonly sections: Section[] = [
     { id: 'hero', label: 'Home' },
@@ -79,31 +80,51 @@ export class KeyboardNavigationService {
     if (typeof window === 'undefined') return;
 
     const observer = new IntersectionObserver(
-      (entries) => {
+      () => {
         // Only update if not currently navigating with keyboard
         if (this.isNavigatingWithKeyboard()) return;
 
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const index = this.sections.findIndex((s) => s.id === entry.target.id);
-            if (index !== -1) {
-              this.currentSectionIndex.set(index);
-            }
-          }
-        });
+        this.updateCurrentSectionFromViewportMiddle();
       },
       {
-        threshold: 0.5,
+        threshold: 0,
         rootMargin: '-10% 0px -10% 0px',
       }
     );
 
-    // Observe all sections
-    this.sections.forEach((section) => {
-      const element = this.document.getElementById(section.id);
-      if (element) {
-        observer.observe(element);
+    this.observeAvailableSections(observer);
+
+    if (this.observedSectionIds.size >= this.sections.length) {
+      return;
+    }
+
+    const mutationObserver = new MutationObserver(() => {
+      this.observeAvailableSections(observer);
+
+      if (this.observedSectionIds.size >= this.sections.length) {
+        mutationObserver.disconnect();
       }
+    });
+
+    mutationObserver.observe(this.document.body, {
+      childList: true,
+      subtree: true,
+    });
+  }
+
+  private observeAvailableSections(observer: IntersectionObserver): void {
+    this.sections.forEach((section) => {
+      if (this.observedSectionIds.has(section.id)) {
+        return;
+      }
+
+      const element = this.document.getElementById(section.id);
+      if (!element) {
+        return;
+      }
+
+      observer.observe(element);
+      this.observedSectionIds.add(section.id);
     });
   }
 
@@ -119,10 +140,51 @@ export class KeyboardNavigationService {
       () => {
         if (!this.isNavigatingWithKeyboard()) {
           this.hideIndicator();
+          this.updateCurrentSectionFromViewportMiddle();
         }
       },
       { passive: true }
     );
+  }
+
+  private updateCurrentSectionFromViewportMiddle(): void {
+    if (typeof window === 'undefined') return;
+
+    const viewportMiddle = window.innerHeight / 2;
+
+    for (let i = 0; i < this.sections.length; i++) {
+      const sectionElement = this.document.getElementById(this.sections[i].id);
+      if (!sectionElement) continue;
+
+      const rect = sectionElement.getBoundingClientRect();
+      if (rect.top <= viewportMiddle && rect.bottom >= viewportMiddle) {
+        if (i !== this.currentSectionIndex()) {
+          this.currentSectionIndex.set(i);
+        }
+        return;
+      }
+    }
+
+    let closestIndex = this.currentSectionIndex();
+    let minDistance = Number.POSITIVE_INFINITY;
+
+    this.sections.forEach((section, index) => {
+      const sectionElement = this.document.getElementById(section.id);
+      if (!sectionElement) return;
+
+      const rect = sectionElement.getBoundingClientRect();
+      const sectionMiddle = rect.top + rect.height / 2;
+      const distance = Math.abs(sectionMiddle - viewportMiddle);
+
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestIndex = index;
+      }
+    });
+
+    if (closestIndex !== this.currentSectionIndex()) {
+      this.currentSectionIndex.set(closestIndex);
+    }
   }
 
   private showIndicator(): void {
