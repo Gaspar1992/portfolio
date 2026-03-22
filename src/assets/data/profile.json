@@ -324,6 +324,18 @@
       "endorsements": 6
     },
     {
+      "name": "Playwright",
+      "endorsements": 6
+    },
+    {
+      "name": "Browser APIs",
+      "endorsements": 3
+    },
+    {
+      "name": "Application Security",
+      "endorsements": 3
+    },
+    {
       "name": "Multithreaded Development",
       "endorsements": 0
     },
@@ -452,6 +464,16 @@
       "startDate": "2016-06-01",
       "endDate": "2016-07-01",
       "url": "https://www.youtube.com/watch?v=ovoS_6A6TxA&index=4",
+      "images": []
+    },
+    {
+      "id": "proj-004",
+      "name": "Angular-helpers",
+      "description": "Monorepo of Angular helper libraries focused on ReDoS prevention for regex execution and safe browser Web API access with permissions and robust error handling.",
+      "technologies": ["Angular", "TypeScript", "Web Workers", "Playwright"],
+      "startDate": "2026-03-22",
+      "endDate": null,
+      "url": "https://github.com/Gaspar1992/angular-helpers",
       "images": []
     }
   ],

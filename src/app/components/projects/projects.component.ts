@@ -77,10 +77,9 @@ import type { LinkedInProfile } from '../../services/profile.service';
 
     .project-header {
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       align-items: flex-start;
       margin-bottom: 1rem;
-      flex-wrap: wrap;
       gap: 0.5rem;
     }
 
