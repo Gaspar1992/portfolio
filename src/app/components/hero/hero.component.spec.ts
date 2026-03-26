@@ -92,14 +92,14 @@ describe('HeroComponent', () => {
     expect(section.getAttribute('role')).toBe('banner');
   });
 
-  it('should have navigation links to experience and contact sections', () => {
+  it('should render experience and contact action buttons', () => {
     fixture.componentRef.setInput('profile', mockProfile);
     fixture.detectChanges();
 
-    const links = fixture.nativeElement.querySelectorAll('.hero-actions a');
-    expect(links.length).toBe(2);
-    expect(links[0].getAttribute('href')).toBe('#experience');
-    expect(links[1].getAttribute('href')).toBe('#contact');
+    const buttons = fixture.nativeElement.querySelectorAll('.hero-actions button');
+    expect(buttons.length).toBe(2);
+    expect(buttons[0].textContent).toContain('View Experience');
+    expect(buttons[1].textContent).toContain('Get In Touch');
   });
 
   it('should handle null profile gracefully', () => {

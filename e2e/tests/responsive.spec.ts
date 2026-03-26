@@ -19,7 +19,7 @@ test.describe('Responsive Design E2E Tests', () => {
     await expect(title).toBeVisible();
 
     // Buttons should be accessible using data-testid
-    const buttons = page.locator('[data-testid="hero-actions"] a');
+    const buttons = page.locator('[data-testid="hero-actions"] button');
     await expect(buttons.first()).toBeVisible();
   });
 
