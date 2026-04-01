@@ -7,12 +7,12 @@ import { EducationComponent } from './components/education/education.component';
 import { ExperienceComponent } from './components/experience/experience.component';
 import { HeroComponent } from './components/hero/hero.component';
 import { KeyboardShortcutsComponent } from './components/keyboard-shortcuts/keyboard-shortcuts.component';
+import { NavigationComponent } from './components/navigation/navigation.component';
 import { ProjectsComponent } from './components/projects/projects.component';
 import { SectionIndicatorComponent } from './components/section-indicator/section-indicator.component';
 import { SkillsComponent } from './components/skills/skills.component';
-import { KeyboardNavigationService } from './services/keyboard-navigation.service';
-import type { LinkedInProfile } from './services/profile.service';
 import { ProfileService } from './services/profile.service';
+import type { LinkedInProfile } from './services/profile.service';
 
 @Component({
   selector: 'app-root',
@@ -27,6 +27,7 @@ import { ProfileService } from './services/profile.service';
     ContactComponent,
     SectionIndicatorComponent,
     KeyboardShortcutsComponent,
+    NavigationComponent,
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
@@ -36,7 +37,6 @@ export class App implements OnInit {
   protected profileService = inject(ProfileService);
   protected profile = signal<LinkedInProfile | null>(null);
   protected loading = signal(true);
-  private keyboardNav = inject(KeyboardNavigationService);
   private titleService = inject(Title);
   private metaService = inject(Meta);
 
@@ -62,13 +62,5 @@ export class App implements OnInit {
     // Update meta description
     const description = `Portfolio of ${name} - ${headline} with a passion for building exceptional digital experiences`;
     this.metaService.updateTag({ name: 'description', content: description });
-  }
-
-  navigateToSection(sectionId: string): void {
-    const sections = this.keyboardNav.getAllSections();
-    const index = sections.findIndex((s) => s.id === sectionId);
-    if (index !== -1) {
-      this.keyboardNav.navigateToSection(index);
-    }
   }
 }

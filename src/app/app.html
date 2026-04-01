@@ -14,31 +14,7 @@
   <div class="projector-flicker" aria-hidden="true"></div>
 
   <!-- Main navigation -->
-  <nav class="main-nav" aria-label="Main navigation">
-    <ul class="nav-list">
-      <li><a href="#about" class="nav-link" (click)="navigateToSection('about')">About</a></li>
-      <li>
-        <a href="#experience" class="nav-link" (click)="navigateToSection('experience')"
-          >Experience</a
-        >
-      </li>
-      <li><a href="#skills" class="nav-link" (click)="navigateToSection('skills')">Skills</a></li>
-      <li>
-        <a href="#education" class="nav-link" (click)="navigateToSection('education')">Education</a>
-      </li>
-      <li>
-        <a href="#projects" class="nav-link" (click)="navigateToSection('projects')">Projects</a>
-      </li>
-      <li>
-        <a href="#certifications" class="nav-link" (click)="navigateToSection('certifications')"
-          >Certifications</a
-        >
-      </li>
-      <li>
-        <a href="#contact" class="nav-link" (click)="navigateToSection('contact')">Contact</a>
-      </li>
-    </ul>
-  </nav>
+  <app-navigation></app-navigation>
 
   <!-- Hero - carga inmediata -->
   <app-hero [profile]="profile()"></app-hero>

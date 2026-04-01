@@ -48,6 +48,10 @@
   --z-flicker: 996;
   --z-nav: 1000;
   --z-skip-link: 10000;
+
+  // Navigation height - used for scroll padding and nav sizing
+  --nav-height: 64px;
+  --nav-height-mobile: 56px;
 }
 
 * {
@@ -59,6 +63,7 @@
 html {
   font-size: 16px;
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-height) + 16px);
   overflow-y: scroll;
   height: 100vh;
 }
@@ -383,6 +388,7 @@ a:hover {
 html {
   font-size: 16px;
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-height) + 16px);
   height: 100%;
 }
 
@@ -402,6 +408,7 @@ body {
   height: 100vh;
   overflow-y: scroll;
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-height) + 16px);
 }
 
 .snap-container::-webkit-scrollbar {
@@ -719,63 +726,6 @@ body {
   outline-offset: 2px;
 }
 
-/* Navegación principal */
-.main-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: rgba(245, 230, 211, 0.98);
-  backdrop-filter: blur(10px);
-  z-index: var(--z-nav);
-  padding: 1rem 2rem;
-  border-bottom: 2px solid var(--color-gold);
-  transition:
-    transform 0.3s ease,
-    opacity 0.3s ease;
-}
-
-.main-nav.hidden {
-  transform: translateY(-100%);
-  opacity: 0;
-}
-
-.nav-list {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  flex-wrap: wrap;
-}
-
-.nav-link {
-  font-family: var(--font-display);
-  font-size: 0.85rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-text);
-  text-decoration: none;
-  padding: 0.5rem 1rem;
-  border: 1px solid transparent;
-  transition: all 0.3s ease;
-  position: relative;
-  font-weight: 500;
-}
-
-.nav-link:hover,
-.nav-link:focus {
-  color: var(--color-gold-dark);
-  border-color: var(--color-gold);
-  outline: none;
-}
-
-.nav-link:focus-visible {
-  outline: 2px solid var(--color-gold);
-  outline-offset: 2px;
-}
-
 /* Estados de foco mejorados */
 a:focus-visible,
 button:focus-visible,
@@ -828,41 +778,17 @@ section {
   .btn-deco {
     border-width: 3px;
   }
-
-  .main-nav {
-    border-bottom-width: 3px;
-  }
-}
-
-/* Responsive para navegación */
-@media (max-width: 768px) {
-  .main-nav {
-    padding: 0.75rem 1rem;
-  }
-
-  .nav-list {
-    gap: 0.5rem;
-  }
-
-  .nav-link {
-    font-size: 0.75rem;
-    padding: 0.4rem 0.6rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .nav-list {
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-
-  .nav-link {
-    text-align: center;
-    width: 100%;
-  }
 }
 
 @media (max-width: 768px) {
+  html {
+    scroll-padding-top: calc(var(--nav-height-mobile) + 16px);
+  }
+
+  .snap-container {
+    scroll-padding-top: calc(var(--nav-height-mobile) + 16px);
+  }
+
   h1 {
     font-size: 2.5rem;
   }
