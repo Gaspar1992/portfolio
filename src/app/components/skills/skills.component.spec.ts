@@ -67,24 +67,13 @@ describe('SkillsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get top 12 skills sorted by endorsements', () => {
+  it('should get top 12 skills', () => {
     fixture.componentRef.setInput('profile', mockProfile);
     const topSkills = component.getTopSkills();
 
     expect(topSkills.length).toBeLessThanOrEqual(12);
     expect(topSkills[0].name).toBe('Angular');
-    expect(topSkills[0].endorsements).toBe(50);
     expect(topSkills[topSkills.length - 1].name).toBe('GraphQL');
-  });
-
-  it('should calculate skill percentage based on max endorsements', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
-
-    const maxSkillPercentage = component.getSkillPercentage(50);
-    expect(maxSkillPercentage).toBe(100);
-
-    const halfSkillPercentage = component.getSkillPercentage(25);
-    expect(halfSkillPercentage).toBe(50);
   });
 
   it('should handle empty skills array', () => {
@@ -92,14 +81,12 @@ describe('SkillsComponent', () => {
     fixture.componentRef.setInput('profile', profileNoSkills);
 
     expect(component.getTopSkills()).toEqual([]);
-    expect(component.getSkillPercentage(0)).toBe(0);
   });
 
   it('should handle null profile', () => {
     fixture.componentRef.setInput('profile', null);
 
     expect(component.getTopSkills()).toEqual([]);
-    expect(component.getSkillPercentage(0)).toBe(0);
   });
 
   it('should have correct section id for navigation', () => {

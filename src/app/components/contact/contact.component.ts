@@ -31,12 +31,12 @@ import type { LinkedInProfile } from '../../services/profile.service';
             <ul class="contact-methods" aria-label="Contact methods" data-testid="contact-methods">
               @if (profile()?.contactInfo?.email) {
                 <li class="contact-method-item">
-                  <a [href]="'mailto:' + profile()?.contactInfo?.email" 
+                  <a [href]="'mailto:' + profile()?.contactInfo?.email"
                      class="contact-link"
                      [attr.aria-label]="'Send email to ' + profile()?.contactInfo?.email"
                      data-testid="contact-email">
                     <span class="contact-icon" aria-hidden="true">@</span>
-                    <span>{{ profile()?.contactInfo?.email }}</span>
+                    <span>Email</span>
                   </a>
                 </li>
               }
