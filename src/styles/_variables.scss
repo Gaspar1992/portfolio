@@ -8,17 +8,17 @@
   --color-cream-dark: #e8d5c0;
   --color-cream-light: #fff8f0;
   --color-white: #fafafa;
-  
+
   // Textos - Negros mejorados para contraste WCAG AA
   --color-black: #0d0d0d;
   --color-black-soft: #2a2a2a;
-  
+
   // Acentos - Dorados oscurecidos para mejor contraste
   --color-gold: #9a7b2d;
   --color-gold-dark: #7a5f1d;
   --color-gold-light: #c9a962;
   --color-bronze: #6b5a3e;
-  
+
   // Alias semánticos
   --color-accent: var(--color-gold);
   --color-text: var(--color-black);
@@ -26,19 +26,19 @@
   --color-text-muted: #5c5c5c;
   --color-bg: var(--color-cream);
   --color-card: var(--color-white);
-  
+
   // Estados
   --color-success: #2d5a3d;
   --color-warning: #8b6914;
   --color-error: #8b1a1a;
-  
+
   // ============================================
   // TIPOGRAFÍA
   // ============================================
   --font-display: 'Cinzel', 'Playfair Display', serif;
   --font-heading: 'Playfair Display', serif;
   --font-body: 'Libre Baskerville', Georgia, serif;
-  
+
   // ============================================
   // ESPACIADO
   // ============================================
@@ -48,26 +48,26 @@
   --spacing-lg: 2rem;
   --spacing-xl: 3rem;
   --spacing-xxl: 4rem;
-  
+
   // ============================================
   // BORDES Y SOMBRAS
   // ============================================
   --border-width-thin: 1px;
   --border-width-thick: 2px;
   --border-radius: 0;
-  
+
   // Sombras suaves para profundidad sin oscurecer
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
   --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-  
+
   // ============================================
   // TRANSICIONES
   // ============================================
   --transition-fast: 0.2s ease;
   --transition-normal: 0.3s ease;
   --transition-slow: 0.5s ease;
-  
+
   // ============================================
   // Z-INDEX
   // ============================================
@@ -78,6 +78,12 @@
   --z-flicker: 996;
   --z-nav: 1000;
   --z-skip-link: 10000;
+
+  // ============================================
+  // NAVEGACIÓN
+  // ============================================
+  --nav-height: 64px;
+  --nav-height-mobile: 56px;
 }
 
 // ============================================

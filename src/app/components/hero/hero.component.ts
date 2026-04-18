@@ -166,63 +166,6 @@ import type { LinkedInProfile } from '../../services/profile.service';
       50% { opacity: 1; }
     }
 
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem;
-      position: relative;
-      z-index: 10;
-    }
-
-    .text-center {
-      text-align: center;
-    }
-
-    .mb-4 {
-      margin-bottom: 2rem;
-    }
-
-    .mt-4 {
-      margin-top: 2rem;
-    }
-
-    .divider-deco {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 3rem 0;
-    }
-
-    .divider-deco::before,
-    .divider-deco::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        var(--color-gold),
-        transparent
-      );
-    }
-
-    .divider-deco .divider-icon {
-      width: 40px;
-      height: 40px;
-      margin: 0 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid var(--color-gold);
-      transform: rotate(45deg);
-    }
-
-    .divider-deco .divider-icon span {
-      transform: rotate(-45deg);
-      color: var(--color-gold);
-      font-size: 1rem;
-    }
-
     .btn-deco {
       display: inline-flex;
       align-items: center;
@@ -312,10 +255,6 @@ import type { LinkedInProfile } from '../../services/profile.service';
     }
 
     @media (max-width: 768px) {
-      .container {
-        padding: 0 1rem;
-      }
-      
       h1 {
         font-size: 2.5rem;
       }

@@ -61,11 +61,6 @@ import { type LinkedInProfile, ProfileService } from '../../services/profile.ser
   `,
   styles: [
     `
-    .section-transition {
-      position: relative;
-      padding: 6rem 0;
-    }
-
     .timeline {
       position: relative;
       padding-left: 2rem;
@@ -145,120 +140,6 @@ import { type LinkedInProfile, ProfileService } from '../../services/profile.ser
       margin-top: 1rem;
     }
 
-    .tag-deco {
-      display: inline-block;
-      font-family: var(--font-display);
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 0.4rem 0.8rem;
-      border: 1px solid var(--color-gold);
-      color: var(--color-gold);
-      margin: 0.25rem;
-      transition: all 0.3s ease;
-    }
-
-    .tag-deco:hover {
-      background: var(--color-gold);
-      color: var(--color-white);
-    }
-
-    .card-deco {
-      background: var(--color-white);
-      border: 1px solid var(--color-cream-dark);
-      padding: 2rem;
-      position: relative;
-    }
-
-    .card-deco::before {
-      content: '';
-      position: absolute;
-      top: 8px;
-      left: 8px;
-      right: 8px;
-      bottom: 8px;
-      border: 1px solid var(--color-gold);
-      pointer-events: none;
-      opacity: 0.5;
-    }
-
-    .card-deco::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        var(--color-gold),
-        transparent
-      );
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem;
-      position: relative;
-      z-index: 10;
-    }
-
-    .text-center {
-      text-align: center;
-    }
-
-    .mb-6 {
-      margin-bottom: 3rem;
-    }
-
-    .divider-deco {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 3rem 0;
-    }
-
-    .divider-deco::before,
-    .divider-deco::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        var(--color-gold),
-        transparent
-      );
-    }
-
-    .divider-deco .divider-icon {
-      width: 40px;
-      height: 40px;
-      margin: 0 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid var(--color-gold);
-      transform: rotate(45deg);
-    }
-
-    .divider-deco .divider-icon span {
-      transform: rotate(-45deg);
-      color: var(--color-gold);
-      font-size: 1rem;
-    }
-
-    @media (max-width: 768px) {
-      .section-transition {
-        padding: 3rem 0;
-      }
-      
-      .container {
-        padding: 0 1rem;
-      }
-    }
   `,
   ],
 })
