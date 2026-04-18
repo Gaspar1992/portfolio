@@ -45,6 +45,14 @@ import type { LinkedInProfile } from '../../services/profile.service';
             <button (click)="navigateToSection('experience')" class="btn-deco" aria-label="View my work experience" data-testid="hero-experience-link">
               <span>View Experience</span>
             </button>
+            <a 
+              href="cv-gaspar-rodriguez.pdf" 
+              download 
+              class="btn-deco btn-gold" 
+              aria-label="Download CV as PDF"
+              data-testid="hero-cv-link">
+              <span>🎬 Get The Reel (CV)</span>
+            </a>
             <button (click)="navigateToSection('contact')" class="btn-deco btn-dark" aria-label="Get in touch with me" data-testid="hero-contact-link">
               <span>Get In Touch</span>
             </button>
@@ -238,6 +246,20 @@ import type { LinkedInProfile } from '../../services/profile.service';
 
     .btn-deco:hover::before {
       left: 0;
+    }
+
+    .btn-deco.btn-gold {
+      background: var(--color-gold);
+      border-color: var(--color-gold);
+      color: var(--color-cream-light);
+    }
+
+    .btn-deco.btn-gold::before {
+      background: var(--color-black);
+    }
+
+    .btn-deco.btn-gold:hover {
+      color: var(--color-gold-light);
     }
 
     .btn-deco.btn-dark {

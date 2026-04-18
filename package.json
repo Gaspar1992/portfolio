@@ -26,6 +26,7 @@
     "check": "biome check .",
     "check:fix": "biome check . --fix",
     "import:linkedin": "node scripts/import-linkedin-export.mjs",
+    "cv": "node scripts/generate-cv-pdf.mjs",
     "compress": "node scripts/compress-assets.mjs",
     "optimize:photo": "node scripts/optimize-profile-photo.mjs",
     "lighthouse": "lhci autorun",

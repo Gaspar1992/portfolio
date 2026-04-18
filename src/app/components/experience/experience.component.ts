@@ -1,4 +1,14 @@
-import { Component, inject, input } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import {
+  Component,
+  type ElementRef,
+  effect,
+  inject,
+  input,
+  type OnDestroy,
+  PLATFORM_ID,
+  viewChildren,
+} from '@angular/core';
 import { type LinkedInProfile, ProfileService } from '../../services/profile.service';
 
 @Component({
@@ -19,12 +29,26 @@ import { type LinkedInProfile, ProfileService } from '../../services/profile.ser
             <span>★</span>
           </div>
         </div>
-        
-        <div class="timeline" role="list" aria-label="Work experience" data-testid="experience-timeline">
-          @for (exp of profile()?.experience; track exp.id) {
-            <article class="timeline-item" role="listitem" [attr.aria-label]="exp.title + ' at ' + exp.company" data-testid="experience-item">
-              <div class="timeline-marker" aria-hidden="true"></div>
-              <div class="card-deco timeline-card">
+
+        <div class="film-reel" aria-hidden="true">
+          <span class="reel-label reel-label--left">KODAK · SAFETY FILM · 5247</span>
+          <span class="reel-label reel-label--right">★ PORTFOLIO ★ 35MM ★</span>
+        </div>
+
+        <div class="film-strip timeline" role="list" aria-label="Work experience" data-testid="experience-timeline">
+          @for (exp of profile()?.experience; track exp.id; let i = $index) {
+            <article 
+              #frame
+              class="film-frame timeline-item" 
+              role="listitem" 
+              [style.--frame-delay.ms]="i * 120"
+              [attr.aria-label]="exp.title + ' at ' + exp.company" 
+              data-testid="experience-item">
+              <div class="frame-slate" aria-hidden="true">
+                <span class="slate-take">TAKE {{ formatFrameNumber(i + 1) }}</span>
+                <span class="slate-scene">SCENE {{ profile()?.experience?.length }}-{{ formatFrameNumber(i + 1) }}</span>
+              </div>
+              <div class="card-deco frame-card timeline-card">
                 <header class="timeline-header">
                   <h3 data-testid="experience-title">{{ exp.title }}</h3>
                   <span class="timeline-company" data-testid="experience-company">{{ exp.company }}</span>
@@ -61,39 +85,186 @@ import { type LinkedInProfile, ProfileService } from '../../services/profile.ser
   `,
   styles: [
     `
-    .timeline {
-      position: relative;
-      padding-left: 2rem;
+    /* ========== CARRETE DE PELÍCULA 35MM ========== */
+    .film-reel {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      background: #0d0d0d;
+      border-top: 2px solid var(--color-gold-dark);
+      border-left: 2px solid var(--color-gold-dark);
+      border-right: 2px solid var(--color-gold-dark);
+      border-bottom: 1px solid #0d0d0d;
+      margin-bottom: -1px;
+      font-family: var(--font-display);
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      color: var(--color-gold-light);
+      text-transform: uppercase;
+      animation: filmJudder 0.2s steps(1) infinite;
     }
 
-    .timeline::before {
+    .reel-label {
+      opacity: 0.7;
+    }
+
+    /* Judder sutil tipo proyector de 24fps */
+    @keyframes filmJudder {
+      0%, 100% { transform: translateY(0); }
+      25% { transform: translateY(-0.5px); }
+      50% { transform: translateY(0.3px); }
+      75% { transform: translateY(-0.2px); }
+    }
+
+    /* La tira de película: fondo negro con perforaciones a ambos lados */
+    .film-strip {
+      position: relative;
+      padding: 2rem 3.5rem;
+      animation: filmJudder 0.2s steps(1) infinite;
+      background:
+        /* Perforaciones izquierdas */
+        linear-gradient(
+          to bottom,
+          transparent 0,
+          transparent 0.6rem,
+          var(--color-cream) 0.6rem,
+          var(--color-cream) 1.5rem,
+          transparent 1.5rem,
+          transparent 2.4rem
+        ) left / 1.5rem 2.4rem repeat-y,
+        /* Perforaciones derechas */
+        linear-gradient(
+          to bottom,
+          transparent 0,
+          transparent 0.6rem,
+          var(--color-cream) 0.6rem,
+          var(--color-cream) 1.5rem,
+          transparent 1.5rem,
+          transparent 2.4rem
+        ) right / 1.5rem 2.4rem repeat-y,
+        /* Cuerpo del celuloide */
+        #0d0d0d;
+      background-repeat: repeat-y, repeat-y, no-repeat;
+      border-left: 2px solid var(--color-gold-dark);
+      border-right: 2px solid var(--color-gold-dark);
+      border-bottom: 2px solid var(--color-gold-dark);
+      box-shadow:
+        inset 2.2rem 0 0 rgba(255, 255, 255, 0.03),
+        inset -2.2rem 0 0 rgba(255, 255, 255, 0.03),
+        var(--shadow-lg);
+    }
+
+    /* Cada fotograma: estado inicial oculto (simula fotograma aún no proyectado) */
+    .film-frame {
+      position: relative;
+      margin: 0 0 1.5rem 0;
+      transition: transform var(--transition-normal);
+      opacity: 0;
+      transform: translateY(24px) scale(0.96);
+      clip-path: inset(0 0 100% 0);
+      will-change: opacity, transform, clip-path;
+    }
+
+    /* Reveal: "proyector enciende el fotograma" */
+    .film-frame.is-visible {
+      animation: filmReveal 0.75s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+      animation-delay: var(--frame-delay, 0ms);
+    }
+
+    @keyframes filmReveal {
+      0% {
+        opacity: 0;
+        transform: translateY(24px) scale(0.96);
+        clip-path: inset(0 0 100% 0);
+        filter: brightness(0.4) contrast(1.3);
+      }
+      40% {
+        opacity: 0.85;
+        filter: brightness(1.15) contrast(1.1);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        clip-path: inset(0 0 0 0);
+        filter: brightness(1) contrast(1);
+      }
+    }
+
+    .film-frame:last-child {
+      margin-bottom: 0;
+    }
+
+    .film-frame:hover {
+      transform: scale(1.01);
+    }
+
+    /* "Claqueta" superior del fotograma */
+    .frame-slate {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.35rem 0.8rem;
+      background: linear-gradient(
+        135deg,
+        var(--color-black) 0%,
+        var(--color-black) 50%,
+        var(--color-cream) 50%,
+        var(--color-cream) 100%
+      );
+      background-size: 0.6rem 0.6rem;
+      border: 2px solid var(--color-gold);
+      border-bottom: none;
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: var(--color-cream);
+      text-shadow: 1px 1px 0 var(--color-black);
+    }
+
+    .slate-take,
+    .slate-scene {
+      background: rgba(13, 13, 13, 0.85);
+      padding: 0.1rem 0.5rem;
+      border: 1px solid var(--color-gold-light);
+    }
+
+    /* Tarjeta del fotograma (el "frame" visible) */
+    .frame-card {
+      position: relative;
+      border: 2px solid var(--color-gold);
+      border-top: none;
+      background: var(--color-cream);
+      padding: 1.5rem;
+      box-shadow:
+        inset 0 0 0 4px var(--color-cream-dark),
+        inset 0 0 0 5px var(--color-gold);
+    }
+
+    .frame-card::before,
+    .frame-card::after {
       content: '';
       position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 2px;
-      background: linear-gradient(to bottom, var(--color-gold), var(--color-cream-dark));
-    }
-
-    .timeline-item {
-      position: relative;
-      margin-bottom: 2rem;
-    }
-
-    .timeline-marker {
-      position: absolute;
-      left: -2.4rem;
-      top: 1.5rem;
-      width: 12px;
-      height: 12px;
+      top: 50%;
+      width: 0.7rem;
+      height: 0.7rem;
       background: var(--color-gold);
-      border: 2px solid var(--color-cream);
-      transform: rotate(45deg);
+      border: 2px solid var(--color-black);
+      transform: translateY(-50%) rotate(45deg);
+    }
+
+    .frame-card::before {
+      left: -1.2rem;
+    }
+
+    .frame-card::after {
+      right: -1.2rem;
     }
 
     .timeline-header {
       margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px dashed var(--color-gold-dark);
     }
 
     .timeline-header h3 {
@@ -140,12 +311,107 @@ import { type LinkedInProfile, ProfileService } from '../../services/profile.ser
       margin-top: 1rem;
     }
 
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 768px) {
+      .film-strip {
+        padding: 1.5rem 2.2rem;
+        background-size: 1rem 1.8rem, 1rem 1.8rem, auto;
+      }
+
+      .frame-card {
+        padding: 1rem;
+      }
+
+      .frame-card::before,
+      .frame-card::after {
+        display: none;
+      }
+
+      .reel-label {
+        font-size: 0.55rem;
+      }
+    }
+
+    /* Reduce motion: sin escalado, judder ni reveal animado */
+    @media (prefers-reduced-motion: reduce) {
+      .film-frame,
+      .film-frame:hover,
+      .film-frame.is-visible {
+        transform: none;
+        transition: none;
+        animation: none;
+        opacity: 1;
+        clip-path: none;
+        filter: none;
+      }
+      .film-strip,
+      .film-reel {
+        animation: none;
+      }
+    }
   `,
   ],
 })
-export class ExperienceComponent {
+export class ExperienceComponent implements OnDestroy {
   profile = input<LinkedInProfile | null>(null);
   profileService = inject(ProfileService);
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly frames = viewChildren<ElementRef<HTMLElement>>('frame');
+  private observer: IntersectionObserver | null = null;
+  private readonly observed = new WeakSet<Element>();
+
+  constructor() {
+    // Reactivo: se dispara cada vez que cambia la lista de frames renderizados.
+    // Necesario porque profile() llega async y los @for aparecen después del init.
+    effect(() => {
+      const frames = this.frames();
+      if (!isPlatformBrowser(this.platformId)) {
+        // SSR / prerender: mostrar todo (no hay JS en servidor para observar).
+        for (const ref of frames) ref.nativeElement.classList.add('is-visible');
+        return;
+      }
+      if (frames.length === 0) return;
+
+      if (typeof IntersectionObserver === 'undefined') {
+        for (const ref of frames) ref.nativeElement.classList.add('is-visible');
+        return;
+      }
+
+      if (!this.observer) {
+        this.observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                this.observer?.unobserve(entry.target);
+              }
+            }
+          },
+          { threshold: 0, rootMargin: '0px 0px 0px 0px' }
+        );
+      }
+
+      for (const ref of frames) {
+        const el = ref.nativeElement;
+        if (this.observed.has(el)) continue;
+        this.observed.add(el);
+        this.observer.observe(el);
+      }
+
+      // Safety net: si a los 1500ms algún frame sigue oculto, revelarlo.
+      // Cubre casos donde el observer no dispara (iframes, virtualización, etc).
+      window.setTimeout(() => {
+        for (const ref of this.frames()) {
+          ref.nativeElement.classList.add('is-visible');
+        }
+      }, 1500);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.observer?.disconnect();
+    this.observer = null;
+  }
 
   getAchievements(description: string): string[] {
     if (!description) return [];
@@ -162,5 +428,9 @@ export class ExperienceComponent {
   getFirstParagraph(description: string): string {
     if (!description) return '';
     return description.split('\n\n')[0] || description;
+  }
+
+  formatFrameNumber(n: number): string {
+    return n.toString().padStart(2, '0');
   }
 }

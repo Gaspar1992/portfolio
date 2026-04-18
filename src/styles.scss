@@ -2,7 +2,8 @@
 @use 'styles/mixins';
 @use 'styles/animations';
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Cinzel:wght@400;600;900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+// Google Fonts se cargan via <link rel="preconnect" + stylesheet> en src/index.html
+// para evitar el bloqueo que produce @import url() en el CSS parser.
 
 // ============================================
 // RESET + BASE
