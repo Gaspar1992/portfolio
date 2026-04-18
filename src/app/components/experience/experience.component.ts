@@ -12,7 +12,7 @@ import { type LinkedInProfile, ProfileService } from '../../services/profile.ser
       role="region"
       data-testid="experience-section">
       <div class="container">
-        <h2 class="text-center" id="experience-title">Motion Picture Credits</h2>
+        <h2 class="text-center" id="experience-title">Professional Credits</h2>
         
         <div class="divider-deco mb-6" aria-hidden="true">
           <div class="divider-icon">

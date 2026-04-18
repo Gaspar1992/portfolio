@@ -13,7 +13,7 @@ import type { LinkedInProfile } from '../../services/profile.service';
       data-testid="about-section">
       <div class="container">
         <div class="corner-deco card-deco about-card">
-          <h2 class="text-center" id="about-title">The Artist</h2>
+          <h2 class="text-center" id="about-title">About</h2>
           
           <div class="divider-deco mb-4" aria-hidden="true">
             <div class="divider-icon">

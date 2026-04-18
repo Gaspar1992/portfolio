@@ -16,7 +16,7 @@ import type { LinkedInProfile } from '../../services/profile.service';
       <div class="container">
         <div class="corner-deco contact-shell">
           <div class="card-deco contact-card">
-            <h2 class="text-center" id="contact-title">Get In Touch</h2>
+            <h2 class="text-center" id="contact-title">Let's Connect</h2>
           
             <div class="divider-deco mb-4" aria-hidden="true">
               <div class="divider-icon">
@@ -25,7 +25,7 @@ import type { LinkedInProfile } from '../../services/profile.service';
             </div>
           
             <p class="text-center contact-text" role="text">
-              Interested in collaborating? I am available for freelance projects and professional opportunities.
+              Open to collaborations on challenging projects. Currently accepting new opportunities in architecture and frontend engineering.
             </p>
           
             <ul class="contact-methods" aria-label="Contact methods" data-testid="contact-methods">
