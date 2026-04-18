@@ -67,26 +67,54 @@ describe('SkillsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get top 12 skills', () => {
+  it('should separate expert and additional skills', () => {
     fixture.componentRef.setInput('profile', mockProfile);
-    const topSkills = component.getTopSkills();
+    const expertSkills = component.getExpertSkills();
+    const additionalSkills = component.getAdditionalSkills();
 
-    expect(topSkills.length).toBeLessThanOrEqual(12);
-    expect(topSkills[0].name).toBe('Angular');
-    expect(topSkills[topSkills.length - 1].name).toBe('GraphQL');
+    expect(expertSkills.length).toBe(5);
+    expect(expertSkills.every((s) => s.expert)).toBe(true);
+    expect(additionalSkills.length).toBe(4);
+    expect(additionalSkills.every((s) => !s.expert)).toBe(true);
   });
 
   it('should handle empty skills array', () => {
     const profileNoSkills = { ...mockProfile, skills: [] };
     fixture.componentRef.setInput('profile', profileNoSkills);
 
-    expect(component.getTopSkills()).toEqual([]);
+    expect(component.getExpertSkills()).toEqual([]);
+    expect(component.getAdditionalSkills()).toEqual([]);
   });
 
   it('should handle null profile', () => {
     fixture.componentRef.setInput('profile', null);
 
-    expect(component.getTopSkills()).toEqual([]);
+    expect(component.getExpertSkills()).toEqual([]);
+    expect(component.getAdditionalSkills()).toEqual([]);
+  });
+
+  it('should render expert skills with badge', () => {
+    fixture.componentRef.setInput('profile', mockProfile);
+    fixture.detectChanges();
+
+    const expertItems = fixture.nativeElement.querySelectorAll('[data-testid="skill-item-expert"]');
+    expect(expertItems.length).toBe(5);
+
+    const firstExpert = expertItems[0];
+    expect(firstExpert.querySelector('.expert-badge')).toBeTruthy();
+  });
+
+  it('should render additional skills without badge', () => {
+    fixture.componentRef.setInput('profile', mockProfile);
+    fixture.detectChanges();
+
+    const additionalItems = fixture.nativeElement.querySelectorAll(
+      '[data-testid="additional-skills-list"] li'
+    );
+    expect(additionalItems.length).toBe(4);
+
+    const firstAdditional = additionalItems[0];
+    expect(firstAdditional.querySelector('.expert-badge')).toBeFalsy();
   });
 
   it('should have correct section id for navigation', () => {
@@ -97,27 +125,17 @@ describe('SkillsComponent', () => {
     expect(section.getAttribute('id')).toBe('skills');
   });
 
-  it('should use native ul and li elements for skills list', () => {
+  it('should render skills group subtitles', () => {
     fixture.componentRef.setInput('profile', mockProfile);
     fixture.detectChanges();
 
-    const skillsList = fixture.nativeElement.querySelector('ul.skills-grid');
-    expect(skillsList).toBeTruthy();
+    const subtitles = fixture.nativeElement.querySelectorAll('.skills-subtitle');
+    expect(subtitles.length).toBe(2);
 
-    const skillItems = fixture.nativeElement.querySelectorAll('li.skill-item');
-    expect(skillItems.length).toBeGreaterThan(0);
-  });
-
-  it('should have proper ARIA attributes on skill items', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
-    fixture.detectChanges();
-
-    const skillItems = fixture.nativeElement.querySelectorAll('li.skill-item');
-    expect(skillItems.length).toBeGreaterThan(0);
-
-    // Check first skill item has aria-label
-    const firstItem = skillItems[0];
-    expect(firstItem.getAttribute('aria-label')).toBeTruthy();
-    expect(firstItem.getAttribute('data-testid')).toBe('skill-item');
+    const subtitleTexts = Array.from(subtitles).map((el) =>
+      (el as HTMLElement).textContent?.trim()
+    );
+    expect(subtitleTexts).toContain('STARRING');
+    expect(subtitleTexts).toContain('ALSO FEATURING');
   });
 });

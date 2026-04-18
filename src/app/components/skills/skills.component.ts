@@ -20,13 +20,42 @@ import type { LinkedInProfile } from '../../services/profile.service';
           </div>
         </div>
         
-        <ul class="skills-grid" aria-label="Technical skills" data-testid="skills-list">
-          @for (skill of getTopSkills(); track skill.name) {
-            <li class="skill-item card-deco" [attr.aria-label]="skill.name" data-testid="skill-item">
-              <span class="skill-name">{{ skill.name }}</span>
-            </li>
-          }
-        </ul>
+        <!-- Core Expertise -->
+        @if (getExpertSkills().length > 0) {
+          <div class="skills-group">
+            <h3 class="skills-subtitle" aria-label="Core expertise">
+              <span class="subtitle-line"></span>
+              <span class="subtitle-text">STARRING</span>
+              <span class="subtitle-line"></span>
+            </h3>
+            <ul class="skills-grid" aria-label="Core expertise skills" data-testid="expert-skills-list">
+              @for (skill of getExpertSkills(); track skill.name) {
+                <li class="skill-item card-deco skill-expert" [attr.aria-label]="skill.name" data-testid="skill-item-expert">
+                  <span class="skill-name">{{ skill.name }}</span>
+                  <span class="expert-badge" aria-hidden="true">★</span>
+                </li>
+              }
+            </ul>
+          </div>
+        }
+        
+        <!-- Additional Capabilities -->
+        @if (getAdditionalSkills().length > 0) {
+          <div class="skills-group">
+            <h3 class="skills-subtitle" aria-label="Additional capabilities">
+              <span class="subtitle-line"></span>
+              <span class="subtitle-text">ALSO FEATURING</span>
+              <span class="subtitle-line"></span>
+            </h3>
+            <ul class="skills-grid skills-additional" aria-label="Additional skills" data-testid="additional-skills-list">
+              @for (skill of getAdditionalSkills(); track skill.name) {
+                <li class="skill-item card-deco" [attr.aria-label]="skill.name" data-testid="skill-item">
+                  <span class="skill-name">{{ skill.name }}</span>
+                </li>
+              }
+            </ul>
+          </div>
+        }
       </div>
     </section>
   `,
@@ -49,10 +78,68 @@ import type { LinkedInProfile } from '../../services/profile.service';
       }
     }
 
+    .skills-group {
+      margin-bottom: 3rem;
+    }
+
+    .skills-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .skills-subtitle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      color: var(--color-bronze);
+      text-transform: uppercase;
+    }
+
+    .subtitle-line {
+      flex: 0 0 60px;
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--color-bronze),
+        transparent
+      );
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .skills-additional {
+      opacity: 0.85;
+    }
+
+    @media (max-width: 768px) {
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     .skill-item {
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
       gap: 0.5rem;
+    }
+
+    .skill-item.skill-expert {
+      border-color: var(--color-gold);
+    }
+
+    .skill-item.skill-expert::before {
+      border-color: var(--color-gold);
+      opacity: 0.8;
     }
 
     .skill-name {
@@ -60,6 +147,12 @@ import type { LinkedInProfile } from '../../services/profile.service';
       font-size: 0.85rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
+    }
+
+    .expert-badge {
+      font-size: 1rem;
+      color: var(--color-gold);
+      line-height: 1;
     }
 
     .card-deco {
@@ -164,8 +257,13 @@ import type { LinkedInProfile } from '../../services/profile.service';
 export class SkillsComponent {
   profile = input<LinkedInProfile | null>(null);
 
-  getTopSkills() {
+  getExpertSkills() {
     const skills = this.profile()?.skills || [];
-    return skills.slice(0, 12);
+    return skills.filter((s) => s.expert);
+  }
+
+  getAdditionalSkills() {
+    const skills = this.profile()?.skills || [];
+    return skills.filter((s) => !s.expert);
   }
 }
