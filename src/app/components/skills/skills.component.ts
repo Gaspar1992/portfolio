@@ -23,15 +23,7 @@ import type { LinkedInProfile } from '../../services/profile.service';
         <ul class="skills-grid" aria-label="Technical skills" data-testid="skills-list">
           @for (skill of getTopSkills(); track skill.name) {
             <li class="skill-item card-deco" [attr.aria-label]="skill.name" data-testid="skill-item">
-              <div class="skill-header">
-                <span class="skill-name">{{ skill.name }}</span>
-                @if (skill.endorsements > 0) {
-                  <span class="skill-count" aria-label="{{ skill.endorsements }} endorsements">{{ skill.endorsements }} endorsements</span>
-                }
-              </div>
-              <div class="skill-bar" role="progressbar" [attr.aria-valuenow]="getSkillPercentage(skill.endorsements)" aria-valuemin="0" aria-valuemax="100" [attr.aria-label]="'Skill level for ' + skill.name">
-                <div class="skill-fill" [style.width.%]="getSkillPercentage(skill.endorsements)"></div>
-              </div>
+              <span class="skill-name">{{ skill.name }}</span>
             </li>
           }
         </ul>
@@ -57,20 +49,6 @@ import type { LinkedInProfile } from '../../services/profile.service';
       }
     }
 
-    .skill-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.5rem;
-    }
-
-    .skill-count {
-      font-family: var(--font-display);
-      font-size: 0.75rem;
-      color: var(--color-gold);
-      letter-spacing: 0.05em;
-    }
-
     .skill-item {
       display: flex;
       flex-direction: column;
@@ -82,18 +60,6 @@ import type { LinkedInProfile } from '../../services/profile.service';
       font-size: 0.85rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-    }
-
-    .skill-bar {
-      height: 4px;
-      background: var(--color-cream-dark);
-      overflow: hidden;
-    }
-
-    .skill-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--color-gold), var(--color-gold-dark));
-      transition: width 1s ease;
     }
 
     .card-deco {
@@ -200,14 +166,6 @@ export class SkillsComponent {
 
   getTopSkills() {
     const skills = this.profile()?.skills || [];
-    return skills.sort((a, b) => b.endorsements - a.endorsements).slice(0, 12);
-  }
-
-  getSkillPercentage(endorsements: number): number {
-    const maxEndorsements = Math.max(
-      ...(this.profile()?.skills || []).map((s) => s.endorsements),
-      1
-    );
-    return Math.min((endorsements / maxEndorsements) * 100, 100);
+    return skills.slice(0, 12);
   }
 }

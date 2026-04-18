@@ -67,8 +67,8 @@ describe('ProfileService', () => {
       },
     ],
     skills: [
-      { name: 'Angular', endorsements: 50 },
-      { name: 'TypeScript', endorsements: 45 },
+      { name: 'Angular', expert: true },
+      { name: 'TypeScript', expert: true },
     ],
     certifications: [],
     projects: [],

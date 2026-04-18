@@ -10,7 +10,7 @@
   "lastName": "Rodríguez Valero",
   "fullName": "Gaspar Rodríguez Valero",
   "headline": "Frontend Engineer",
-  "email": null,
+  "email": "gaspar.rodriguez1992@gmail.com",
   "linkedInUrl": "https://linkedin.com/in/grodriguez1992",
   "vanityName": "grodriguez1992",
   "profilePictureUrl": "profile-photo-medium.webp",
@@ -205,143 +205,135 @@
   "skills": [
     {
       "name": "JavaScript",
-      "endorsements": 117
+      "expert": true
     },
     {
       "name": "TypeScript",
-      "endorsements": 99
+      "expert": true
     },
     {
       "name": "Front-End Development",
-      "endorsements": 69
+      "expert": true
     },
     {
       "name": "Angular",
-      "endorsements": 69
+      "expert": true
     },
     {
       "name": "Front-end Engineering",
-      "endorsements": 60
+      "expert": true
     },
     {
       "name": "HTML",
-      "endorsements": 39
+      "expert": true
     },
     {
-      "name": "Cascading Style Sheets (CSS)",
-      "endorsements": 30
+      "name": "CSS",
+      "expert": true
     },
     {
       "name": "Git",
-      "endorsements": 30
+      "expert": true
     },
     {
       "name": "Angular Material",
-      "endorsements": 27
+      "expert": true
     },
     {
       "name": "Node.js",
-      "endorsements": 21
+      "expert": true
     },
     {
       "name": "Team Management",
-      "endorsements": 18
+      "expert": true
     },
     {
       "name": "Jenkins",
-      "endorsements": 18
+      "expert": true
     },
     {
       "name": "PHP",
-      "endorsements": 18
+      "expert": true
     },
     {
       "name": "Java",
-      "endorsements": 18
+      "expert": true
     },
     {
       "name": "Nx monorepo",
-      "endorsements": 15
+      "expert": true
     },
     {
       "name": "Architectural Design",
-      "endorsements": 15
+      "expert": true
     },
     {
       "name": "Design Patterns",
-      "endorsements": 15
+      "expert": true
     },
     {
-      "name": "IA",
-      "endorsements": 12
+      "name": "AI",
+      "expert": true
     },
     {
       "name": "Esbuild",
-      "endorsements": 12
+      "expert": true
     },
     {
       "name": "Web Workers",
-      "endorsements": 12
+      "expert": true
     },
     {
       "name": "Formly",
-      "endorsements": 12
+      "expert": true
     },
     {
       "name": "PrimeNG",
-      "endorsements": 12
+      "expert": true
     },
     {
       "name": "Tailwind CSS",
-      "endorsements": 12
+      "expert": true
     },
     {
       "name": "Mentoring",
-      "endorsements": 12
+      "expert": true
     },
     {
       "name": "Webpack",
-      "endorsements": 12
+      "expert": true
     },
     {
       "name": "Ionic Framework",
-      "endorsements": 9
+      "expert": false
     },
     {
       "name": "RxJS",
-      "endorsements": 6
+      "expert": false
     },
     {
       "name": "MySQL",
-      "endorsements": 6
+      "expert": false
     },
     {
       "name": "jQuery",
-      "endorsements": 6
+      "expert": false
     },
     {
       "name": "JavaServer Pages (JSP)",
-      "endorsements": 6
+      "expert": false
     },
     {
       "name": "Playwright",
-      "endorsements": 6
+      "expert": false
     },
     {
       "name": "Browser APIs",
-      "endorsements": 3
+      "expert": false
     },
     {
       "name": "Application Security",
-      "endorsements": 3
-    },
-    {
-      "name": "Multithreaded Development",
-      "endorsements": 0
-    },
-    {
-      "name": "Java Servlets y JSP",
-      "endorsements": 0
+      "expert": false
     }
   ],
   "certifications": [

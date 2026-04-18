@@ -45,7 +45,7 @@ export interface ProfileEducation {
 
 export interface ProfileSkill {
   name: string;
-  endorsements: number;
+  expert: boolean;
 }
 
 export interface ProfileCertification {
