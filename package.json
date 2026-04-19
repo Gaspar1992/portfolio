@@ -65,7 +65,7 @@
     "@lhci/cli": "^0.15.1",
     "@playwright/test": "^1.58.2",
     "@types/express": "^5.0.1",
-    "@types/node": "^20.19.37",
+    "@types/node": "^25.6.0",
     "@typescript-eslint/eslint-plugin": "^8.57.2",
     "@typescript-eslint/parser": "^8.57.2",
     "eslint": "^10.1.0",
