@@ -3,7 +3,6 @@ import { Component, inject } from '@angular/core';
 
 @Component({
   selector: 'app-projects',
-  standalone: true,
   template: `
     <section 
       class="section-transition projects-section" 
@@ -59,7 +58,7 @@ import { Component, inject } from '@angular/core';
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      margin-bottom: 1rem;
+      margin-block-end: 1rem;
       gap: 0.5rem;
     }
 
@@ -73,52 +72,9 @@ import { Component, inject } from '@angular/core';
       color: var(--color-cream);
     }
 
-    .project-links {
-      margin: 1.5rem 0;
-    }
-
-    .project-tags {
-      margin-top: 1rem;
-    }
-
-    .btn-deco {
-      display: inline-block;
-      font-family: var(--font-display);
-      font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      padding: 1rem 2.5rem;
-      border: 2px solid var(--color-gold);
-      background: transparent;
-      color: var(--color-gold);
-      cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-      text-decoration: none;
-    }
-
-    .btn-deco::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: var(--color-gold);
-      transition: left 0.3s ease;
-      z-index: -1;
-    }
-
-    .btn-deco:hover {
-      color: var(--color-white);
-    }
-
-    .btn-deco:hover::before {
-      left: 0;
-    }
-
+    .project-links { margin-block: 1.5rem; }
+    .project-tags { margin-block-start: 1rem; }
+    
   `,
   ],
 })

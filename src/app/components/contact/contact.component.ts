@@ -4,7 +4,6 @@ import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-contact',
-  standalone: true,
   imports: [UpperCasePipe],
   template: `
     <section 
@@ -16,7 +15,7 @@ import { ProfileService } from '../../services/profile.service';
       <div class="container">
         <div class="corner-deco contact-shell">
           <div class="card-deco contact-card">
-            <h2 class="text-center" id="contact-title">Let's Connect</h2>
+            <h2 class="text-center" id="contact-title">Get In Touch</h2>
           
             <div class="divider-deco mb-4" aria-hidden="true">
               <div class="divider-icon">
@@ -100,13 +99,11 @@ import { ProfileService } from '../../services/profile.service';
     `
     .contact-shell {
       max-width: 600px;
-      margin: 0 auto;
+      margin-inline: auto;
       position: relative;
     }
 
-    .contact-card {
-      padding: 3rem;
-    }
+    .contact-card { padding: clamp(1.5rem, 5vw, 3rem); }
 
     .contact-text {
       font-size: 1.1rem;
@@ -117,13 +114,9 @@ import { ProfileService } from '../../services/profile.service';
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      margin-top: 2rem;
+      margin-block-start: 2rem;
       list-style: none;
       padding: 0;
-    }
-
-    .contact-method-item {
-      display: block;
     }
 
     .contact-link {
@@ -134,21 +127,20 @@ import { ProfileService } from '../../services/profile.service';
       border: 1px solid var(--color-cream-dark);
       text-decoration: none;
       color: var(--color-black);
-      border-bottom: 1px solid var(--color-cream-dark);
+      border-block-end: 1px solid var(--color-cream-dark);
       transition: all 0.3s ease;
-    }
 
-    .contact-link:hover {
-      border-color: var(--color-gold);
-      background: var(--color-cream-light);
+      &:hover {
+        border-color: var(--color-gold);
+        background: var(--color-cream-light);
+      }
     }
 
     .contact-icon {
       width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      aspect-ratio: 1/1;
+      display: grid;
+      place-items: center;
       background: var(--color-black);
       color: var(--color-gold);
       font-family: var(--font-display);
@@ -157,77 +149,11 @@ import { ProfileService } from '../../services/profile.service';
       flex-shrink: 0;
     }
 
-    .corner-deco {
-      position: relative;
-      z-index: 1;
-      overflow: visible;
-    }
-
-    .corner-deco::before,
-    .corner-deco::after {
-      content: '';
-      position: absolute;
-      width: 30px;
-      height: 30px;
-      border-color: var(--color-gold);
-      border-style: solid;
-      z-index: 10;
-      pointer-events: none;
-    }
-
-    .corner-deco::before {
-      top: -2px;
-      left: -2px;
-      border-width: 3px 0 0 3px;
-    }
-
-    .corner-deco::after {
-      bottom: -2px;
-      right: -2px;
-      border-width: 0 3px 3px 0;
-    }
-
-    .card-deco {
-      background: var(--color-white);
-      border: 1px solid var(--color-cream-dark);
-      padding: 2rem;
-      position: relative;
-      z-index: 1;
-    }
-
-    .card-deco::before {
-      content: '';
-      position: absolute;
-      top: 8px;
-      left: 8px;
-      right: 8px;
-      bottom: 8px;
-      border: 1px solid var(--color-gold);
-      pointer-events: none;
-      opacity: 0.5;
-      z-index: 1;
-    }
-
-    .card-deco::after {
-      content: '';
-      position: absolute;
-      top: -1px;
-      left: -1px;
-      right: -1px;
-      height: 3px;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        var(--color-gold),
-        transparent
-      );
-      z-index: 2;
-    }
-
     .footer-section {
-      padding: 4rem 2rem;
-      border-top: 1px solid var(--color-cream-dark);
-      margin-top: 4rem;
+      padding-block: 4rem;
+      padding-inline: 2rem;
+      border-block-start: 1px solid var(--color-cream-dark);
+      margin-block-start: 4rem;
     }
 
     .footer-content {
@@ -236,13 +162,10 @@ import { ProfileService } from '../../services/profile.service';
       align-items: center;
       flex-wrap: wrap;
       gap: 1rem;
-      margin-bottom: 2rem;
+      margin-block-end: 2.5rem;
     }
 
-    .footer-brand {
-      display: flex;
-      flex-direction: column;
-    }
+    .footer-brand { display: flex; flex-direction: column; }
 
     .footer-name {
       font-family: var(--font-display);
@@ -269,13 +192,10 @@ import { ProfileService } from '../../services/profile.service';
       .contact-link {
         flex-direction: column;
         text-align: center;
-      }
-      
-      .contact-link span:last-child {
-        word-break: break-all;
+        span:last-child { word-break: break-all; }
       }
     }
-  `,
+      `,
   ],
 })
 export class ContactComponent {

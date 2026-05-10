@@ -13,7 +13,6 @@ import { DateRangePipe } from '../../pipes/date-range.pipe';
 
 @Component({
   selector: 'app-experience',
-  standalone: true,
   imports: [DateRangePipe],
   template: `
     <section 
@@ -23,7 +22,7 @@ import { DateRangePipe } from '../../pipes/date-range.pipe';
       role="region"
       data-testid="experience-section">
       <div class="container">
-        <h2 class="text-center" id="experience-title">Professional Credits</h2>
+        <h2 class="text-center" id="experience-title">Motion Picture Credits</h2>
         
         <div class="divider-deco mb-6" aria-hidden="true">
           <div class="divider-icon">
@@ -92,12 +91,10 @@ import { DateRangePipe } from '../../pipes/date-range.pipe';
       justify-content: space-between;
       align-items: center;
       padding: 0.5rem 1rem;
-      background: #0d0d0d;
-      border-top: 2px solid var(--color-gold-dark);
-      border-left: 2px solid var(--color-gold-dark);
-      border-right: 2px solid var(--color-gold-dark);
-      border-bottom: 1px solid #0d0d0d;
-      margin-bottom: -1px;
+      background: var(--color-black);
+      border: 2px solid var(--color-gold-dark);
+      border-block-end: 1px solid var(--color-black);
+      margin-block-end: -1px;
       font-family: var(--font-display);
       font-size: 0.65rem;
       letter-spacing: 0.25em;
@@ -109,58 +106,38 @@ import { DateRangePipe } from '../../pipes/date-range.pipe';
       opacity: 0.7;
     }
 
-    /* La tira de película: fondo negro con perforaciones a ambos lados */
     .film-strip {
       position: relative;
       padding: 2rem 3.5rem;
       background:
-        /* Perforaciones izquierdas */
-        linear-gradient(
-          to bottom,
-          transparent 0,
-          transparent 0.6rem,
-          var(--color-cream) 0.6rem,
-          var(--color-cream) 1.5rem,
-          transparent 1.5rem,
-          transparent 2.4rem
-        ) left / 1.5rem 2.4rem repeat-y,
-        /* Perforaciones derechas */
-        linear-gradient(
-          to bottom,
-          transparent 0,
-          transparent 0.6rem,
-          var(--color-cream) 0.6rem,
-          var(--color-cream) 1.5rem,
-          transparent 1.5rem,
-          transparent 2.4rem
-        ) right / 1.5rem 2.4rem repeat-y,
-        /* Cuerpo del celuloide */
-        #0d0d0d;
-      background-repeat: repeat-y, repeat-y, no-repeat;
-      border-left: 2px solid var(--color-gold-dark);
-      border-right: 2px solid var(--color-gold-dark);
-      border-bottom: 2px solid var(--color-gold-dark);
+        /* Perforaciones */
+        linear-gradient(to bottom, transparent 0, transparent 0.6rem, var(--color-cream) 0.6rem, var(--color-cream) 1.5rem, transparent 1.5rem, transparent 2.4rem) left / 1.5rem 2.4rem repeat-y,
+        linear-gradient(to bottom, transparent 0, transparent 0.6rem, var(--color-cream) 0.6rem, var(--color-cream) 1.5rem, transparent 1.5rem, transparent 2.4rem) right / 1.5rem 2.4rem repeat-y,
+        var(--color-black);
+      border-inline: 2px solid var(--color-gold-dark);
+      border-block-end: 2px solid var(--color-gold-dark);
       box-shadow:
         inset 2.2rem 0 0 rgba(255, 255, 255, 0.03),
         inset -2.2rem 0 0 rgba(255, 255, 255, 0.03),
         var(--shadow-lg);
     }
 
-    /* Cada fotograma: estado inicial oculto (simula fotograma aún no proyectado) */
     .film-frame {
       position: relative;
-      margin: 0 0 1.5rem 0;
+      margin-block-end: 1.5rem;
       transition: transform var(--transition-normal);
       opacity: 0;
       transform: translateY(24px) scale(0.96);
       clip-path: inset(0 0 100% 0);
       will-change: opacity, transform, clip-path;
-    }
 
-    /* Reveal: "proyector enciende el fotograma" */
-    .film-frame.is-visible {
-      animation: filmReveal 0.75s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
-      animation-delay: var(--frame-delay, 0ms);
+      &:last-child { margin-block-end: 0; }
+      &:hover { transform: scale(1.01); }
+
+      &.is-visible {
+        animation: filmReveal 0.75s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+        animation-delay: var(--frame-delay, 0ms);
+      }
     }
 
     @keyframes filmReveal {
@@ -182,30 +159,15 @@ import { DateRangePipe } from '../../pipes/date-range.pipe';
       }
     }
 
-    .film-frame:last-child {
-      margin-bottom: 0;
-    }
-
-    .film-frame:hover {
-      transform: scale(1.01);
-    }
-
-    /* "Claqueta" superior del fotograma */
     .frame-slate {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 0.35rem 0.8rem;
-      background: linear-gradient(
-        135deg,
-        var(--color-black) 0%,
-        var(--color-black) 50%,
-        var(--color-cream) 50%,
-        var(--color-cream) 100%
-      );
+      background: linear-gradient(135deg, var(--color-black) 50%, var(--color-cream) 50%);
       background-size: 0.6rem 0.6rem;
       border: 2px solid var(--color-gold);
-      border-bottom: none;
+      border-block-end: none;
       font-family: var(--font-display);
       font-size: 0.7rem;
       letter-spacing: 0.2em;
@@ -213,53 +175,42 @@ import { DateRangePipe } from '../../pipes/date-range.pipe';
       text-shadow: 1px 1px 0 var(--color-black);
     }
 
-    .slate-take,
-    .slate-scene {
+    .slate-take, .slate-scene {
       background: rgba(13, 13, 13, 0.85);
       padding: 0.1rem 0.5rem;
       border: 1px solid var(--color-gold-light);
     }
 
-    /* Tarjeta del fotograma (el "frame" visible) */
     .frame-card {
       position: relative;
       border: 2px solid var(--color-gold);
-      border-top: none;
+      border-block-start: none;
       background: var(--color-cream);
       padding: 1.5rem;
       box-shadow:
         inset 0 0 0 4px var(--color-cream-dark),
         inset 0 0 0 5px var(--color-gold);
-    }
 
-    .frame-card::before,
-    .frame-card::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      width: 0.7rem;
-      height: 0.7rem;
-      background: var(--color-gold);
-      border: 2px solid var(--color-black);
-      transform: translateY(-50%) rotate(45deg);
-    }
+      &::before, &::after {
+        content: '';
+        position: absolute;
+        inset-block-start: 50%;
+        width: 0.7rem;
+        aspect-ratio: 1/1;
+        background: var(--color-gold);
+        border: 2px solid var(--color-black);
+        transform: translateY(-50%) rotate(45deg);
+      }
 
-    .frame-card::before {
-      left: -1.2rem;
-    }
-
-    .frame-card::after {
-      right: -1.2rem;
+      &::before { inset-inline-start: -1.2rem; }
+      &::after { inset-inline-end: -1.2rem; }
     }
 
     .timeline-header {
-      margin-bottom: 1rem;
-      padding-bottom: 0.75rem;
-      border-bottom: 1px dashed var(--color-gold-dark);
-    }
-
-    .timeline-header h3 {
-      margin-bottom: 0.25rem;
+      margin-block-end: 1rem;
+      padding-block-end: 0.75rem;
+      border-block-end: 1px dashed var(--color-gold-dark);
+      h3 { margin-block-end: 0.25rem; }
     }
 
     .timeline-company {
@@ -275,52 +226,41 @@ import { DateRangePipe } from '../../pipes/date-range.pipe';
       font-family: var(--font-display);
       font-size: 0.8rem;
       color: var(--color-bronze);
-      margin-top: 0.25rem;
+      margin-block-start: 0.25rem;
     }
 
     .timeline-achievements {
       list-style: none;
-      margin: 1rem 0;
-      padding-left: 0;
+      margin-block: 1rem;
+      padding-inline-start: 0;
+
+      li {
+        position: relative;
+        padding-inline-start: 1.5rem;
+        margin-block-end: 0.5rem;
+        font-size: 0.95rem;
+
+        &::before {
+          content: '▸';
+          position: absolute;
+          inset-inline-start: 0;
+          color: var(--color-gold);
+        }
+      }
     }
 
-    .timeline-achievements li {
-      position: relative;
-      padding-left: 1.5rem;
-      margin-bottom: 0.5rem;
-      font-size: 0.95rem;
-    }
+    .timeline-tags { margin-block-start: 1rem; }
 
-    .timeline-achievements li::before {
-      content: '▸';
-      position: absolute;
-      left: 0;
-      color: var(--color-gold);
-    }
-
-    .timeline-tags {
-      margin-top: 1rem;
-    }
-
-    /* ========== RESPONSIVE ========== */
     @media (max-width: 768px) {
       .film-strip {
         padding: 1.5rem 2.2rem;
         background-size: 1rem 1.8rem, 1rem 1.8rem, auto;
       }
-
       .frame-card {
         padding: 1rem;
+        &::before, &::after { display: none; }
       }
-
-      .frame-card::before,
-      .frame-card::after {
-        display: none;
-      }
-
-      .reel-label {
-        font-size: 0.55rem;
-      }
+      .reel-label { font-size: 0.55rem; }
     }
 
     /* Reduce motion: sin escalado ni reveal animado */
@@ -336,7 +276,7 @@ import { DateRangePipe } from '../../pipes/date-range.pipe';
         filter: none;
       }
     }
-  `,
+    `,
   ],
 })
 export class ExperienceComponent implements OnDestroy {
