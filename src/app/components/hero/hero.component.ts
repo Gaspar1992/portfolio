@@ -1,7 +1,7 @@
 import { UpperCasePipe } from '@angular/common';
-import { Component, inject, input } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { ProfileService } from '../../services/profile.service';
 import { KeyboardNavigationService } from '../../services/keyboard-navigation.service';
-import type { LinkedInProfile } from '../../services/profile.service';
 
 @Component({
   selector: 'app-hero',
@@ -61,7 +61,13 @@ import type { LinkedInProfile } from '../../services/profile.service';
       </div>
       
       <div class="scroll-indicator" aria-hidden="true">
-        <div class="scroll-line"></div>
+        <div class="camera-focus">
+          <span class="focus-bracket focus-bracket--tl"></span>
+          <span class="focus-bracket focus-bracket--tr"></span>
+          <span class="focus-bracket focus-bracket--bl"></span>
+          <span class="focus-bracket focus-bracket--br"></span>
+          <div class="recording-symbol">▷</div>
+        </div>
         <span>SCROLL</span>
       </div>
     </section>
@@ -162,16 +168,38 @@ import type { LinkedInProfile } from '../../services/profile.service';
       color: var(--color-bronze);
     }
 
-    .scroll-line {
-      width: 1px;
-      height: 60px;
-      background: linear-gradient(to bottom, var(--color-gold), transparent);
-      animation: scrollPulse 2s ease-in-out infinite;
+    .camera-focus {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.5rem;
     }
 
-    @keyframes scrollPulse {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 1; }
+    .focus-bracket {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border: 1.5px solid var(--color-gold);
+      opacity: 0.6;
+    }
+
+    .focus-bracket--tl { top: 0; left: 0; border-right: none; border-bottom: none; }
+    .focus-bracket--tr { top: 0; right: 0; border-left: none; border-bottom: none; }
+    .focus-bracket--bl { bottom: 0; left: 0; border-right: none; border-top: none; }
+    .focus-bracket--br { bottom: 0; right: 0; border-left: none; border-top: none; }
+
+    .recording-symbol {
+      color: var(--color-gold);
+      font-size: 1.2rem;
+      animation: recBlink 1.5s ease-in-out infinite;
+    }
+
+    @keyframes recBlink {
+      0%, 100% { opacity: 0.2; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.1); }
     }
 
     .btn-deco {
@@ -285,7 +313,7 @@ import type { LinkedInProfile } from '../../services/profile.service';
   ],
 })
 export class HeroComponent {
-  profile = input<LinkedInProfile | null>(null);
+  profile = inject(ProfileService).profile;
   private keyboardNav = inject(KeyboardNavigationService);
 
   navigateToSection(sectionId: string): void {

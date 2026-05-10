@@ -1,6 +1,5 @@
-import { Component, input } from '@angular/core';
-import type { LinkedInProfile } from '../../services/profile.service';
-
+import { Component, inject } from '@angular/core';
+import { ProfileService } from '../../services/profile.service';
 @Component({
   selector: 'app-certifications',
   standalone: true,
@@ -23,7 +22,10 @@ import type { LinkedInProfile } from '../../services/profile.service';
         <div class="certs-list" role="list" aria-label="Certifications obtained" data-testid="certifications-list">
           @for (cert of profile()?.certifications; track cert.id) {
             <article class="cert-item card-deco" role="listitem" [attr.aria-labelledby]="'cert-' + cert.id" data-testid="certification-card">
-              <div class="cert-badge" aria-hidden="true">{{ getBadge(cert.issuingOrganization) }}</div>
+              <div class="cert-medallion" aria-hidden="true">
+                <div class="star-shape"></div>
+                <span class="medallion-text">{{ getBadge(cert.issuingOrganization) }}</span>
+              </div>
               <div class="cert-info">
                 <h3 [id]="'cert-' + cert.id" [title]="cert.name" data-testid="certification-name">{{ shortenTitle(cert.name) }}</h3>
                 <div class="cert-meta">
@@ -72,19 +74,47 @@ import type { LinkedInProfile } from '../../services/profile.service';
       gap: 1.5rem;
     }
 
-    .cert-badge {
-      width: 60px;
-      height: 60px;
+    .cert-medallion {
+      width: 70px;
+      height: 70px;
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: var(--color-black);
-      color: var(--color-cream);
-      font-family: var(--font-display);
-      font-size: 0.9rem;
-      font-weight: 600;
-      border: 2px solid var(--color-gold);
       flex-shrink: 0;
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.2));
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .cert-item:hover .cert-medallion {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .star-shape {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: var(--color-gold);
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    }
+
+    .star-shape::after {
+      content: '';
+      position: absolute;
+      inset: 6px;
+      background: var(--color-black);
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    }
+
+    .medallion-text {
+      position: relative;
+      z-index: 1;
+      color: var(--color-gold-light);
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-shadow: 0 0 10px rgba(180, 140, 60, 0.4);
     }
 
     .cert-info h3 {
@@ -131,7 +161,7 @@ import type { LinkedInProfile } from '../../services/profile.service';
   ],
 })
 export class CertificationsComponent {
-  profile = input<LinkedInProfile | null>(null);
+  profile = inject(ProfileService).profile;
 
   getBadge(organization: string): string {
     if (organization.includes('Amazon') || organization.includes('AWS')) return 'AWS';
