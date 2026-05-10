@@ -4,16 +4,17 @@ import {
   type ElementRef,
   effect,
   inject,
-  input,
   type OnDestroy,
   PLATFORM_ID,
   viewChildren,
 } from '@angular/core';
-import { type LinkedInProfile, ProfileService } from '../../services/profile.service';
+import { ProfileService } from '../../services/profile.service';
+import { DateRangePipe } from '../../pipes/date-range.pipe';
 
 @Component({
   selector: 'app-experience',
   standalone: true,
+  imports: [DateRangePipe],
   template: `
     <section 
       class="section-transition experience-section" 
@@ -53,7 +54,7 @@ import { type LinkedInProfile, ProfileService } from '../../services/profile.ser
                   <h3 data-testid="experience-title">{{ exp.title }}</h3>
                   <span class="timeline-company" data-testid="experience-company">{{ exp.company }}</span>
                   <time class="timeline-date" [attr.datetime]="exp.startDate" data-testid="experience-date">
-                    {{ profileService.formatExperienceDate(exp.startDate, exp.endDate, exp.isCurrent) }}
+                    {{ exp.startDate | dateRange:exp.endDate:exp.isCurrent }}
                   </time>
                 </header>
                 
@@ -102,26 +103,16 @@ import { type LinkedInProfile, ProfileService } from '../../services/profile.ser
       letter-spacing: 0.25em;
       color: var(--color-gold-light);
       text-transform: uppercase;
-      animation: filmJudder 0.2s steps(1) infinite;
     }
 
     .reel-label {
       opacity: 0.7;
     }
 
-    /* Judder sutil tipo proyector de 24fps */
-    @keyframes filmJudder {
-      0%, 100% { transform: translateY(0); }
-      25% { transform: translateY(-0.5px); }
-      50% { transform: translateY(0.3px); }
-      75% { transform: translateY(-0.2px); }
-    }
-
     /* La tira de película: fondo negro con perforaciones a ambos lados */
     .film-strip {
       position: relative;
       padding: 2rem 3.5rem;
-      animation: filmJudder 0.2s steps(1) infinite;
       background:
         /* Perforaciones izquierdas */
         linear-gradient(
@@ -332,7 +323,7 @@ import { type LinkedInProfile, ProfileService } from '../../services/profile.ser
       }
     }
 
-    /* Reduce motion: sin escalado, judder ni reveal animado */
+    /* Reduce motion: sin escalado ni reveal animado */
     @media (prefers-reduced-motion: reduce) {
       .film-frame,
       .film-frame:hover,
@@ -344,16 +335,12 @@ import { type LinkedInProfile, ProfileService } from '../../services/profile.ser
         clip-path: none;
         filter: none;
       }
-      .film-strip,
-      .film-reel {
-        animation: none;
-      }
     }
   `,
   ],
 })
 export class ExperienceComponent implements OnDestroy {
-  profile = input<LinkedInProfile | null>(null);
+  profile = inject(ProfileService).profile;
   profileService = inject(ProfileService);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly frames = viewChildren<ElementRef<HTMLElement>>('frame');
@@ -363,7 +350,7 @@ export class ExperienceComponent implements OnDestroy {
   constructor() {
     // Reactivo: se dispara cada vez que cambia la lista de frames renderizados.
     // Necesario porque profile() llega async y los @for aparecen después del init.
-    effect(() => {
+    effect((onCleanup) => {
       const frames = this.frames();
       if (!isPlatformBrowser(this.platformId)) {
         // SSR / prerender: mostrar todo (no hay JS en servidor para observar).
@@ -400,11 +387,15 @@ export class ExperienceComponent implements OnDestroy {
 
       // Safety net: si a los 1500ms algún frame sigue oculto, revelarlo.
       // Cubre casos donde el observer no dispara (iframes, virtualización, etc).
-      window.setTimeout(() => {
+      const timeoutId = window.setTimeout(() => {
         for (const ref of this.frames()) {
           ref.nativeElement.classList.add('is-visible');
         }
       }, 1500);
+
+      onCleanup(() => {
+        window.clearTimeout(timeoutId);
+      });
     });
   }
 

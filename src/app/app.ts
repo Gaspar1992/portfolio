@@ -35,7 +35,7 @@ import type { LinkedInProfile } from './services/profile.service';
 export class App implements OnInit {
   protected readonly title = signal('portfolio');
   protected profileService = inject(ProfileService);
-  protected profile = signal<LinkedInProfile | null>(null);
+  protected profile = this.profileService.profile;
   protected loading = signal(true);
   private titleService = inject(Title);
   private metaService = inject(Meta);
@@ -43,8 +43,7 @@ export class App implements OnInit {
   async ngOnInit() {
     try {
       const data = await this.profileService.loadProfile();
-      this.profile.set(data);
-      this.updatePageMetadata(data);
+            this.updatePageMetadata(data);
     } catch (error) {
       console.error('Error loading profile:', error);
     } finally {

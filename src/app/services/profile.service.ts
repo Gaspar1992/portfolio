@@ -3,7 +3,7 @@
  * Los datos se cargan desde un JSON estático generado durante el build.
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 
 export interface ProfileMeta {
   source: string;
@@ -112,65 +112,36 @@ export interface LinkedInProfile {
   providedIn: 'root',
 })
 export class ProfileService {
-  private profileData: LinkedInProfile | null = null;
+  readonly profile = signal<LinkedInProfile | null>(null);
 
   /**
    * Carga los datos del perfil desde el JSON estático.
    * En SSG, esto se resuelve durante la construcción.
    */
   async loadProfile(): Promise<LinkedInProfile> {
-    if (this.profileData) {
-      return this.profileData;
+    const current = this.profile();
+    if (current) {
+      return current;
     }
 
     // Import dinámico del JSON (compatible con SSG)
     const module = await import('../../assets/data/profile.json');
-    this.profileData = (module.default ?? module) as LinkedInProfile;
+    const data = (module.default ?? module) as LinkedInProfile;
+    this.profile.set(data);
 
-    return this.profileData;
-  }
-
-  /**
-   * Obtiene los datos del perfil (cached)
-   */
-  getProfile(): LinkedInProfile | null {
-    return this.profileData;
+    return data;
   }
 
   /**
    * Formatea la fecha de sincronización
    */
   getLastSyncedAt(): string | null {
-    if (!this.profileData?._meta?.syncedAt) return null;
-    return new Date(this.profileData._meta.syncedAt).toLocaleDateString('es-ES', {
+    const data = this.profile();
+    if (!data?._meta?.syncedAt) return null;
+    return new Date(data._meta.syncedAt).toLocaleDateString('es-ES', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
     });
-  }
-
-  /**
-   * Formatea un rango de fechas de experiencia laboral
-   */
-  formatExperienceDate(startDate: string, endDate: string | null, isCurrent: boolean): string {
-    const start = new Date(startDate);
-    const startYear = start.getFullYear();
-
-    if (isCurrent || !endDate) {
-      return `${startYear} — Present`;
-    }
-
-    const end = new Date(endDate);
-    const endYear = end.getFullYear();
-    return `${startYear} — ${endYear}`;
-  }
-
-  /**
-   * Formatea un rango de fechas de educación
-   */
-  formatEducationDate(startDate: string, endDate: string): string {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    return `${start.getFullYear()} — ${end.getFullYear()}`;
   }
 }

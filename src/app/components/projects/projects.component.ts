@@ -1,5 +1,5 @@
-import { Component, input } from '@angular/core';
-import type { LinkedInProfile } from '../../services/profile.service';
+import { ProfileService } from '../../services/profile.service';
+import { Component, inject } from '@angular/core';
 
 @Component({
   selector: 'app-projects',
@@ -123,5 +123,5 @@ import type { LinkedInProfile } from '../../services/profile.service';
   ],
 })
 export class ProjectsComponent {
-  profile = input<LinkedInProfile | null>(null);
+  profile = inject(ProfileService).profile;
 }

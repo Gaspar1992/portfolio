@@ -1,6 +1,6 @@
-import { Component, computed, input } from '@angular/core';
+import { ProfileService } from '../../services/profile.service';
+import { Component, computed, inject } from '@angular/core';
 import type {
-  LinkedInProfile,
   ProfileExperience,
   ProfileSkill,
 } from '../../services/profile.service';
@@ -434,7 +434,7 @@ function markHeadliners(scored: SkillWithStats[]): SkillWithStats[] {
   ],
 })
 export class SkillsComponent {
-  profile = input<LinkedInProfile | null>(null);
+  profile = inject(ProfileService).profile;
 
   private readonly currentYear = new Date().getFullYear();
 

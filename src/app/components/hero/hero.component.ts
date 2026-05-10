@@ -297,7 +297,7 @@ import { KeyboardNavigationService } from '../../services/keyboard-navigation.se
     }
 
     .btn-deco.btn-dark::before {
-      background: var(--color-gold);
+      background: var(--color-gold-light); /* Más claro para mejor contraste con negro */
     }
 
     .btn-deco.btn-dark:hover {

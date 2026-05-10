@@ -26,7 +26,7 @@ test.describe('Accessibility E2E Tests', () => {
 
     for (const heading of headings) {
       const tagName = await heading.evaluate((el) => el.tagName.toLowerCase());
-      const currentLevel = parseInt(tagName.replace('h', ''));
+      const currentLevel = parseInt(tagName.replace('h', ''), 10);
 
       // Headings should not skip levels (h1 -> h3 is bad)
       expect(currentLevel).toBeLessThanOrEqual(previousLevel + 1);

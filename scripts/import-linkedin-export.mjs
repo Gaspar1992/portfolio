@@ -235,14 +235,14 @@ function transformLinkedInExport() {
   const lastName = profile['Last Name']?.trim() || profile.lastName?.trim() || '';
   const fullName = `${firstName} ${lastName}`.trim();
   const headline =
-    profile.Headline?.trim() || profile.headline?.trim() || profile['Headline']?.trim() || null;
+    profile.Headline?.trim() || profile.headline?.trim() || profile.Headline?.trim() || null;
   const summary =
-    profile.Summary?.trim() || profile.summary?.trim() || profile['Summary']?.trim() || null;
+    profile.Summary?.trim() || profile.summary?.trim() || profile.Summary?.trim() || null;
 
   // Parsear ubicación (CSV usa 'Geo Location', JSON usa 'Location')
   const geoLocation =
     profile['Geo Location']?.trim() ||
-    profile['Location']?.trim() ||
+    profile.Location?.trim() ||
     profile.location?.trim() ||
     '';
   const locationParts = geoLocation.split(/,\s*/);
@@ -258,18 +258,18 @@ function transformLinkedInExport() {
 
   // Transformar experiencias
   const experience = (positions || []).map((pos, index) => {
-    const title = pos['Title'] || pos.title || pos['Job Title'] || pos.CreditType || 'Sin título';
+    const title = pos.Title || pos.title || pos['Job Title'] || pos.CreditType || 'Sin título';
     const company =
       pos['Company Name'] ||
       pos.company?.name ||
       pos.companyName ||
       pos['Nombre de la organización'] ||
       null;
-    const location = pos['Location'] || pos.location || pos['Locación'] || pos.Locación || null;
+    const location = pos.Location || pos.location || pos.Locación || pos.Locación || null;
     const description =
-      pos['Description'] ||
+      pos.Description ||
       pos.description ||
-      pos['Descripción'] ||
+      pos.Descripción ||
       pos['Funciones adicionales'] ||
       null;
 
@@ -296,12 +296,12 @@ function transformLinkedInExport() {
   // Transformar educación
   const education = (educations || []).map((edu, index) => {
     const school =
-      edu['School Name'] || edu.school?.name || edu.schoolName || edu['Institución'] || '';
+      edu['School Name'] || edu.school?.name || edu.schoolName || edu.Institución || '';
     const degree =
       edu['Degree Name'] ||
       edu.degree?.name ||
       edu.degreeName ||
-      edu['Titulación'] ||
+      edu.Titulación ||
       edu.Titulación ||
       null;
     const fieldOfStudy =
@@ -310,9 +310,9 @@ function transformLinkedInExport() {
       edu['Campo de estudio'] ||
       edu.CampoDeEstudio ||
       null;
-    const grade = edu['Grade'] || edu.grade || edu['Nota'] || edu.Nota || null;
+    const grade = edu.Grade || edu.grade || edu.Nota || edu.Nota || null;
     const activities =
-      edu['Activities'] || edu.activities || edu['Actividades y sociedades'] || null;
+      edu.Activities || edu.activities || edu['Actividades y sociedades'] || null;
 
     const startDate = parseLinkedInDate(edu['Start Date'] || edu.startDate || edu.fechaInicio);
     const endDate = parseLinkedInDate(edu['End Date'] || edu.endDate || edu.fechaFin);
@@ -332,7 +332,7 @@ function transformLinkedInExport() {
   // Transformar skills
   const skillsList = (skills || [])
     .map((skill) => ({
-      name: skill['Name'] || skill.name || skill.Habilidad || '',
+      name: skill.Name || skill.name || skill.Habilidad || '',
       endorsements:
         parseInt(
           skill['Endorsement Count'] || skill.endorsements || skill['Número de validaciones'],
@@ -345,7 +345,7 @@ function transformLinkedInExport() {
   const certsList = (certifications || [])
     .map((cert, index) => ({
       id: `cert-${index}`,
-      name: cert['Name'] || cert.name || cert['Nombre'] || '',
+      name: cert.Name || cert.name || cert.Nombre || '',
       issuingOrganization:
         cert.Authority ||
         cert.authority ||
@@ -355,7 +355,7 @@ function transformLinkedInExport() {
       issueDate: parseLinkedInDate(cert['Started On'] || cert.startDate || cert.issueDate),
       expirationDate: parseLinkedInDate(cert['Finished On'] || cert.endDate || cert.expirationDate),
       credentialUrl:
-        cert['Certification URL'] || cert.url || cert['URL'] || cert.credentialUrl || null,
+        cert['Certification URL'] || cert.url || cert.URL || cert.credentialUrl || null,
     }))
     .filter((c) => c.name);
 
@@ -363,9 +363,9 @@ function transformLinkedInExport() {
   const projectsList = (projects || [])
     .map((proj, index) => ({
       id: `proj-${index}`,
-      name: proj['Name'] || proj.name || proj['Nombre'] || '',
-      description: proj['Description'] || proj.description || proj['Descripción'] || null,
-      url: proj['URL'] || proj.url || null,
+      name: proj.Name || proj.name || proj.Nombre || '',
+      description: proj.Description || proj.description || proj.Descripción || null,
+      url: proj.URL || proj.url || null,
       technologies: [],
       startDate: parseLinkedInDate(proj['Start Date'] || proj.startDate),
       endDate: parseLinkedInDate(proj['End Date'] || proj.endDate),
@@ -375,9 +375,9 @@ function transformLinkedInExport() {
   // Transformar idiomas
   const languagesList = (languages || [])
     .map((lang) => ({
-      language: lang['Name'] || lang.name || lang['Idioma'] || '',
+      language: lang.Name || lang.name || lang.Idioma || '',
       proficiency:
-        lang['Proficiency'] || lang.proficiency || lang['Nivel de dominio'] || 'Nativo o bilingüe',
+        lang.Proficiency || lang.proficiency || lang['Nivel de dominio'] || 'Nativo o bilingüe',
     }))
     .filter((l) => l.language);
 
@@ -403,7 +403,7 @@ function transformLinkedInExport() {
       countryCode: null,
     },
     summary,
-    industry: profile['Industry'] || profile.industry || null,
+    industry: profile.Industry || profile.industry || null,
     experience,
     education,
     skills: skillsList,
@@ -412,7 +412,7 @@ function transformLinkedInExport() {
     languages: languagesList,
     contactInfo: {
       email: profile['Email Address'] || profile.email || null,
-      website: profile['Websites']?.[0]?.url || null,
+      website: profile.Websites?.[0]?.url || null,
       github: null,
       twitter: profile['Twitter Handles'] || null,
     },
@@ -423,7 +423,7 @@ function transformLinkedInExport() {
   // Añadir skills de experiencias al objeto para cálculo
   baseProfile.experience = baseProfile.experience.map((exp, index) => {
     const originalPos = positions?.[index];
-    const skillsFromPos = originalPos?.['Skills'] || originalPos?.skills || '';
+    const skillsFromPos = originalPos?.Skills || originalPos?.skills || '';
     const skillsArray = skillsFromPos
       ? skillsFromPos
           .split(/[,;]/)
@@ -465,9 +465,9 @@ function parseLinkedInDate(dateValue) {
       const monthStr = monthYearMatch[1].toLowerCase().substring(0, 3);
       const year = monthYearMatch[2];
 
-      let month = monthNames.en.findIndex((m) => m === monthStr);
+      let month = monthNames.en.indexOf(monthStr);
       if (month === -1) {
-        month = monthNames.es.findIndex((m) => m === monthStr);
+        month = monthNames.es.indexOf(monthStr);
       }
 
       if (month !== -1) {

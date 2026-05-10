@@ -17,43 +17,55 @@
   <app-navigation></app-navigation>
 
   <!-- Hero - carga inmediata -->
-  <app-hero [profile]="profile()"></app-hero>
+  <app-hero></app-hero>
 
   <!-- Sections -->
   @if (profile()) {
     <!-- About -->
     <div id="about" tabindex="-1">
-      <app-about [profile]="profile()"></app-about>
+      <app-about></app-about>
     </div>
+
+    <div class="film-strip-separator" aria-hidden="true"></div>
 
     <!-- Experience -->
     <div id="experience" tabindex="-1">
-      <app-experience [profile]="profile()"></app-experience>
+      <app-experience></app-experience>
     </div>
+
+    <div class="film-strip-separator" aria-hidden="true"></div>
 
     <!-- Skills -->
     <div id="skills" tabindex="-1">
-      <app-skills [profile]="profile()"></app-skills>
+      <app-skills></app-skills>
     </div>
+
+    <div class="film-strip-separator" aria-hidden="true"></div>
 
     <!-- Education -->
     <div id="education" tabindex="-1">
-      <app-education [profile]="profile()"></app-education>
+      <app-education></app-education>
     </div>
+
+    <div class="film-strip-separator" aria-hidden="true"></div>
 
     <!-- Projects -->
     <div id="projects" tabindex="-1">
-      <app-projects [profile]="profile()"></app-projects>
+      <app-projects></app-projects>
     </div>
+
+    <div class="film-strip-separator" aria-hidden="true"></div>
 
     <!-- Certifications -->
     <div id="certifications" tabindex="-1">
-      <app-certifications [profile]="profile()"></app-certifications>
+      <app-certifications></app-certifications>
     </div>
+
+    <div class="film-strip-separator" aria-hidden="true"></div>
 
     <!-- Contact -->
     <div id="contact" tabindex="-1">
-      <app-contact [profile]="profile()"></app-contact>
+      <app-contact></app-contact>
     </div>
   }
 

@@ -1,6 +1,6 @@
 import { UpperCasePipe } from '@angular/common';
-import { Component, computed, input } from '@angular/core';
-import type { LinkedInProfile } from '../../services/profile.service';
+import { Component, computed, inject } from '@angular/core';
+import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-contact',
@@ -279,7 +279,7 @@ import type { LinkedInProfile } from '../../services/profile.service';
   ],
 })
 export class ContactComponent {
-  profile = input<LinkedInProfile | null>(null);
+  profile = inject(ProfileService).profile;
 
   careerStartYear = computed(() => {
     const profileData = this.profile();

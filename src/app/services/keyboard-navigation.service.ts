@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, inject, signal, DestroyRef, NgZone } from '@angular/core';
 
 export interface Section {
   id: string;
@@ -11,6 +11,8 @@ export interface Section {
 })
 export class KeyboardNavigationService {
   private readonly document = inject(DOCUMENT);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly ngZone = inject(NgZone);
   private readonly observedSectionIds = new Set<string>();
 
   private readonly sections: Section[] = [
@@ -37,7 +39,7 @@ export class KeyboardNavigationService {
   private setupKeyboardNavigation(): void {
     if (typeof window === 'undefined') return;
 
-    window.addEventListener('keydown', (event: KeyboardEvent) => {
+    const handleKeyDown = (event: KeyboardEvent) => {
       const target = event.target as HTMLElement;
 
       // Handle arrow keys for section navigation (when not in input)
@@ -47,6 +49,9 @@ export class KeyboardNavigationService {
         }
 
         event.preventDefault();
+        
+        // We re-enter the zone only when we actually update state if needed, 
+        // but with Signals it's safe to update outside the zone!
         this.isNavigatingWithKeyboard.set(true);
 
         if (event.key === 'ArrowDown') {
@@ -73,6 +78,14 @@ export class KeyboardNavigationService {
           this.isNavigatingWithKeyboard.set(false);
         }, 500);
       }
+    };
+
+    this.ngZone.runOutsideAngular(() => {
+      window.addEventListener('keydown', handleKeyDown);
+    });
+
+    this.destroyRef.onDestroy(() => {
+      window.removeEventListener('keydown', handleKeyDown);
     });
   }
 
@@ -95,6 +108,7 @@ export class KeyboardNavigationService {
     this.observeAvailableSections(observer);
 
     if (this.observedSectionIds.size >= this.sections.length) {
+      this.destroyRef.onDestroy(() => observer.disconnect());
       return;
     }
 
@@ -109,6 +123,11 @@ export class KeyboardNavigationService {
     mutationObserver.observe(this.document.body, {
       childList: true,
       subtree: true,
+    });
+
+    this.destroyRef.onDestroy(() => {
+      observer.disconnect();
+      mutationObserver.disconnect();
     });
   }
 
@@ -131,20 +150,26 @@ export class KeyboardNavigationService {
   private setupKeyboardIndicator(): void {
     if (typeof window === 'undefined') return;
 
-    window.addEventListener('keydown', () => {
+    const handleKeyDown = () => {
       this.showIndicator();
+    };
+
+    const handleScroll = () => {
+      if (!this.isNavigatingWithKeyboard()) {
+        this.hideIndicator();
+        this.updateCurrentSectionFromViewportMiddle();
+      }
+    };
+
+    this.ngZone.runOutsideAngular(() => {
+      window.addEventListener('keydown', handleKeyDown);
+      window.addEventListener('scroll', handleScroll, { passive: true });
     });
 
-    window.addEventListener(
-      'scroll',
-      () => {
-        if (!this.isNavigatingWithKeyboard()) {
-          this.hideIndicator();
-          this.updateCurrentSectionFromViewportMiddle();
-        }
-      },
-      { passive: true }
-    );
+    this.destroyRef.onDestroy(() => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('scroll', handleScroll);
+    });
   }
 
   private updateCurrentSectionFromViewportMiddle(): void {

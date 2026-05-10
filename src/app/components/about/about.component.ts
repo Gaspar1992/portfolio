@@ -1,6 +1,5 @@
-import { Component, input } from '@angular/core';
-import type { LinkedInProfile } from '../../services/profile.service';
-
+import { Component, inject } from '@angular/core';
+import { ProfileService } from '../../services/profile.service';
 @Component({
   selector: 'app-about',
   standalone: true,
@@ -280,7 +279,7 @@ import type { LinkedInProfile } from '../../services/profile.service';
   ],
 })
 export class AboutComponent {
-  profile = input<LinkedInProfile | null>(null);
+  profile = inject(ProfileService).profile;
 
   getInitials(fullName: string | undefined): string {
     if (!fullName) return '';
