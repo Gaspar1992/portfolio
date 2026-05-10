@@ -1,11 +1,13 @@
+import { signal } from '@angular/core';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import type { LinkedInProfile } from '../../services/profile.service';
+import { ProfileService, type LinkedInProfile } from '../../services/profile.service';
 import { SkillsComponent } from './skills.component';
 
 describe('SkillsComponent', () => {
   let component: SkillsComponent;
   let fixture: ComponentFixture<SkillsComponent>;
+  let profileService: ProfileService;
 
   const mockProfile: LinkedInProfile = {
     _meta: {
@@ -57,10 +59,19 @@ describe('SkillsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [SkillsComponent],
+      providers: [
+        {
+          provide: ProfileService,
+          useValue: {
+            profile: signal<LinkedInProfile | null>(null),
+          },
+        },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SkillsComponent);
     component = fixture.componentInstance;
+    profileService = TestBed.inject(ProfileService);
   });
 
   it('should create', () => {
@@ -68,7 +79,7 @@ describe('SkillsComponent', () => {
   });
 
   it('should separate expert and additional skills', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     const expertSkills = component.getExpertSkills();
     const additionalSkills = component.getAdditionalSkills();
 
@@ -80,45 +91,39 @@ describe('SkillsComponent', () => {
 
   it('should handle empty skills array', () => {
     const profileNoSkills = { ...mockProfile, skills: [] };
-    fixture.componentRef.setInput('profile', profileNoSkills);
+    profileService.profile.set(profileNoSkills);
 
     expect(component.getExpertSkills()).toEqual([]);
     expect(component.getAdditionalSkills()).toEqual([]);
   });
 
   it('should handle null profile', () => {
-    fixture.componentRef.setInput('profile', null);
+    profileService.profile.set(null);
 
     expect(component.getExpertSkills()).toEqual([]);
     expect(component.getAdditionalSkills()).toEqual([]);
   });
 
-  it('should render expert skills with badge', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+  it('should render expert skills', () => {
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const expertItems = fixture.nativeElement.querySelectorAll('[data-testid="skill-item-expert"]');
     expect(expertItems.length).toBe(5);
-
-    const firstExpert = expertItems[0];
-    expect(firstExpert.querySelector('.expert-badge')).toBeTruthy();
   });
 
-  it('should render additional skills without badge', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+  it('should render additional skills', () => {
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const additionalItems = fixture.nativeElement.querySelectorAll(
       '[data-testid="additional-skills-list"] li'
     );
     expect(additionalItems.length).toBe(4);
-
-    const firstAdditional = additionalItems[0];
-    expect(firstAdditional.querySelector('.expert-badge')).toBeFalsy();
   });
 
   it('should have correct section id for navigation', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const section = fixture.nativeElement.querySelector('section');
@@ -126,7 +131,7 @@ describe('SkillsComponent', () => {
   });
 
   it('should render skills group subtitles', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const subtitles = fixture.nativeElement.querySelectorAll('.skills-subtitle');
@@ -196,7 +201,7 @@ describe('SkillsComponent', () => {
     };
 
     it('should demote skills that were not used recently to additional', () => {
-      fixture.componentRef.setInput('profile', profileWithExperience);
+      profileService.profile.set(profileWithExperience);
 
       const additional = component.getAdditionalSkills().map((s) => s.name);
       expect(additional).toContain('Java');
@@ -206,7 +211,7 @@ describe('SkillsComponent', () => {
     });
 
     it('should keep skills as expert when present in current or recent experience', () => {
-      fixture.componentRef.setInput('profile', profileWithExperience);
+      profileService.profile.set(profileWithExperience);
 
       const expert = component.getExpertSkills().map((s) => s.name);
       expect(expert).toContain('Angular');
@@ -214,7 +219,7 @@ describe('SkillsComponent', () => {
     });
 
     it('should keep skills as expert via JSON fallback when no experience evidence', () => {
-      fixture.componentRef.setInput('profile', profileWithExperience);
+      profileService.profile.set(profileWithExperience);
 
       const expert = component.getExpertSkills().map((s) => s.name);
       // Node.js no aparece en experiencias → fallback al flag del JSON (expert:true)
@@ -222,7 +227,7 @@ describe('SkillsComponent', () => {
     });
 
     it('should select top 3 headliners sorted by count and total years', () => {
-      fixture.componentRef.setInput('profile', profileWithExperience);
+      profileService.profile.set(profileWithExperience);
 
       const headliners = component.headlinerSkills();
       // Angular aparece en 3 experiencias con isCurrent → lidera
@@ -236,7 +241,7 @@ describe('SkillsComponent', () => {
     });
 
     it('should not include headliners in expertSkills signal', () => {
-      fixture.componentRef.setInput('profile', profileWithExperience);
+      profileService.profile.set(profileWithExperience);
 
       const headlinerNames = component.headlinerSkills().map((s) => s.name);
       const expertOnly = component.expertSkills().map((s) => s.name);
@@ -246,7 +251,7 @@ describe('SkillsComponent', () => {
     });
 
     it('should render the LEADING ROLES group when there are headliners', () => {
-      fixture.componentRef.setInput('profile', profileWithExperience);
+      profileService.profile.set(profileWithExperience);
       fixture.detectChanges();
 
       const headlinerItems = fixture.nativeElement.querySelectorAll(

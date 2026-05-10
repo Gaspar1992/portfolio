@@ -1,11 +1,13 @@
+import { signal } from '@angular/core';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import type { LinkedInProfile } from '../../services/profile.service';
+import { ProfileService, type LinkedInProfile } from '../../services/profile.service';
 import { HeroComponent } from './hero.component';
 
 describe('HeroComponent', () => {
   let component: HeroComponent;
   let fixture: ComponentFixture<HeroComponent>;
+  let profileService: ProfileService;
 
   const mockProfile: LinkedInProfile = {
     _meta: {
@@ -47,10 +49,19 @@ describe('HeroComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [HeroComponent],
+      providers: [
+        {
+          provide: ProfileService,
+          useValue: {
+            profile: signal<LinkedInProfile | null>(null),
+          },
+        },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(HeroComponent);
     component = fixture.componentInstance;
+    profileService = TestBed.inject(ProfileService);
   });
 
   it('should create', () => {
@@ -58,7 +69,7 @@ describe('HeroComponent', () => {
   });
 
   it('should display profile name in uppercase', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const titleLines = fixture.nativeElement.querySelectorAll('.title-line');
@@ -67,7 +78,7 @@ describe('HeroComponent', () => {
   });
 
   it('should display headline as subtitle', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const subtitle = fixture.nativeElement.querySelector('.hero-subtitle');
@@ -75,7 +86,7 @@ describe('HeroComponent', () => {
   });
 
   it('should display location', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const location = fixture.nativeElement.querySelector('.hero-location');
@@ -84,7 +95,7 @@ describe('HeroComponent', () => {
   });
 
   it('should have correct accessibility attributes', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const section = fixture.nativeElement.querySelector('section');
@@ -93,7 +104,7 @@ describe('HeroComponent', () => {
   });
 
   it('should render experience and contact action buttons', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const buttons = fixture.nativeElement.querySelectorAll('.hero-actions button');
@@ -103,7 +114,7 @@ describe('HeroComponent', () => {
   });
 
   it('should handle null profile gracefully', () => {
-    fixture.componentRef.setInput('profile', null);
+    profileService.profile.set(null);
     fixture.detectChanges();
 
     const componentElement = fixture.nativeElement;

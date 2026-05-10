@@ -196,6 +196,7 @@ a:hover {
   border: 1px solid var(--color-cream-dark);
   padding: 2rem;
   position: relative;
+  transition: all 0.3s ease;
 }
 
 .card-deco::before {
@@ -207,7 +208,7 @@ a:hover {
   bottom: 8px;
   border: 1px solid var(--color-gold);
   pointer-events: none;
-  opacity: 0.5;
+  opacity: 0.4;
 }
 
 .card-deco::after {
@@ -218,6 +219,82 @@ a:hover {
   right: 0;
   height: 3px;
   background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+}
+
+/* Glamour Marquee Style for Skills */
+.skill-marquee {
+  background: var(--color-white);
+  border: 2px solid var(--color-gold);
+  padding: 1.5rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.skill-marquee::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+  border: 2px dotted var(--color-gold-light);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.skill-marquee:hover {
+  transform: scale(1.05);
+  box-shadow: 0 15px 30px rgba(154, 123, 45, 0.15);
+  background: var(--color-white-pure, #ffffff);
+}
+
+.skill-marquee:hover::before {
+  opacity: 1;
+  animation: marqueeBlink 1s infinite;
+}
+
+@keyframes marqueeBlink {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.skill-marquee .skill-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.15em;
+  color: var(--color-black-soft);
+  z-index: 1;
+}
+
+/* Headliners - Cinema Entrance Style */
+.skill-marquee.headliner {
+  background: var(--color-black);
+  border-width: 3px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.skill-marquee.headliner .skill-name {
+  color: var(--color-gold);
+  font-size: 1.1rem;
+}
+
+.skill-marquee.headliner::after {
+  content: 'PREMIERE';
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-display);
+  font-size: 0.5rem;
+  letter-spacing: 0.3em;
+  color: var(--color-gold-light);
+  opacity: 0.6;
 }
 
 /* Contenedor principal para scroll - sin snap */
@@ -550,28 +627,27 @@ a:hover {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   padding: 0.5rem 1.2rem;
-  background: var(--color-white);
+  background: var(--color-white-pure, #ffffff); /* Fondo sólido para contraste */
   border: 1.5px solid var(--color-gold);
   color: var(--color-gold-dark);
   margin: 0.4rem;
   transition: all 0.3s ease;
   font-weight: 600;
   position: relative;
+  box-shadow: var(--shadow-sm); /* Sombra para despegar del fondo */
   
   /* Ticket punch-out effect */
-  mask-image: radial-gradient(circle at 0 50%, transparent 6px, black 6px),
-              radial-gradient(circle at 100% 50%, transparent 6px, black 6px);
-  mask-composite: intersect;
   -webkit-mask-image: radial-gradient(circle at 0 50%, transparent 6px, black 6px),
                       radial-gradient(circle at 100% 50%, transparent 6px, black 6px);
-  -webkit-mask-composite: source-in;
+  mask-image: radial-gradient(circle at 0 50%, transparent 6px, black 6px),
+              radial-gradient(circle at 100% 50%, transparent 6px, black 6px);
 }
 
 .tag-deco:hover {
   background: var(--color-gold);
   color: var(--color-white);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(180, 140, 60, 0.2);
+  box-shadow: 0 4px 12px rgba(180, 140, 60, 0.3);
 }
 
 /* Skip Link para accesibilidad */

@@ -1,11 +1,13 @@
+import { signal } from '@angular/core';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import type { LinkedInProfile } from '../../services/profile.service';
+import { ProfileService, type LinkedInProfile } from '../../services/profile.service';
 import { ContactComponent } from './contact.component';
 
 describe('ContactComponent', () => {
   let component: ContactComponent;
   let fixture: ComponentFixture<ContactComponent>;
+  let profileService: ProfileService;
 
   const mockProfile: LinkedInProfile = {
     _meta: {
@@ -47,10 +49,19 @@ describe('ContactComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ContactComponent],
+      providers: [
+        {
+          provide: ProfileService,
+          useValue: {
+            profile: signal<LinkedInProfile | null>(null),
+          },
+        },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ContactComponent);
     component = fixture.componentInstance;
+    profileService = TestBed.inject(ProfileService);
   });
 
   it('should create', () => {
@@ -58,7 +69,7 @@ describe('ContactComponent', () => {
   });
 
   it('should display email contact link when email is available', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const emailLink = fixture.nativeElement.querySelector('a[href^="mailto:"]');
@@ -71,7 +82,7 @@ describe('ContactComponent', () => {
       ...mockProfile,
       contactInfo: { ...mockProfile.contactInfo, email: null },
     };
-    fixture.componentRef.setInput('profile', profileNoEmail);
+    profileService.profile.set(profileNoEmail);
     fixture.detectChanges();
 
     const emailLink = fixture.nativeElement.querySelector('a[href^="mailto:"]');
@@ -79,7 +90,7 @@ describe('ContactComponent', () => {
   });
 
   it('should display LinkedIn link when URL is available', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const linkedInLink = fixture.nativeElement.querySelector(
@@ -90,7 +101,7 @@ describe('ContactComponent', () => {
   });
 
   it('should display GitHub link when available', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const githubLink = fixture.nativeElement.querySelector('a[href="https://github.com/johndoe"]');
@@ -99,7 +110,7 @@ describe('ContactComponent', () => {
   });
 
   it('should have correct section id for navigation', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const section = fixture.nativeElement.querySelector('section');
@@ -107,7 +118,7 @@ describe('ContactComponent', () => {
   });
 
   it('should display footer with full name in uppercase', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const footerName = fixture.nativeElement.querySelector('.footer-name');
@@ -115,7 +126,7 @@ describe('ContactComponent', () => {
   });
 
   it('should display location in footer', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const footerYear = fixture.nativeElement.querySelector('.footer-year');
@@ -124,7 +135,7 @@ describe('ContactComponent', () => {
   });
 
   it('should display THE END in footer', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const footerFilm = fixture.nativeElement.querySelector('.footer-film');
@@ -132,7 +143,7 @@ describe('ContactComponent', () => {
   });
 
   it('should have footer with contentinfo role', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const footer = fixture.nativeElement.querySelector('footer');
@@ -140,7 +151,7 @@ describe('ContactComponent', () => {
   });
 
   it('should use native ul and li elements for contact methods', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const contactList = fixture.nativeElement.querySelector('ul.contact-methods');
@@ -151,7 +162,7 @@ describe('ContactComponent', () => {
   });
 
   it('should have proper data-testid attributes on contact elements', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const contactSection = fixture.nativeElement.querySelector('[data-testid="contact-section"]');

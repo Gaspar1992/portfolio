@@ -10,28 +10,33 @@ describe('App', () => {
   let component: App;
 
   const mockProfileService = {
-    loadProfile: vi.fn().mockResolvedValue({
-      _meta: { source: 'test', syncedAt: '2024-01-01', profileId: 'test' },
-      firstName: 'Test',
-      lastName: 'User',
-      fullName: 'Test User',
-      headline: 'Test Developer',
-      email: 'test@example.com',
-      linkedInUrl: null,
-      vanityName: null,
-      profilePictureUrl: null,
-      location: { city: 'Madrid', country: 'Spain', countryCode: 'ES' },
-      summary: 'Test summary',
-      industry: 'Technology',
-      experience: [],
-      education: [],
-      skills: [],
-      certifications: [],
-      projects: [],
-      languages: [],
-      contactInfo: { email: 'test@example.com', website: null, github: null, twitter: null },
-      interests: [],
-      honors: [],
+    profile: signal(null),
+    loadProfile: vi.fn().mockImplementation(async () => {
+      const data = {
+        _meta: { source: 'test', syncedAt: '2024-01-01', profileId: 'test' },
+        firstName: 'Test',
+        lastName: 'User',
+        fullName: 'Test User',
+        headline: 'Test Developer',
+        email: 'test@example.com',
+        linkedInUrl: null,
+        vanityName: null,
+        profilePictureUrl: null,
+        location: { city: 'Madrid', country: 'Spain', countryCode: 'ES' },
+        summary: 'Test summary',
+        industry: 'Technology',
+        experience: [],
+        education: [],
+        skills: [],
+        certifications: [],
+        projects: [],
+        languages: [],
+        contactInfo: { email: 'test@example.com', website: null, github: null, twitter: null },
+        interests: [],
+        honors: [],
+      };
+      mockProfileService.profile.set(data as any);
+      return data;
     }),
   };
 

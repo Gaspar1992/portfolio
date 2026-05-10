@@ -126,11 +126,10 @@ function markHeadliners(scored: SkillWithStats[]): SkillWithStats[] {
               data-testid="headliner-skills-list">
               @for (skill of headlinerSkills(); track skill.name) {
                 <li
-                  class="skill-item card-deco skill-expert skill-headliner"
+                  class="skill-item skill-marquee headliner"
                   [attr.aria-label]="skill.name + ' — ' + skill.count + ' positions, ' + skill.totalYears + ' years'"
                   data-testid="skill-item-headliner">
                   <span class="skill-name">{{ skill.name }}</span>
-                  <span class="expert-badge" aria-hidden="true">★★★</span>
                 </li>
               }
             </ul>
@@ -147,9 +146,8 @@ function markHeadliners(scored: SkillWithStats[]): SkillWithStats[] {
             </h3>
             <ul class="skills-grid" aria-label="Core expertise skills" data-testid="expert-skills-list">
               @for (skill of expertSkills(); track skill.name) {
-                <li class="skill-item card-deco skill-expert" [attr.aria-label]="skill.name" data-testid="skill-item-expert">
+                <li class="skill-item skill-marquee" [attr.aria-label]="skill.name" data-testid="skill-item-expert">
                   <span class="skill-name">{{ skill.name }}</span>
-                  <span class="expert-badge" aria-hidden="true">★</span>
                 </li>
               }
             </ul>
@@ -166,7 +164,7 @@ function markHeadliners(scored: SkillWithStats[]): SkillWithStats[] {
             </h3>
             <ul class="skills-grid skills-additional" aria-label="Additional skills" data-testid="additional-skills-list">
               @for (skill of additionalSkills(); track skill.name) {
-                <li class="skill-item card-deco" [attr.aria-label]="skill.name" data-testid="skill-item">
+                <li class="skill-item skill-marquee" [attr.aria-label]="skill.name" data-testid="skill-item">
                   <span class="skill-name">{{ skill.name }}</span>
                 </li>
               }

@@ -1,3 +1,4 @@
+import { signal } from '@angular/core';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { EducationComponent } from './education.component';
@@ -6,14 +7,7 @@ import { ProfileService, type LinkedInProfile } from '../../services/profile.ser
 describe('EducationComponent', () => {
   let component: EducationComponent;
   let fixture: ComponentFixture<EducationComponent>;
-
-  const mockProfileService = {
-    formatEducationDate: vi.fn((startDate: string, endDate: string) => {
-      const start = new Date(startDate).getFullYear();
-      const end = new Date(endDate).getFullYear();
-      return `${start} — ${end}`;
-    }),
-  };
+  let profileService: ProfileService;
 
   const mockProfile: LinkedInProfile = {
     _meta: {
@@ -77,12 +71,18 @@ describe('EducationComponent', () => {
     await TestBed.configureTestingModule({
       imports: [EducationComponent],
       providers: [
-        { provide: ProfileService, useValue: mockProfileService },
+        {
+          provide: ProfileService,
+          useValue: {
+            profile: signal<LinkedInProfile | null>(null),
+          },
+        },
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(EducationComponent);
     component = fixture.componentInstance;
+    profileService = TestBed.inject(ProfileService);
   });
 
   it('should create', () => {
@@ -90,38 +90,38 @@ describe('EducationComponent', () => {
   });
 
   it('should display education cards', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
-    const educationCards = fixture.nativeElement.querySelectorAll('.education-card');
+    const educationCards = fixture.nativeElement.querySelectorAll('.diploma');
     expect(educationCards.length).toBe(2);
   });
 
   it('should display degree and school information', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
-    const firstCard = fixture.nativeElement.querySelector('.education-card');
+    const firstCard = fixture.nativeElement.querySelector('.diploma');
     expect(firstCard.textContent).toContain('Master of Science');
     expect(firstCard.textContent).toContain('MIT');
     expect(firstCard.textContent).toContain('Computer Science');
   });
 
   it('should display grade when available', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
-    const cards = fixture.nativeElement.querySelectorAll('.education-card');
-    const firstCardGrade = cards[0].querySelector('.education-grade');
+    const cards = fixture.nativeElement.querySelectorAll('.diploma');
+    const firstCardGrade = cards[0].querySelector('.diploma-grade');
     expect(firstCardGrade.textContent).toContain('3.9 GPA');
 
-    const secondCardGrade = cards[1].querySelector('.education-grade');
+    const secondCardGrade = cards[1].querySelector('.diploma-grade');
     expect(secondCardGrade).toBeNull();
   });
 
   it('should show empty state when no education', () => {
     const profileNoEducation = { ...mockProfile, education: [] };
-    fixture.componentRef.setInput('profile', profileNoEducation);
+    profileService.profile.set(profileNoEducation);
     fixture.detectChanges();
 
     const emptyState = fixture.nativeElement.querySelector('[role="status"]');
@@ -129,7 +129,7 @@ describe('EducationComponent', () => {
   });
 
   it('should have correct section id for navigation', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const section = fixture.nativeElement.querySelector('section');

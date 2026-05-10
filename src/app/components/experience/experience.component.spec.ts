@@ -1,3 +1,4 @@
+import { signal } from '@angular/core';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { ExperienceComponent } from './experience.component';
@@ -6,17 +7,7 @@ import { ProfileService, type LinkedInProfile } from '../../services/profile.ser
 describe('ExperienceComponent', () => {
   let component: ExperienceComponent;
   let fixture: ComponentFixture<ExperienceComponent>;
-
-  const mockProfileService = {
-    formatExperienceDate: vi.fn((startDate: string, endDate: string | null, isCurrent: boolean) => {
-      const start = new Date(startDate).getFullYear();
-      if (isCurrent || !endDate) {
-        return `${start} — Present`;
-      }
-      const end = new Date(endDate).getFullYear();
-      return `${start} — ${end}`;
-    }),
-  };
+  let profileService: ProfileService;
 
   const mockProfile: LinkedInProfile = {
     _meta: {
@@ -86,12 +77,18 @@ describe('ExperienceComponent', () => {
     await TestBed.configureTestingModule({
       imports: [ExperienceComponent],
       providers: [
-        { provide: ProfileService, useValue: mockProfileService },
+        {
+          provide: ProfileService,
+          useValue: {
+            profile: signal<LinkedInProfile | null>(null),
+          },
+        },
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ExperienceComponent);
     component = fixture.componentInstance;
+    profileService = TestBed.inject(ProfileService);
   });
 
   it('should create', () => {
@@ -129,7 +126,7 @@ describe('ExperienceComponent', () => {
   });
 
   it('should display experience items', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const timelineItems = fixture.nativeElement.querySelectorAll('.timeline-item');
@@ -137,7 +134,7 @@ describe('ExperienceComponent', () => {
   });
 
   it('should have correct section id for navigation', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const section = fixture.nativeElement.querySelector('section');

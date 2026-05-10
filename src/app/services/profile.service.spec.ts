@@ -93,28 +93,12 @@ describe('ProfileService', () => {
   });
 
   it('should return null when profile is not loaded', () => {
-    expect(service.getProfile()).toBeNull();
+    expect(service.profile()).toBeNull();
     expect(service.getLastSyncedAt()).toBeNull();
   });
 
-  it('should format experience date for current position', () => {
-    const formatted = service.formatExperienceDate('2022-01-01', null, true);
-    expect(formatted).toBe('2022 — Present');
-  });
-
-  it('should format experience date for past position', () => {
-    const formatted = service.formatExperienceDate('2020-01-01', '2021-12-31', false);
-    expect(formatted).toBe('2020 — 2021');
-  });
-
-  it('should format education date', () => {
-    const formatted = service.formatEducationDate('2018-09-01', '2020-06-30');
-    expect(formatted).toBe('2018 — 2020');
-  });
-
   it('should format last synced date', async () => {
-    // Mock the profile loading by setting the private property directly
-    (service as unknown as { profileData: LinkedInProfile }).profileData = mockProfile;
+    service.profile.set(mockProfile);
 
     const syncedAt = service.getLastSyncedAt();
     expect(syncedAt).toContain('2024');

@@ -1,11 +1,13 @@
+import { signal } from '@angular/core';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import type { LinkedInProfile } from '../../services/profile.service';
+import { ProfileService, type LinkedInProfile } from '../../services/profile.service';
 import { CertificationsComponent } from './certifications.component';
 
 describe('CertificationsComponent', () => {
   let component: CertificationsComponent;
   let fixture: ComponentFixture<CertificationsComponent>;
+  let profileService: ProfileService;
 
   const mockProfile: LinkedInProfile = {
     _meta: {
@@ -64,10 +66,19 @@ describe('CertificationsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CertificationsComponent],
+      providers: [
+        {
+          provide: ProfileService,
+          useValue: {
+            profile: signal<LinkedInProfile | null>(null),
+          },
+        },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CertificationsComponent);
     component = fixture.componentInstance;
+    profileService = TestBed.inject(ProfileService);
   });
 
   it('should create', () => {
@@ -107,7 +118,7 @@ describe('CertificationsComponent', () => {
   });
 
   it('should display certification items', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const certItems = fixture.nativeElement.querySelectorAll('.cert-item');
@@ -115,7 +126,7 @@ describe('CertificationsComponent', () => {
   });
 
   it('should display credential link when available', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const links = fixture.nativeElement.querySelectorAll('.cert-link');
@@ -124,7 +135,7 @@ describe('CertificationsComponent', () => {
   });
 
   it('should show valid indefinitely for no expiration date', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const certItems = fixture.nativeElement.querySelectorAll('.cert-item');
@@ -133,7 +144,7 @@ describe('CertificationsComponent', () => {
 
   it('should show empty state when no certifications', () => {
     const profileNoCerts = { ...mockProfile, certifications: [] };
-    fixture.componentRef.setInput('profile', profileNoCerts);
+    profileService.profile.set(profileNoCerts);
     fixture.detectChanges();
 
     const emptyState = fixture.nativeElement.querySelector('[role="status"]');
@@ -141,7 +152,7 @@ describe('CertificationsComponent', () => {
   });
 
   it('should have correct section id for navigation', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const section = fixture.nativeElement.querySelector('section');

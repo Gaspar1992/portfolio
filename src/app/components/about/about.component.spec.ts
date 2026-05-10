@@ -1,11 +1,13 @@
+import { signal } from '@angular/core';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import type { LinkedInProfile } from '../../services/profile.service';
+import { ProfileService, type LinkedInProfile } from '../../services/profile.service';
 import { AboutComponent } from './about.component';
 
 describe('AboutComponent', () => {
   let component: AboutComponent;
   let fixture: ComponentFixture<AboutComponent>;
+  let profileService: ProfileService;
 
   const mockProfile: LinkedInProfile = {
     _meta: {
@@ -56,10 +58,19 @@ describe('AboutComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AboutComponent],
+      providers: [
+        {
+          provide: ProfileService,
+          useValue: {
+            profile: signal<LinkedInProfile | null>(null),
+          },
+        },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AboutComponent);
     component = fixture.componentInstance;
+    profileService = TestBed.inject(ProfileService);
   });
 
   it('should create', () => {
@@ -74,12 +85,12 @@ describe('AboutComponent', () => {
   });
 
   it('should extract first paragraph from summary', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     expect(component.getFirstParagraph()).toBe('First paragraph of summary.');
   });
 
   it('should extract remaining paragraphs from summary', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     const paragraphs = component.getSummaryParagraphs();
     expect(paragraphs.length).toBe(2);
     expect(paragraphs[0]).toBe('Second paragraph with more details.');
@@ -87,7 +98,7 @@ describe('AboutComponent', () => {
   });
 
   it('should get top 6 skills', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     const topSkills = component.getTopSkills();
     expect(topSkills.length).toBe(6);
     expect(topSkills[0].name).toBe('Angular');
@@ -95,7 +106,7 @@ describe('AboutComponent', () => {
   });
 
   it('should display profile image when available', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const img = fixture.nativeElement.querySelector('.portrait-image');
@@ -106,7 +117,7 @@ describe('AboutComponent', () => {
 
   it('should display placeholder when no profile image', () => {
     const profileWithoutImage = { ...mockProfile, profilePictureUrl: null };
-    fixture.componentRef.setInput('profile', profileWithoutImage);
+    profileService.profile.set(profileWithoutImage);
     fixture.detectChanges();
 
     const placeholder = fixture.nativeElement.querySelector('.portrait-placeholder');
@@ -115,7 +126,7 @@ describe('AboutComponent', () => {
   });
 
   it('should have correct section id for navigation', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const section = fixture.nativeElement.querySelector('section');

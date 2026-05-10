@@ -1,11 +1,13 @@
+import { signal } from '@angular/core';
 import { describe, it, expect, beforeEach } from 'vitest';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProjectsComponent } from './projects.component';
-import type { LinkedInProfile } from '../../services/profile.service';
+import { ProfileService, type LinkedInProfile } from '../../services/profile.service';
 
 describe('ProjectsComponent', () => {
   let component: ProjectsComponent;
   let fixture: ComponentFixture<ProjectsComponent>;
+  let profileService: ProfileService;
 
   const mockProfile: LinkedInProfile = {
     _meta: {
@@ -66,10 +68,19 @@ describe('ProjectsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ProjectsComponent],
+      providers: [
+        {
+          provide: ProfileService,
+          useValue: {
+            profile: signal<LinkedInProfile | null>(null),
+          },
+        },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProjectsComponent);
     component = fixture.componentInstance;
+    profileService = TestBed.inject(ProfileService);
   });
 
   it('should create', () => {
@@ -77,7 +88,7 @@ describe('ProjectsComponent', () => {
   });
 
   it('should display project cards', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const projectCards = fixture.nativeElement.querySelectorAll('.project-card');
@@ -85,7 +96,7 @@ describe('ProjectsComponent', () => {
   });
 
   it('should display project name as heading', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const headings = fixture.nativeElement.querySelectorAll('h3');
@@ -94,7 +105,7 @@ describe('ProjectsComponent', () => {
   });
 
   it('should display project technologies', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const firstCard = fixture.nativeElement.querySelectorAll('.project-card')[0];
@@ -104,7 +115,7 @@ describe('ProjectsComponent', () => {
   });
 
   it('should display view project link when URL is available', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const projectLinks = fixture.nativeElement.querySelectorAll('.project-links a');
@@ -114,7 +125,7 @@ describe('ProjectsComponent', () => {
   });
 
   it('should not display link when project URL is null', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const cards = fixture.nativeElement.querySelectorAll('.project-card');
@@ -123,7 +134,7 @@ describe('ProjectsComponent', () => {
   });
 
   it('should display project tags with technologies', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const firstCard = fixture.nativeElement.querySelector('.project-card');
@@ -133,7 +144,7 @@ describe('ProjectsComponent', () => {
 
   it('should show empty state when no projects', () => {
     const profileNoProjects = { ...mockProfile, projects: [] };
-    fixture.componentRef.setInput('profile', profileNoProjects);
+    profileService.profile.set(profileNoProjects);
     fixture.detectChanges();
 
     const emptyState = fixture.nativeElement.querySelector('[role="status"]');
@@ -141,7 +152,7 @@ describe('ProjectsComponent', () => {
   });
 
   it('should have correct section id for navigation', () => {
-    fixture.componentRef.setInput('profile', mockProfile);
+    profileService.profile.set(mockProfile);
     fixture.detectChanges();
 
     const section = fixture.nativeElement.querySelector('section');
