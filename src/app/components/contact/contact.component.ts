@@ -1,10 +1,11 @@
 import { UpperCasePipe } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-contact',
   imports: [UpperCasePipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section 
       class="section-transition contact-section" 

@@ -1,11 +1,9 @@
-import { Component, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { KeyboardNavigationService } from '../../services/keyboard-navigation.service';
 
 @Component({
   selector: 'app-navigation',
-  standalone: true,
-  imports: [CommonModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './navigation.component.html',
   styleUrl: './navigation.component.scss',
 })

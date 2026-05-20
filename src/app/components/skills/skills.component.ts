@@ -1,5 +1,5 @@
 import { ProfileService } from '../../services/profile.service';
-import { Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import type {
   ProfileExperience,
   ProfileSkill,
@@ -95,6 +95,7 @@ function markHeadliners(scored: SkillWithStats[]): SkillWithStats[] {
 
 @Component({
   selector: 'app-skills',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section 
       class="section-transition skills-section" 

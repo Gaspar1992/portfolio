@@ -1,12 +1,12 @@
 import { UpperCasePipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ProfileService } from '../../services/profile.service';
 import { KeyboardNavigationService } from '../../services/keyboard-navigation.service';
 
 @Component({
   selector: 'app-hero',
-  standalone: true,
   imports: [UpperCasePipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section 
       class="hero-section" 

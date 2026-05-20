@@ -3,16 +3,16 @@ import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { vi } from 'vitest';
 import { App } from './app';
 import { KeyboardNavigationService } from './services/keyboard-navigation.service';
-import { ProfileService } from './services/profile.service';
+import { ProfileService, type LinkedInProfile } from './services/profile.service';
 
 describe('App', () => {
   let fixture: ComponentFixture<App>;
   let component: App;
 
   const mockProfileService = {
-    profile: signal(null),
+    profile: signal<LinkedInProfile | null>(null),
     loadProfile: vi.fn().mockImplementation(async () => {
-      const data = {
+      const data: LinkedInProfile = {
         _meta: { source: 'test', syncedAt: '2024-01-01', profileId: 'test' },
         firstName: 'Test',
         lastName: 'User',
@@ -35,7 +35,7 @@ describe('App', () => {
         interests: [],
         honors: [],
       };
-      mockProfileService.profile.set(data as any);
+      mockProfileService.profile.set(data);
       return data;
     }),
   };

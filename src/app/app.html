@@ -35,37 +35,57 @@
 
     <div class="film-strip-separator" aria-hidden="true"></div>
 
-    <!-- Skills -->
+    <!-- Skills (deferred — below the fold) -->
     <div id="skills" tabindex="-1">
-      <app-skills></app-skills>
+      @defer (on viewport) {
+        <app-skills></app-skills>
+      } @placeholder {
+        <div class="defer-placeholder" aria-hidden="true"></div>
+      }
     </div>
 
     <div class="film-strip-separator" aria-hidden="true"></div>
 
-    <!-- Education -->
+    <!-- Education (deferred) -->
     <div id="education" tabindex="-1">
-      <app-education></app-education>
+      @defer (on viewport) {
+        <app-education></app-education>
+      } @placeholder {
+        <div class="defer-placeholder" aria-hidden="true"></div>
+      }
     </div>
 
     <div class="film-strip-separator" aria-hidden="true"></div>
 
-    <!-- Projects -->
+    <!-- Projects (deferred) -->
     <div id="projects" tabindex="-1">
-      <app-projects></app-projects>
+      @defer (on viewport) {
+        <app-projects></app-projects>
+      } @placeholder {
+        <div class="defer-placeholder" aria-hidden="true"></div>
+      }
     </div>
 
     <div class="film-strip-separator" aria-hidden="true"></div>
 
-    <!-- Certifications -->
+    <!-- Certifications (deferred) -->
     <div id="certifications" tabindex="-1">
-      <app-certifications></app-certifications>
+      @defer (on viewport) {
+        <app-certifications></app-certifications>
+      } @placeholder {
+        <div class="defer-placeholder" aria-hidden="true"></div>
+      }
     </div>
 
     <div class="film-strip-separator" aria-hidden="true"></div>
 
-    <!-- Contact -->
+    <!-- Contact (deferred) -->
     <div id="contact" tabindex="-1">
-      <app-contact></app-contact>
+      @defer (on viewport) {
+        <app-contact></app-contact>
+      } @placeholder {
+        <div class="defer-placeholder" aria-hidden="true"></div>
+      }
     </div>
   }
 

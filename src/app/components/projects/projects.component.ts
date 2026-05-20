@@ -1,8 +1,9 @@
 import { ProfileService } from '../../services/profile.service';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 @Component({
   selector: 'app-projects',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section 
       class="section-transition projects-section" 

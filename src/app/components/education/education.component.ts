@@ -1,11 +1,11 @@
-import { Component, inject, } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ProfileService } from '../../services/profile.service';
 import { DateRangePipe } from '../../pipes/date-range.pipe';
 
 @Component({
   selector: 'app-education',
-  standalone: true,
   imports: [DateRangePipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section 
       class="section-transition education-section" 

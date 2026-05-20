@@ -1,5 +1,5 @@
 import { signal } from '@angular/core';
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { ExperienceComponent } from './experience.component';
 import { ProfileService, type LinkedInProfile } from '../../services/profile.service';
