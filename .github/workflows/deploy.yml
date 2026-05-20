@@ -22,20 +22,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
       - name: Setup Node.js
         uses: actions/setup-node@v5
         with:
           node-version: 22
-          cache: npm
+          cache: pnpm
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Generate favicons
         run: node scripts/generate-favicon.mjs
 
       - name: Run unit tests
-        run: npm test -- --watch=false
+        run: pnpm test -- --watch=false
 
   e2e-tests:
     name: E2E Tests
@@ -45,14 +50,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
       - name: Setup Node.js
         uses: actions/setup-node@v5
         with:
           node-version: 22
-          cache: npm
+          cache: pnpm
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Cache Playwright browsers
         uses: actions/cache@v5
@@ -67,7 +77,7 @@ jobs:
         run: node scripts/generate-favicon.mjs
 
       - name: Run E2E tests
-        run: npm run test:e2e -- --reporter=line
+        run: pnpm run test:e2e -- --reporter=line
 
   build:
     needs: [unit-tests, e2e-tests]
@@ -76,20 +86,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
       - name: Setup Node.js
         uses: actions/setup-node@v5
         with:
           node-version: 22
-          cache: npm
+          cache: pnpm
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Generate favicons from SVG
         run: node scripts/generate-favicon.mjs
 
       - name: Build with SSG
-        run: npm run build:ssg -- --base-href /portfolio/
+        run: pnpm run build:ssg -- --base-href /portfolio/
 
       - name: Compress assets
         run: node scripts/compress-assets.mjs

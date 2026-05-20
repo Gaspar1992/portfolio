@@ -104,4 +104,16 @@ describe('ProfileService', () => {
     expect(syncedAt).toContain('2024');
     expect(syncedAt).toContain('enero'); // Spanish locale
   });
+
+  it('should load profile from JSON on first call', async () => {
+    const data = await service.loadProfile();
+    expect(data).toBeDefined();
+    expect(service.profile()).toEqual(data);
+  });
+
+  it('should return cached profile on subsequent calls', async () => {
+    service.profile.set(mockProfile);
+    const data = await service.loadProfile();
+    expect(data).toEqual(mockProfile);
+  });
 });
