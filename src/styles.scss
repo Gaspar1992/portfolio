@@ -298,37 +298,7 @@ a {
   }
 }
 
-/* Secciones - sin scroll snap */
-.section-snap {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 4rem 0;
-  position: relative;
-  box-sizing: border-box;
-  flex-shrink: 0;
-}
-
-.section-snap-center {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 4rem 0;
-  position: relative;
-  box-sizing: border-box;
-  flex-shrink: 0;
-}
-
 @media (max-width: 768px) {
-  .section-snap,
-  .section-snap-center {
-    height: auto;
-    min-height: 100vh;
-    flex-shrink: 0;
-  }
-
   .snap-container {
     height: auto;
     min-height: 100vh;
@@ -467,8 +437,8 @@ a {
 .film-strip-separator::after {
   content: '· · · · · · · · · · · · ·';
   position: absolute;
-  top: 50%;
-  left: 50%;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
   transform: translate(-50%, -50%);
   color: var(--color-gold);
   font-size: 1.5rem;
@@ -516,13 +486,13 @@ a {
 }
 
 .quote-deco::before {
-  top: 0;
-  left: 0;
+  inset-block-start: 0;
+  inset-inline-start: 0;
 }
 
 .quote-deco::after {
-  bottom: -1rem;
-  right: 0;
+  inset-block-end: -1rem;
+  inset-inline-end: 0;
   transform: rotate(180deg);
 }
 
@@ -532,6 +502,8 @@ a {
   padding-inline: 2rem;
   position: relative;
   z-index: 10;
+  container-type: inline-size;
+  container-name: section-container;
 }
 
 .grid {
@@ -540,6 +512,12 @@ a {
 
   &-2 { grid-template-columns: repeat(2, 1fr); }
   &-3 { grid-template-columns: repeat(3, 1fr); }
+}
+
+@container section-container (max-width: 768px) {
+  .grid-2, .grid-3 {
+    grid-template-columns: 1fr;
+  }
 }
 
 .flex {
@@ -561,19 +539,19 @@ a {
 }
 
 .mb-2 {
-  margin-bottom: 1rem;
+  margin-block-end: 1rem;
 }
 
 .mb-4 {
-  margin-bottom: 2rem;
+  margin-block-end: 2rem;
 }
 
 .mb-6 {
-  margin-bottom: 3rem;
+  margin-block-end: 3rem;
 }
 
 .mt-4 {
-  margin-top: 2rem;
+  margin-block-start: 2rem;
 }
 
 .tag-deco {
@@ -682,9 +660,5 @@ section {
 
   .container {
     padding-inline: 1rem;
-  }
-
-  .grid {
-    &-2, &-3 { grid-template-columns: 1fr; }
   }
 }
