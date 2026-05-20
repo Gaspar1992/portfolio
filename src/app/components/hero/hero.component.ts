@@ -1,7 +1,7 @@
 import { UpperCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ProfileService } from '../../services/profile.service';
 import { KeyboardNavigationService } from '../../services/keyboard-navigation.service';
+import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-hero',

@@ -3,7 +3,7 @@ import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { vi } from 'vitest';
 import { App } from './app';
 import { KeyboardNavigationService } from './services/keyboard-navigation.service';
-import { ProfileService, type LinkedInProfile } from './services/profile.service';
+import { type LinkedInProfile, ProfileService } from './services/profile.service';
 
 describe('App', () => {
   let fixture: ComponentFixture<App>;

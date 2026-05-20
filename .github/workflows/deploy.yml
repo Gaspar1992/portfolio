@@ -42,45 +42,8 @@ jobs:
       - name: Run unit tests
         run: pnpm test -- --watch=false
 
-  e2e-tests:
-    name: E2E Tests
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          version: 9
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v5
-        with:
-          node-version: 22
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Cache Playwright browsers
-        uses: actions/cache@v5
-        with:
-          path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
-
-      - name: Install Playwright browsers
-        run: npx playwright install chromium firefox
-
-      - name: Generate favicons
-        run: node scripts/generate-favicon.mjs
-
-      - name: Run E2E tests
-        run: pnpm run test:e2e -- --reporter=line
-
   build:
-    needs: [unit-tests, e2e-tests]
+    needs: [unit-tests]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

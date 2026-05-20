@@ -36,7 +36,13 @@ function calculateSkillEndorsements(profileData) {
 
   // Sumar puntos por certificaciones relacionadas
   const certSkillMap = {
-    angular: ['Angular', 'TypeScript', 'JavaScript', 'Front-End Development', 'Front-end Engineering'],
+    angular: [
+      'Angular',
+      'TypeScript',
+      'JavaScript',
+      'Front-End Development',
+      'Front-end Engineering',
+    ],
     node: ['Node.js', 'JavaScript', 'TypeScript'],
     ionic: ['Ionic Framework', 'Angular', 'TypeScript', 'JavaScript'],
     flutter: ['Flutter', 'Dart'],

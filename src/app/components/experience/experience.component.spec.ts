@@ -1,8 +1,8 @@
 import { signal } from '@angular/core';
-import { describe, it, expect, beforeEach } from 'vitest';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it } from 'vitest';
+import { type LinkedInProfile, ProfileService } from '../../services/profile.service';
 import { ExperienceComponent } from './experience.component';
-import { ProfileService, type LinkedInProfile } from '../../services/profile.service';
 
 describe('ExperienceComponent', () => {
   let component: ExperienceComponent;
@@ -41,7 +41,8 @@ describe('ExperienceComponent', () => {
         startDate: '2022-01-01',
         endDate: null,
         isCurrent: true,
-        description: 'Leading development team.\n\n- Implemented microservices architecture\n- Reduced deployment time by 50%\n- Mentored junior developers',
+        description:
+          'Leading development team.\n\n- Implemented microservices architecture\n- Reduced deployment time by 50%\n- Mentored junior developers',
         skills: ['Angular', 'Node.js', 'Docker'],
       },
       {

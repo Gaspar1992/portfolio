@@ -1,9 +1,6 @@
-import { ProfileService } from '../../services/profile.service';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import type {
-  ProfileExperience,
-  ProfileSkill,
-} from '../../services/profile.service';
+import type { ProfileExperience, ProfileSkill } from '../../services/profile.service';
+import { ProfileService } from '../../services/profile.service';
 
 // Años recientes para considerar una skill "expert" aunque ya no esté en la experiencia actual
 const EXPERT_RECENCY_YEARS = 3;

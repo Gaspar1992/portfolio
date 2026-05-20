@@ -1,6 +1,6 @@
-import { describe, it, expect, beforeEach } from 'vitest';
 import { TestBed } from '@angular/core/testing';
-import { ProfileService, type LinkedInProfile } from './profile.service';
+import { beforeEach, describe, expect, it } from 'vitest';
+import { type LinkedInProfile, ProfileService } from './profile.service';
 
 describe('ProfileService', () => {
   let service: ProfileService;

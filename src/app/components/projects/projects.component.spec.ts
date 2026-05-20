@@ -1,8 +1,8 @@
 import { signal } from '@angular/core';
-import { describe, it, expect, beforeEach } from 'vitest';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it } from 'vitest';
+import { type LinkedInProfile, ProfileService } from '../../services/profile.service';
 import { ProjectsComponent } from './projects.component';
-import { ProfileService, type LinkedInProfile } from '../../services/profile.service';
 
 describe('ProjectsComponent', () => {
   let component: ProjectsComponent;

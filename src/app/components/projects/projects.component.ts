@@ -1,5 +1,5 @@
-import { ProfileService } from '../../services/profile.service';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-projects',

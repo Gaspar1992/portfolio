@@ -11,8 +11,8 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { ProjectsComponent } from './components/projects/projects.component';
 import { SectionIndicatorComponent } from './components/section-indicator/section-indicator.component';
 import { SkillsComponent } from './components/skills/skills.component';
-import { ProfileService } from './services/profile.service';
 import type { LinkedInProfile } from './services/profile.service';
+import { ProfileService } from './services/profile.service';
 
 @Component({
   selector: 'app-root',
@@ -44,7 +44,7 @@ export class App implements OnInit {
   async ngOnInit() {
     try {
       const data = await this.profileService.loadProfile();
-            this.updatePageMetadata(data);
+      this.updatePageMetadata(data);
     } catch (error) {
       console.error('Error loading profile:', error);
     } finally {

@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { ProfileService, type LinkedInProfile } from '../../services/profile.service';
+import { type LinkedInProfile, ProfileService } from '../../services/profile.service';
 import { ContactComponent } from './contact.component';
 
 describe('ContactComponent', () => {

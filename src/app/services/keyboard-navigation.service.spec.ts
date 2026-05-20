@@ -1,32 +1,28 @@
-import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import { TestBed } from '@angular/core/testing';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { KeyboardNavigationService } from './keyboard-navigation.service';
-import { DOCUMENT } from '@angular/common';
 
 describe('KeyboardNavigationService', () => {
   let service: KeyboardNavigationService;
-  let mockDocument: Document;
 
   beforeEach(() => {
     // Mock IntersectionObserver
-    const mockIntersectionObserver = vi.fn();
-    mockIntersectionObserver.mockReturnValue({
-      observe: () => null,
-      unobserve: () => null,
-      disconnect: () => null
-    });
-    vi.stubGlobal('IntersectionObserver', mockIntersectionObserver);
+    class MockIntersectionObserver {
+      observe = vi.fn();
+      unobserve = vi.fn();
+      disconnect = vi.fn();
+    }
+    vi.stubGlobal('IntersectionObserver', MockIntersectionObserver);
 
     // Mock MutationObserver
-    const mockMutationObserver = vi.fn();
-    mockMutationObserver.mockReturnValue({
-      observe: () => null,
-      disconnect: () => null
-    });
-    vi.stubGlobal('MutationObserver', mockMutationObserver);
+    class MockMutationObserver {
+      observe = vi.fn();
+      disconnect = vi.fn();
+    }
+    vi.stubGlobal('MutationObserver', MockMutationObserver);
 
     TestBed.configureTestingModule({});
-    
+
     vi.stubGlobal('window', {
       ...window,
       addEventListener: vi.fn(),
@@ -60,10 +56,10 @@ describe('KeyboardNavigationService', () => {
   it('should navigate to next section', () => {
     service.currentSectionIndex.set(0);
     const mockElement = { scrollIntoView: vi.fn() };
-    vi.spyOn(document, 'getElementById').mockReturnValue(mockElement as any);
-    
+    vi.spyOn(document, 'getElementById').mockReturnValue(mockElement as unknown as HTMLElement);
+
     service.navigateToNext();
-    
+
     expect(service.currentSectionIndex()).toBe(1);
     expect(document.getElementById).toHaveBeenCalledWith('about');
     expect(mockElement.scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth', block: 'start' });
@@ -72,10 +68,10 @@ describe('KeyboardNavigationService', () => {
   it('should navigate to previous section', () => {
     service.currentSectionIndex.set(2);
     const mockElement = { scrollIntoView: vi.fn() };
-    vi.spyOn(document, 'getElementById').mockReturnValue(mockElement as any);
-    
+    vi.spyOn(document, 'getElementById').mockReturnValue(mockElement as unknown as HTMLElement);
+
     service.navigateToPrevious();
-    
+
     expect(service.currentSectionIndex()).toBe(1);
     expect(document.getElementById).toHaveBeenCalledWith('about');
     expect(mockElement.scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth', block: 'start' });
@@ -102,16 +98,18 @@ describe('KeyboardNavigationService', () => {
 
   it('should update current section from focus', () => {
     const mockActiveElement = {};
-    vi.spyOn(document, 'activeElement', 'get').mockReturnValue(mockActiveElement as any);
+    vi.spyOn(document, 'activeElement', 'get').mockReturnValue(
+      mockActiveElement as unknown as HTMLElement
+    );
     vi.spyOn(document, 'getElementById').mockImplementation((id) => {
       if (id === 'experience') {
-        return { contains: (el: any) => el === mockActiveElement } as any;
+        return { contains: (el: unknown) => el === mockActiveElement } as unknown as HTMLElement;
       }
-      return { contains: () => false } as any;
+      return { contains: () => false } as unknown as HTMLElement;
     });
 
     service.updateCurrentSectionFromFocus();
-    
+
     expect(service.currentSectionIndex()).toBe(2); // 'experience'
   });
 });

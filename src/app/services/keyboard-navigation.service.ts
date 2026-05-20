@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Injectable, inject, signal, DestroyRef, NgZone } from '@angular/core';
+import { DestroyRef, Injectable, inject, NgZone, signal } from '@angular/core';
 
 export interface Section {
   id: string;
@@ -49,8 +49,8 @@ export class KeyboardNavigationService {
         }
 
         event.preventDefault();
-        
-        // We re-enter the zone only when we actually update state if needed, 
+
+        // We re-enter the zone only when we actually update state if needed,
         // but with Signals it's safe to update outside the zone!
         this.isNavigatingWithKeyboard.set(true);
 

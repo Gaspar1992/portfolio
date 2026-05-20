@@ -241,10 +241,7 @@ function transformLinkedInExport() {
 
   // Parsear ubicación (CSV usa 'Geo Location', JSON usa 'Location')
   const geoLocation =
-    profile['Geo Location']?.trim() ||
-    profile.Location?.trim() ||
-    profile.location?.trim() ||
-    '';
+    profile['Geo Location']?.trim() || profile.Location?.trim() || profile.location?.trim() || '';
   const locationParts = geoLocation.split(/,\s*/);
 
   // Extraer vanity name de la URL pública
@@ -267,11 +264,7 @@ function transformLinkedInExport() {
       null;
     const location = pos.Location || pos.location || pos.Locación || pos.Locación || null;
     const description =
-      pos.Description ||
-      pos.description ||
-      pos.Descripción ||
-      pos['Funciones adicionales'] ||
-      null;
+      pos.Description || pos.description || pos.Descripción || pos['Funciones adicionales'] || null;
 
     // Parsear fechas
     const startDate = parseLinkedInDate(pos['Started On'] || pos.startDate || pos.startedOn);
@@ -311,8 +304,7 @@ function transformLinkedInExport() {
       edu.CampoDeEstudio ||
       null;
     const grade = edu.Grade || edu.grade || edu.Nota || edu.Nota || null;
-    const activities =
-      edu.Activities || edu.activities || edu['Actividades y sociedades'] || null;
+    const activities = edu.Activities || edu.activities || edu['Actividades y sociedades'] || null;
 
     const startDate = parseLinkedInDate(edu['Start Date'] || edu.startDate || edu.fechaInicio);
     const endDate = parseLinkedInDate(edu['End Date'] || edu.endDate || edu.fechaFin);

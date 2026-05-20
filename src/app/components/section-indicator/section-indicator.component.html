@@ -1,9 +1,10 @@
-<div 
-  class="section-indicator" 
+<div
+  class="section-indicator"
   [class.visible]="isVisible()"
   role="status"
   aria-live="polite"
-  aria-label="Current section">
+  aria-label="Current section"
+>
   <span class="current-section">{{ currentSectionLabel() }}</span>
   <span class="section-count">{{ currentIndex() + 1 }} / {{ totalSections() }}</span>
 </div>

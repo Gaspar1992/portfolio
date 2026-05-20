@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ProfileService } from '../../services/profile.service';
 import { DateRangePipe } from '../../pipes/date-range.pipe';
+import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-education',

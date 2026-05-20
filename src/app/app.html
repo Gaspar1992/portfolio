@@ -17,75 +17,74 @@
 
   <!-- Hero - carga inmediata -->
   <app-hero></app-hero>
-
   <!-- Sections -->
   @if (profile()) {
-    <!-- About -->
-    <div id="about" tabindex="-1">
-      <app-about></app-about>
-    </div>
+  <!-- About -->
+  <div id="about" tabindex="-1">
+    <app-about></app-about>
+  </div>
 
-    <div class="film-strip-separator" aria-hidden="true"></div>
+  <div class="film-strip-separator" aria-hidden="true"></div>
 
-    <!-- Experience -->
-    <div id="experience" tabindex="-1">
-      <app-experience></app-experience>
-    </div>
+  <!-- Experience -->
+  <div id="experience" tabindex="-1">
+    <app-experience></app-experience>
+  </div>
 
-    <div class="film-strip-separator" aria-hidden="true"></div>
+  <div class="film-strip-separator" aria-hidden="true"></div>
 
-    <!-- Skills (deferred — below the fold) -->
-    <div id="skills" tabindex="-1">
-      @defer (on viewport) {
-        <app-skills></app-skills>
-      } @placeholder {
-        <div class="defer-placeholder" aria-hidden="true"></div>
-      }
-    </div>
+  <!-- Skills (deferred — below the fold) -->
+  <div id="skills" tabindex="-1">
+    @defer (on viewport) {
+    <app-skills></app-skills>
+    } @placeholder {
+    <div class="defer-placeholder" aria-hidden="true"></div>
+    }
+  </div>
 
-    <div class="film-strip-separator" aria-hidden="true"></div>
+  <div class="film-strip-separator" aria-hidden="true"></div>
 
-    <!-- Education (deferred) -->
-    <div id="education" tabindex="-1">
-      @defer (on viewport) {
-        <app-education></app-education>
-      } @placeholder {
-        <div class="defer-placeholder" aria-hidden="true"></div>
-      }
-    </div>
+  <!-- Education (deferred) -->
+  <div id="education" tabindex="-1">
+    @defer (on viewport) {
+    <app-education></app-education>
+    } @placeholder {
+    <div class="defer-placeholder" aria-hidden="true"></div>
+    }
+  </div>
 
-    <div class="film-strip-separator" aria-hidden="true"></div>
+  <div class="film-strip-separator" aria-hidden="true"></div>
 
-    <!-- Projects (deferred) -->
-    <div id="projects" tabindex="-1">
-      @defer (on viewport) {
-        <app-projects></app-projects>
-      } @placeholder {
-        <div class="defer-placeholder" aria-hidden="true"></div>
-      }
-    </div>
+  <!-- Projects (deferred) -->
+  <div id="projects" tabindex="-1">
+    @defer (on viewport) {
+    <app-projects></app-projects>
+    } @placeholder {
+    <div class="defer-placeholder" aria-hidden="true"></div>
+    }
+  </div>
 
-    <div class="film-strip-separator" aria-hidden="true"></div>
+  <div class="film-strip-separator" aria-hidden="true"></div>
 
-    <!-- Certifications (deferred) -->
-    <div id="certifications" tabindex="-1">
-      @defer (on viewport) {
-        <app-certifications></app-certifications>
-      } @placeholder {
-        <div class="defer-placeholder" aria-hidden="true"></div>
-      }
-    </div>
+  <!-- Certifications (deferred) -->
+  <div id="certifications" tabindex="-1">
+    @defer (on viewport) {
+    <app-certifications></app-certifications>
+    } @placeholder {
+    <div class="defer-placeholder" aria-hidden="true"></div>
+    }
+  </div>
 
-    <div class="film-strip-separator" aria-hidden="true"></div>
+  <div class="film-strip-separator" aria-hidden="true"></div>
 
-    <!-- Contact (deferred) -->
-    <div id="contact" tabindex="-1">
-      @defer (on viewport) {
-        <app-contact></app-contact>
-      } @placeholder {
-        <div class="defer-placeholder" aria-hidden="true"></div>
-      }
-    </div>
+  <!-- Contact (deferred) -->
+  <div id="contact" tabindex="-1">
+    @defer (on viewport) {
+    <app-contact></app-contact>
+    } @placeholder {
+    <div class="defer-placeholder" aria-hidden="true"></div>
+    }
+  </div>
   }
 
   <!-- Section indicator for keyboard navigation -->
