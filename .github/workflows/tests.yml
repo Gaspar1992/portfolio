@@ -32,7 +32,7 @@ jobs:
         run: node scripts/generate-favicon.mjs
 
       - name: Run unit tests
-        run: pnpm test -- --watch=false
+        run: pnpm test
 
   lint:
     name: Lint & Format Check
