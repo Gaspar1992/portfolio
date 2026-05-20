@@ -86,6 +86,7 @@ import { ProfileService } from '../../services/profile.service';
 
     .hero-content {
       max-width: 800px;
+      margin-inline: auto;
     }
 
     .film-badge {
