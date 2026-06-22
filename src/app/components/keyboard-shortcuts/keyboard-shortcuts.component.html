@@ -12,12 +12,11 @@
 </button>
 
 <!-- Keyboard shortcuts panel -->
-<div
+<aside
   id="keyboard-panel"
   class="keyboard-shortcuts"
   [class.visible]="isVisible()"
   [class.hidden]="!isPanelOpen()"
-  role="complementary"
   aria-label="Keyboard shortcuts"
 >
   <div class="shortcuts-header">
@@ -67,4 +66,4 @@
     <span class="current-section">{{ currentSectionLabel() }}</span>
     <span class="section-progress">{{ currentIndex() + 1 }} / {{ totalSections() }}</span>
   </div>
-</div>
+</aside>
