@@ -3,7 +3,7 @@
  * Los datos se cargan desde un JSON estático generado durante el build.
  */
 
-import { Injectable, signal } from '@angular/core';
+import { Injectable, computed, linkedSignal, resource } from '@angular/core';
 
 export interface ProfileMeta {
   source: string;
@@ -112,11 +112,22 @@ export interface LinkedInProfile {
   providedIn: 'root',
 })
 export class ProfileService {
-  readonly profile = signal<LinkedInProfile | null>(null);
+  /**
+   * Resource reactiva de Angular 22 para la carga asíncrona del JSON del perfil.
+   */
+  readonly profileResource = resource({
+    loader: async () => {
+      const module = await import('../../assets/data/profile.json');
+      return (module.default ?? module) as LinkedInProfile;
+    },
+  });
+
+  readonly profile = linkedSignal(() => this.profileResource.value() ?? null);
+  readonly isLoading = computed(() => this.profileResource.isLoading());
+  readonly error = computed(() => this.profileResource.error());
 
   /**
-   * Carga los datos del perfil desde el JSON estático.
-   * En SSG, esto se resuelve durante la construcción.
+   * Carga los datos del perfil desde el JSON estático (compatibilidad de API)
    */
   async loadProfile(): Promise<LinkedInProfile> {
     const current = this.profile();
@@ -124,11 +135,9 @@ export class ProfileService {
       return current;
     }
 
-    // Import dinámico del JSON (compatible con SSG)
     const module = await import('../../assets/data/profile.json');
     const data = (module.default ?? module) as LinkedInProfile;
     this.profile.set(data);
-
     return data;
   }
 

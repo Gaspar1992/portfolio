@@ -2,9 +2,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  effect,
   inject,
-  signal,
+  linkedSignal,
 } from '@angular/core';
 import { KeyboardNavigationService } from '../../services/keyboard-navigation.service';
 
@@ -17,8 +16,11 @@ import { KeyboardNavigationService } from '../../services/keyboard-navigation.se
 export class KeyboardShortcutsComponent {
   private readonly keyboardNav = inject(KeyboardNavigationService);
 
-  // Local state for panel visibility - sync with service
-  isPanelOpen = signal(true);
+  // Reactive state linked with service state, eliminating manual effect() side-effects
+  isPanelOpen = linkedSignal({
+    source: () => this.keyboardNav.isKeyboardPanelOpen(),
+    computation: (source) => source,
+  });
 
   currentIndex = this.keyboardNav.currentSectionIndex;
   isNavigating = this.keyboardNav.isNavigatingWithKeyboard;
@@ -36,10 +38,6 @@ export class KeyboardShortcutsComponent {
 
   constructor() {
     this.setupEscapeKey();
-    // Sync local state with service
-    effect(() => {
-      this.keyboardNav.isKeyboardPanelOpen.set(this.isPanelOpen());
-    });
   }
 
   private setupEscapeKey(): void {
@@ -53,10 +51,13 @@ export class KeyboardShortcutsComponent {
   }
 
   togglePanel(): void {
-    this.isPanelOpen.update((open) => !open);
+    const next = !this.isPanelOpen();
+    this.isPanelOpen.set(next);
+    this.keyboardNav.isKeyboardPanelOpen.set(next);
   }
 
   closePanel(): void {
     this.isPanelOpen.set(false);
+    this.keyboardNav.isKeyboardPanelOpen.set(false);
   }
 }
