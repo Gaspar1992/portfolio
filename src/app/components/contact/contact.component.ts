@@ -1,10 +1,5 @@
 import { UpperCasePipe } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { ProfileService } from '../../services/profile.service';
 
 @Component({
@@ -255,7 +250,7 @@ export class ContactComponent {
     const earliestYear = Math.min(
       ...profileData.experience
         .map((exp) => new Date(exp.startDate).getFullYear())
-        .filter((year) => Number.isNaN(year) === false),
+        .filter((year) => Number.isNaN(year) === false)
     );
 
     return earliestYear.toString();

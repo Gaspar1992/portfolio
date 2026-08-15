@@ -3,7 +3,7 @@
  * Los datos se cargan desde un JSON estático generado durante el build.
  */
 
-import { Injectable, computed, linkedSignal, resource } from '@angular/core';
+import { computed, Injectable, linkedSignal, resource } from '@angular/core';
 
 export interface ProfileMeta {
   source: string;
