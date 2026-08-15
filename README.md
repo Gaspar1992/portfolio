@@ -1,6 +1,6 @@
 # Portfolio
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.2.
+This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.1.4.
 
 ## Development server
 
@@ -62,8 +62,7 @@ This project is configured for automatic deployment to GitHub Pages via GitHub A
 
 1. **Enable GitHub Pages**: Go to repository Settings → Pages → Source, select "GitHub Actions"
 
-2. **Configure Secrets**: Add this repository secret (Settings → Secrets and variables → Actions):
-   - `LINKEDIN_ACCESS_TOKEN`: Your LinkedIn OAuth access token (see LINKEDIN_SETUP.md)
+2. **Data Sync**: Export your LinkedIn data zip file to `scripts/linkedin-export/` and run `npm run import:linkedin` to update `src/assets/data/profile.json`.
 
 3. **Deploy**: Push to `main` branch or run workflow manually from Actions tab.
 
