@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { type ProfileExperience, ProfileService, type ProfileSkill } from '@core';
 
 // Años recientes para considerar una skill "expert" aunque ya no esté en la experiencia actual
@@ -91,7 +91,6 @@ function markHeadliners(scored: SkillWithStats[]): SkillWithStats[] {
 
 @Component({
   selector: 'app-skills',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section 
       class="section-transition skills-section" 

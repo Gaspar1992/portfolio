@@ -1,12 +1,11 @@
 import { UpperCasePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { CopyButtonDirective } from '@angular-helpers/browser-web-apis';
 import { ProfileService } from '@core';
 
 @Component({
   selector: 'app-contact',
   imports: [UpperCasePipe, CopyButtonDirective],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section
       class="section-transition contact-section"

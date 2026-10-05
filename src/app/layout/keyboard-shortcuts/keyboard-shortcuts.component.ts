@@ -1,9 +1,8 @@
-import { ChangeDetectionStrategy, Component, computed, inject, linkedSignal } from '@angular/core';
+import { Component, computed, inject, linkedSignal } from '@angular/core';
 import { KeyboardNavigationService } from '@core';
 
 @Component({
   selector: 'app-keyboard-shortcuts',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './keyboard-shortcuts.component.html',
   styleUrls: ['./keyboard-shortcuts.component.scss'],
 })

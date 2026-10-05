@@ -1,6 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
   Component,
   type ElementRef,
   effect,
@@ -14,7 +13,6 @@ import { DateRangePipe, ProfileService } from '@core';
 @Component({
   selector: 'app-experience',
   imports: [DateRangePipe],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section 
       class="section-transition experience-section" 

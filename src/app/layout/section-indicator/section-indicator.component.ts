@@ -1,9 +1,8 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { KeyboardNavigationService } from '@core';
 
 @Component({
   selector: 'app-section-indicator',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './section-indicator.component.html',
   styleUrls: ['./section-indicator.component.scss'],
 })

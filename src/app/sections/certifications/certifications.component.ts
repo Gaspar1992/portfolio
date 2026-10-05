@@ -1,8 +1,7 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ProfileService } from '@core';
 @Component({
   selector: 'app-certifications',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section 
       class="section-transition certs-section" 

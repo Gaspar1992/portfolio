@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, type OnInit, signal } from '@angular/core';
+import { Component, inject, type OnInit, signal } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { ProfileService, type LinkedInProfile } from '@core';
 import {
@@ -32,7 +32,6 @@ import { SkillsComponent } from '@sections/skills/skills.component';
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class App implements OnInit {
   protected readonly title = signal('portfolio');
