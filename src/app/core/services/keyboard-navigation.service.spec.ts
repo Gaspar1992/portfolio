@@ -4,6 +4,13 @@ import { KeyboardNavigationService } from './keyboard-navigation.service';
 
 describe('KeyboardNavigationService', () => {
   let service: KeyboardNavigationService;
+  let listeners: Record<string, ((e: Event | unknown) => void)[]>;
+
+  const triggerEvent = (name: string, event: Event | unknown) => {
+    listeners[name]?.forEach((fn) => {
+      fn(event);
+    });
+  };
 
   beforeEach(() => {
     // Mock IntersectionObserver
@@ -23,9 +30,13 @@ describe('KeyboardNavigationService', () => {
 
     TestBed.configureTestingModule({});
 
+    listeners = {};
     vi.stubGlobal('window', {
       ...window,
-      addEventListener: vi.fn(),
+      addEventListener: vi.fn((event: string, handler: (e: Event | unknown) => void) => {
+        listeners[event] = listeners[event] || [];
+        listeners[event].push(handler);
+      }),
       removeEventListener: vi.fn(),
       innerHeight: 1000,
     });
@@ -111,5 +122,94 @@ describe('KeyboardNavigationService', () => {
     service.updateCurrentSectionFromFocus();
 
     expect(service.currentSectionIndex()).toBe(2); // 'experience'
+  });
+
+  it('should navigate on ArrowDown keydown event', () => {
+    service.currentSectionIndex.set(0);
+    const mockElement = { scrollIntoView: vi.fn() };
+    vi.spyOn(document, 'getElementById').mockReturnValue(mockElement as unknown as HTMLElement);
+
+    const preventDefault = vi.fn();
+    triggerEvent('keydown', {
+      key: 'ArrowDown',
+      target: document.body,
+      preventDefault,
+    });
+
+    expect(preventDefault).toHaveBeenCalled();
+    expect(service.currentSectionIndex()).toBe(1);
+    expect(service.isNavigatingWithKeyboard()).toBe(true);
+  });
+
+  it('should navigate on ArrowUp keydown event', () => {
+    service.currentSectionIndex.set(2);
+    const mockElement = { scrollIntoView: vi.fn() };
+    vi.spyOn(document, 'getElementById').mockReturnValue(mockElement as unknown as HTMLElement);
+
+    const preventDefault = vi.fn();
+    triggerEvent('keydown', {
+      key: 'ArrowUp',
+      target: document.body,
+      preventDefault,
+    });
+
+    expect(preventDefault).toHaveBeenCalled();
+    expect(service.currentSectionIndex()).toBe(1);
+    expect(service.isNavigatingWithKeyboard()).toBe(true);
+  });
+
+  it('should ignore arrow keys when focused on input or textarea', () => {
+    service.currentSectionIndex.set(0);
+    const preventDefault = vi.fn();
+
+    const inputTarget = document.createElement('input');
+    triggerEvent('keydown', {
+      key: 'ArrowDown',
+      target: inputTarget,
+      preventDefault,
+    });
+
+    expect(preventDefault).not.toHaveBeenCalled();
+    expect(service.currentSectionIndex()).toBe(0);
+
+    const textareaTarget = document.createElement('textarea');
+    triggerEvent('keydown', {
+      key: 'ArrowUp',
+      target: textareaTarget,
+      preventDefault,
+    });
+
+    expect(preventDefault).not.toHaveBeenCalled();
+    expect(service.currentSectionIndex()).toBe(0);
+  });
+
+  it('should handle Tab keydown event', () => {
+    vi.useFakeTimers();
+    vi.spyOn(document, 'getElementById').mockReturnValue({
+      contains: () => false,
+    } as unknown as HTMLElement);
+
+    triggerEvent('keydown', {
+      key: 'Tab',
+      target: document.body,
+      preventDefault: vi.fn(),
+    });
+
+    expect(service.isNavigatingWithKeyboard()).toBe(true);
+    vi.runAllTimers();
+    vi.useRealTimers();
+  });
+
+  it('should handle scroll event when not navigating with keyboard', () => {
+    const mockIndicator = document.createElement('div');
+    mockIndicator.className = 'section-indicator visible';
+    vi.spyOn(document, 'querySelector').mockReturnValue(mockIndicator);
+    vi.spyOn(document, 'getElementById').mockReturnValue({
+      getBoundingClientRect: () => ({ top: 0, bottom: 1000, height: 1000 }),
+    } as unknown as HTMLElement);
+
+    triggerEvent('scroll', new Event('scroll'));
+
+    expect(mockIndicator.classList.contains('visible')).toBe(false);
   });
 });
