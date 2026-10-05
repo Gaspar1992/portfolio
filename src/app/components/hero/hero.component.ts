@@ -24,10 +24,10 @@ import { ProfileService } from '../../services/profile.service';
 
           <h1 class="hero-title" data-testid="hero-title">
             <span class="title-line" role="text">{{
-              $safeNavigationMigration(profile()?.firstName) | uppercase
+              profile()?.firstName | uppercase
             }}</span>
             <span class="title-line title-accent" role="text">{{
-              $safeNavigationMigration(profile()?.lastName) | uppercase
+              profile()?.lastName | uppercase
             }}</span>
           </h1>
 

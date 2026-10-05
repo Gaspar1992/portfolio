@@ -29,13 +29,8 @@ import { ProfileService } from '../../services/profile.service';
               >
                 @if (profile()?.profilePictureUrl) {
                   <img
-                    [src]="
-                      $safeNavigationMigration(profile()?.profilePictureUrl)
-                    "
-                    [alt]="
-                      'Professional photo of ' +
-                      $safeNavigationMigration(profile()?.fullName)
-                    "
+                    [src]="profile()?.profilePictureUrl"
+                    [alt]="'Professional photo of ' + (profile()?.fullName ?? '')"
                     class="portrait-image"
                     width="180"
                     height="270"
@@ -51,11 +46,7 @@ import { ProfileService } from '../../services/profile.service';
                     data-testid="about-portrait-placeholder"
                   >
                     <span class="portrait-initials" aria-hidden="true">
-                      {{
-                        getInitials(
-                          $safeNavigationMigration(profile()?.fullName)
-                        )
-                      }}
+                      {{ getInitials(profile()?.fullName ?? '') }}
                     </span>
                   </div>
                 }
