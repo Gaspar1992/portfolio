@@ -1,6 +1,6 @@
 import { Component, inject, type OnInit, signal } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { ProfileService, type LinkedInProfile } from '@core';
+import { type LinkedInProfile, ProfileService } from '@core';
 import {
   KeyboardShortcutsComponent,
   NavigationComponent,

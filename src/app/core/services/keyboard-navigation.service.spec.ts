@@ -201,15 +201,12 @@ describe('KeyboardNavigationService', () => {
   });
 
   it('should handle scroll event when not navigating with keyboard', () => {
-    const mockIndicator = document.createElement('div');
-    mockIndicator.className = 'section-indicator visible';
-    vi.spyOn(document, 'querySelector').mockReturnValue(mockIndicator);
     vi.spyOn(document, 'getElementById').mockReturnValue({
       getBoundingClientRect: () => ({ top: 0, bottom: 1000, height: 1000 }),
     } as unknown as HTMLElement);
 
     triggerEvent('scroll', new Event('scroll'));
 
-    expect(mockIndicator.classList.contains('visible')).toBe(false);
+    expect(service.currentSectionIndex()).toBe(0);
   });
 });

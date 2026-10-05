@@ -142,36 +142,6 @@ import { ProfileService } from '@core';
         margin-block-start: 1.5rem;
       }
 
-      .quote-deco {
-        font-family: var(--font-heading);
-        font-size: clamp(1.1rem, 3vw, 1.5rem);
-        font-style: italic;
-        text-align: center;
-        padding: 2rem;
-        position: relative;
-        color: var(--color-black);
-
-        &::before,
-        &::after {
-          content: '"';
-          font-family: var(--font-display);
-          font-size: 4rem;
-          color: var(--color-gold);
-          opacity: 0.5;
-          position: absolute;
-        }
-
-        &::before {
-          inset-block-start: 0;
-          inset-inline-start: 0;
-        }
-        &::after {
-          inset-block-end: -1rem;
-          inset-inline-end: 0;
-          transform: rotate(180deg);
-        }
-      }
-
       @media (max-width: 768px) {
         .about-content {
           grid-template-columns: 1fr;

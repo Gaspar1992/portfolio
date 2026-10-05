@@ -261,35 +261,13 @@ import { KeyboardNavigationService, ProfileService } from '@core';
       }
 
       .btn-deco {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-family: var(--font-display);
-        font-size: 0.85rem;
-        font-weight: 600;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        padding: 1rem 2.5rem;
-        border: 2px solid var(--color-gold);
-        background: transparent;
-        color: var(--color-gold);
-        cursor: pointer;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-        text-decoration: none;
         min-height: 48px;
         min-width: 200px;
-      }
 
-      .btn-deco span {
-        position: relative;
-        z-index: 2;
-      }
-
-      .btn-deco:focus-visible {
-        outline: 3px solid var(--color-gold);
-        outline-offset: 3px;
+        span {
+          position: relative;
+          z-index: 2;
+        }
       }
 
       @media (max-width: 768px) {
@@ -302,6 +280,10 @@ import { KeyboardNavigationService, ProfileService } from '@core';
           width: 100%;
           max-width: 280px;
         }
+
+        h1 {
+          font-size: 2.5rem;
+        }
       }
 
       @media (max-width: 480px) {
@@ -311,62 +293,6 @@ import { KeyboardNavigationService, ProfileService } from '@core';
 
         h1 {
           font-size: 2rem;
-        }
-      }
-
-      .btn-deco::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: var(--color-gold);
-        transition: left 0.3s ease;
-        z-index: -1;
-      }
-
-      .btn-deco:hover {
-        color: var(--color-white);
-      }
-
-      .btn-deco:hover::before {
-        left: 0;
-      }
-
-      .btn-deco.btn-gold {
-        background: var(--color-gold);
-        border-color: var(--color-gold);
-        color: var(--color-cream-light);
-      }
-
-      .btn-deco.btn-gold::before {
-        background: var(--color-black);
-      }
-
-      .btn-deco.btn-gold:hover {
-        color: var(--color-gold-light);
-      }
-
-      .btn-deco.btn-dark {
-        background: var(--color-black);
-        border-color: var(--color-black);
-        color: var(--color-cream);
-      }
-
-      .btn-deco.btn-dark::before {
-        background: var(
-          --color-gold-light
-        ); /* Más claro para mejor contraste con negro */
-      }
-
-      .btn-deco.btn-dark:hover {
-        color: var(--color-black);
-      }
-
-      @media (max-width: 768px) {
-        h1 {
-          font-size: 2.5rem;
         }
       }
     `,

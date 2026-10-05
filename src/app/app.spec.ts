@@ -1,8 +1,8 @@
 import { signal } from '@angular/core';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { KeyboardNavigationService, type LinkedInProfile, ProfileService } from '@core';
 import { vi } from 'vitest';
 import { App } from './app';
-import { KeyboardNavigationService, type LinkedInProfile, ProfileService } from '@core';
 
 describe('App', () => {
   let fixture: ComponentFixture<App>;

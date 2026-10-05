@@ -1,6 +1,6 @@
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { KeyboardNavigationService } from '@core';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { NavigationComponent } from './navigation.component';
 
 describe('NavigationComponent', () => {
@@ -26,9 +26,7 @@ describe('NavigationComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [NavigationComponent],
-      providers: [
-        { provide: KeyboardNavigationService, useValue: mockKeyboardNav },
-      ],
+      providers: [{ provide: KeyboardNavigationService, useValue: mockKeyboardNav }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(NavigationComponent);

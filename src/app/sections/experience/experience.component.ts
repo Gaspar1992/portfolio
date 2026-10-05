@@ -1,13 +1,4 @@
-import { isPlatformBrowser } from '@angular/common';
-import {
-  Component,
-  type ElementRef,
-  effect,
-  inject,
-  type OnDestroy,
-  PLATFORM_ID,
-  viewChildren,
-} from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { DateRangePipe, ProfileService } from '@core';
 
 @Component({
@@ -37,10 +28,8 @@ import { DateRangePipe, ProfileService } from '@core';
         <div class="film-strip timeline" role="list" aria-label="Work experience" data-testid="experience-timeline">
           @for (exp of profile()?.experience; track exp.id; let i = $index) {
             <article 
-              #frame
               class="film-frame timeline-item" 
               role="listitem" 
-              [style.--frame-delay.ms]="i * 120"
               [attr.aria-label]="exp.title + ' at ' + exp.company" 
               data-testid="experience-item">
               <div class="frame-slate" aria-hidden="true">
@@ -125,17 +114,18 @@ import { DateRangePipe, ProfileService } from '@core';
       position: relative;
       margin-block-end: 1.5rem;
       transition: transform var(--transition-normal);
-      opacity: 0;
-      transform: translateY(24px) scale(0.96);
-      clip-path: inset(0 0 100% 0);
-      will-change: opacity, transform, clip-path;
 
       &:last-child { margin-block-end: 0; }
       &:hover { transform: scale(1.01); }
+    }
 
-      &.is-visible {
-        animation: filmReveal 0.75s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
-        animation-delay: var(--frame-delay, 0ms);
+    @media (prefers-reduced-motion: no-preference) {
+      @supports ((animation-timeline: view()) and (animation-range: entry)) {
+        .film-frame {
+          animation: filmReveal linear both;
+          animation-timeline: view();
+          animation-range: entry 5% cover 25%;
+        }
       }
     }
 
@@ -278,70 +268,9 @@ import { DateRangePipe, ProfileService } from '@core';
     `,
   ],
 })
-export class ExperienceComponent implements OnDestroy {
+export class ExperienceComponent {
   profile = inject(ProfileService).profile;
   profileService = inject(ProfileService);
-  private readonly platformId = inject(PLATFORM_ID);
-  private readonly frames = viewChildren<ElementRef<HTMLElement>>('frame');
-  private observer: IntersectionObserver | null = null;
-  private readonly observed = new WeakSet<Element>();
-
-  constructor() {
-    // Reactivo: se dispara cada vez que cambia la lista de frames renderizados.
-    // Necesario porque profile() llega async y los @for aparecen después del init.
-    effect((onCleanup) => {
-      const frames = this.frames();
-      if (!isPlatformBrowser(this.platformId)) {
-        // SSR / prerender: mostrar todo (no hay JS en servidor para observar).
-        for (const ref of frames) ref.nativeElement.classList.add('is-visible');
-        return;
-      }
-      if (frames.length === 0) return;
-
-      if (typeof IntersectionObserver === 'undefined') {
-        for (const ref of frames) ref.nativeElement.classList.add('is-visible');
-        return;
-      }
-
-      if (!this.observer) {
-        this.observer = new IntersectionObserver(
-          (entries) => {
-            for (const entry of entries) {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                this.observer?.unobserve(entry.target);
-              }
-            }
-          },
-          { threshold: 0, rootMargin: '0px 0px 0px 0px' }
-        );
-      }
-
-      for (const ref of frames) {
-        const el = ref.nativeElement;
-        if (this.observed.has(el)) continue;
-        this.observed.add(el);
-        this.observer.observe(el);
-      }
-
-      // Safety net: si a los 1500ms algún frame sigue oculto, revelarlo.
-      // Cubre casos donde el observer no dispara (iframes, virtualización, etc).
-      const timeoutId = window.setTimeout(() => {
-        for (const ref of this.frames()) {
-          ref.nativeElement.classList.add('is-visible');
-        }
-      }, 1500);
-
-      onCleanup(() => {
-        window.clearTimeout(timeoutId);
-      });
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.observer?.disconnect();
-    this.observer = null;
-  }
 
   getAchievements(description: string): string[] {
     if (!description) return [];

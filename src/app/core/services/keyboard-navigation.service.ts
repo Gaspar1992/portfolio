@@ -150,24 +150,17 @@ export class KeyboardNavigationService {
   private setupKeyboardIndicator(): void {
     if (typeof window === 'undefined') return;
 
-    const handleKeyDown = () => {
-      this.showIndicator();
-    };
-
     const handleScroll = () => {
       if (!this.isNavigatingWithKeyboard()) {
-        this.hideIndicator();
         this.updateCurrentSectionFromViewportMiddle();
       }
     };
 
     this.ngZone.runOutsideAngular(() => {
-      window.addEventListener('keydown', handleKeyDown);
       window.addEventListener('scroll', handleScroll, { passive: true });
     });
 
     this.destroyRef.onDestroy(() => {
-      window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('scroll', handleScroll);
     });
   }
@@ -209,20 +202,6 @@ export class KeyboardNavigationService {
 
     if (closestIndex !== this.currentSectionIndex()) {
       this.currentSectionIndex.set(closestIndex);
-    }
-  }
-
-  private showIndicator(): void {
-    const indicator = this.document.querySelector('.section-indicator');
-    if (indicator) {
-      indicator.classList.add('visible');
-    }
-  }
-
-  private hideIndicator(): void {
-    const indicator = this.document.querySelector('.section-indicator');
-    if (indicator) {
-      indicator.classList.remove('visible');
     }
   }
 

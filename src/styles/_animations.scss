@@ -50,47 +50,6 @@
   }
 }
 
-// Entrada suave desde abajo
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-// Entrada suave general
-@keyframes fadeInSmooth {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-// Spinner de carga
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-// Pulsar suave
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.7;
-  }
-}
-
 // ============================================
 // CLASES DE ANIMACIÓN
 // ============================================
@@ -159,29 +118,6 @@
   z-index: var(--z-flicker);
   background: rgba(255, 248, 240, 0.03); 
   animation: flicker 0.1s infinite; 
-}
-
-// Clases de utilidad para animaciones
-.animate-in {
-  animation: fadeInUp 0.8s ease forwards;
-}
-
-.fade-in {
-  animation: fadeInSmooth 0.8s ease-out forwards;
-}
-
-.loading-spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid var(--color-cream-dark);
-  border-top-color: var(--color-gold);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin: 2rem auto;
-}
-
-.pulse {
-  animation: pulse 2s ease-in-out infinite;
 }
 
 // ============================================
