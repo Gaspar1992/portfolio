@@ -1,6 +1,7 @@
 import { signal } from '@angular/core';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
+import { provideClipboard } from '@angular-helpers/browser-web-apis';
 import { type LinkedInProfile, ProfileService } from '../../services/profile.service';
 import { ContactComponent } from './contact.component';
 
@@ -50,6 +51,7 @@ describe('ContactComponent', () => {
     await TestBed.configureTestingModule({
       imports: [ContactComponent],
       providers: [
+        provideClipboard(),
         {
           provide: ProfileService,
           useValue: {
@@ -174,5 +176,14 @@ describe('ContactComponent', () => {
     const footerEnd = fixture.nativeElement.querySelector('[data-testid="footer-end"]');
     expect(footerEnd).toBeTruthy();
     expect(footerEnd.textContent).toContain('THE END');
+  });
+
+  it('should render copy email button when email is available', () => {
+    profileService.profile.set(mockProfile);
+    fixture.detectChanges();
+
+    const copyBtn = fixture.nativeElement.querySelector('[data-testid="contact-copy-email"]');
+    expect(copyBtn).toBeTruthy();
+    expect(copyBtn.getAttribute('aria-label')).toBe('Copy email address');
   });
 });

@@ -2,12 +2,14 @@ import { type ApplicationConfig, provideBrowserGlobalErrorListeners } from '@ang
 import {
   provideClientHydration,
   withEventReplay,
-  withNoIncrementalHydration,
+  withIncrementalHydration,
 } from '@angular/platform-browser';
+import { provideClipboard } from '@angular-helpers/browser-web-apis';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideClientHydration(withEventReplay(), withNoIncrementalHydration()),
+    provideClientHydration(withEventReplay(), withIncrementalHydration()),
+    provideClipboard(),
   ],
 };

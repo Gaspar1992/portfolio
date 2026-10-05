@@ -1,10 +1,11 @@
 import { UpperCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { CopyButtonDirective } from '@angular-helpers/browser-web-apis';
 import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-contact',
-  imports: [UpperCasePipe],
+  imports: [UpperCasePipe, CopyButtonDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section
@@ -39,10 +40,7 @@ import { ProfileService } from '../../services/profile.service';
               @if (profile()?.contactInfo?.email) {
                 <li class="contact-method-item">
                   <a
-                    [href]="
-                      'mailto:' +
-                      $safeNavigationMigration(profile()?.contactInfo?.email)
-                    "
+                    [href]="'mailto:' + profile()?.contactInfo?.email"
                     class="contact-link"
                     [attr.aria-label]="
                       'Send email to ' + profile()?.contactInfo?.email
@@ -52,13 +50,25 @@ import { ProfileService } from '../../services/profile.service';
                     <span class="contact-icon" aria-hidden="true">@</span>
                     <span>Email</span>
                   </a>
+                  <button
+                    type="button"
+                    class="contact-copy-btn"
+                    copyButton
+                    [copyText]="profile()?.contactInfo?.email ?? ''"
+                    copySuccessMessage="Email copied to clipboard"
+                    aria-label="Copy email address"
+                    title="Copy email to clipboard"
+                    data-testid="contact-copy-email"
+                  >
+                    <span class="contact-icon" aria-hidden="true">📋</span>
+                  </button>
                 </li>
               }
 
               @if (profile()?.linkedInUrl) {
                 <li class="contact-method-item">
                   <a
-                    [href]="$safeNavigationMigration(profile()?.linkedInUrl)"
+                    [href]="profile()?.linkedInUrl"
                     target="_blank"
                     rel="noopener noreferrer"
                     class="contact-link"
@@ -74,9 +84,7 @@ import { ProfileService } from '../../services/profile.service';
               @if (profile()?.contactInfo?.github) {
                 <li class="contact-method-item">
                   <a
-                    [href]="
-                      $safeNavigationMigration(profile()?.contactInfo?.github)
-                    "
+                    [href]="profile()?.contactInfo?.github"
                     target="_blank"
                     rel="noopener noreferrer"
                     class="contact-link"
@@ -99,7 +107,7 @@ import { ProfileService } from '../../services/profile.service';
         <div class="footer-content">
           <div class="footer-brand">
             <span class="footer-name">{{
-              $safeNavigationMigration(profile()?.fullName) | uppercase
+              profile()?.fullName | uppercase
             }}</span>
             <span class="footer-tagline">{{ profile()?.headline }}</span>
           </div>
@@ -153,7 +161,14 @@ import { ProfileService } from '../../services/profile.service';
         padding: 0;
       }
 
+      .contact-method-item {
+        display: flex;
+        align-items: stretch;
+        gap: 0.5rem;
+      }
+
       .contact-link {
+        flex: 1;
         display: flex;
         align-items: center;
         gap: 1rem;
@@ -162,6 +177,23 @@ import { ProfileService } from '../../services/profile.service';
         text-decoration: none;
         color: var(--color-black);
         border-block-end: 1px solid var(--color-cream-dark);
+        transition: all 0.3s ease;
+
+        &:hover {
+          border-color: var(--color-gold);
+          background: var(--color-cream-light);
+        }
+      }
+
+      .contact-copy-btn {
+        background: transparent;
+        border: 1px solid var(--color-cream-dark);
+        color: var(--color-gold);
+        cursor: pointer;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         transition: all 0.3s ease;
 
         &:hover {
