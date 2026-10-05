@@ -1,3 +1,4 @@
+import './server.init';
 import { join } from 'node:path';
 import {
   AngularNodeAppEngine,
