@@ -1,11 +1,10 @@
 import { UpperCasePipe } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
-import { CopyButtonDirective } from '@angular-helpers/browser-web-apis';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ProfileService } from '@core';
 
 @Component({
   selector: 'app-contact',
-  imports: [UpperCasePipe, CopyButtonDirective],
+  imports: [UpperCasePipe],
   template: `
     <section
       class="section-transition contact-section"
@@ -52,14 +51,12 @@ import { ProfileService } from '@core';
                   <button
                     type="button"
                     class="contact-copy-btn"
-                    copyButton
-                    [copyText]="profile()?.contactInfo?.email ?? ''"
-                    copySuccessMessage="Email copied to clipboard"
+                    (click)="copyEmail(profile()?.contactInfo?.email ?? '')"
                     aria-label="Copy email address"
-                    title="Copy email to clipboard"
+                    [attr.title]="copied() ? 'Copied!' : 'Copy email to clipboard'"
                     data-testid="contact-copy-email"
                   >
-                    <span class="contact-icon" aria-hidden="true">📋</span>
+                    <span class="contact-icon" aria-hidden="true">{{ copied() ? '✓' : '📋' }}</span>
                   </button>
                 </li>
               }
@@ -270,6 +267,16 @@ import { ProfileService } from '@core';
 })
 export class ContactComponent {
   profile = inject(ProfileService).profile;
+  readonly copied = signal(false);
+
+  async copyEmail(email: string): Promise<void> {
+    if (!email) return;
+    if (typeof navigator !== 'undefined' && navigator.clipboard) {
+      await navigator.clipboard.writeText(email);
+      this.copied.set(true);
+      setTimeout(() => this.copied.set(false), 2000);
+    }
+  }
 
   careerStartYear = computed(() => {
     const profileData = this.profile();

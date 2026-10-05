@@ -30,14 +30,9 @@
               }
             ],
             "styles": ["src/styles.scss"],
-            "server": "src/main.server.ts",
             "security": {
               "allowedHosts": []
-            },
-            "ssr": {
-              "entry": "src/server.ts"
-            },
-            "prerender": true
+            }
           },
           "configurations": {
             "production": {
@@ -92,12 +87,6 @@
             "tsConfig": "tsconfig.spec.json",
             "setupFiles": ["src/test-setup.ts"],
             "watch": false
-          }
-        },
-        "prerender": {
-          "builder": "@angular/build:prerender",
-          "options": {
-            "routes": ["/"]
           }
         }
       }

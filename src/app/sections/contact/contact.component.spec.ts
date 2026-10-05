@@ -1,6 +1,5 @@
 import { signal } from '@angular/core';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideClipboard } from '@angular-helpers/browser-web-apis';
 import { type LinkedInProfile, ProfileService } from '@core';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { ContactComponent } from './contact.component';
@@ -51,7 +50,6 @@ describe('ContactComponent', () => {
     await TestBed.configureTestingModule({
       imports: [ContactComponent],
       providers: [
-        provideClipboard(),
         {
           provide: ProfileService,
           useValue: {

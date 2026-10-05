@@ -35,23 +35,18 @@
     "lighthouse:ci": "npm run build:prod && lhci autorun --config=lighthouserc.js",
     "predeploy": "npm run lint:all && npm run test",
     "deploy:check": "npm run predeploy && npm run lighthouse:ci",
-    "quality:check": "npm run predeploy",
-    "serve:ssr:portfolio": "node dist/portfolio/server/server.mjs"
+    "quality:check": "npm run predeploy"
   },
   "private": true,
   "packageManager": "pnpm@11.2.0+sha512.cdd7e34ea0d237bed3fa89e633185027e3ecdad98ce7453032f4d4d83c10cb7b85b9afe8534048ab0a3cc10228bdd5e32f5f622d05d66e58f46177fe5601eab1",
   "dependencies": {
-    "@angular-helpers/browser-web-apis": "^22.7.1",
     "@angular-helpers/core": "^22.4.1",
     "@angular/common": "^22.2.1",
     "@angular/compiler": "^22.2.1",
     "@angular/core": "^22.2.1",
     "@angular/forms": "^22.2.1",
     "@angular/platform-browser": "^22.2.1",
-    "@angular/platform-server": "^22.2.1",
     "@angular/router": "^22.2.1",
-    "@angular/ssr": "^22.2.1",
-    "express": "^5.2.1",
     "rxjs": "~7.8.2",
     "tslib": "^2.8.1"
   },
@@ -66,7 +61,6 @@
     "@html-eslint/parser": "^0.64.0",
     "@lhci/cli": "^0.15.1",
     "@playwright/test": "^1.62.1",
-    "@types/express": "^5.0.6",
     "@types/node": "^26.2.0",
     "@typescript-eslint/eslint-plugin": "^8.67.0",
     "@typescript-eslint/parser": "^8.67.0",
