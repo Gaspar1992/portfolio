@@ -1,18 +1,19 @@
 import { ChangeDetectionStrategy, Component, inject, type OnInit, signal } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { AboutComponent } from './components/about/about.component';
-import { CertificationsComponent } from './components/certifications/certifications.component';
-import { ContactComponent } from './components/contact/contact.component';
-import { EducationComponent } from './components/education/education.component';
-import { ExperienceComponent } from './components/experience/experience.component';
-import { HeroComponent } from './components/hero/hero.component';
-import { KeyboardShortcutsComponent } from './components/keyboard-shortcuts/keyboard-shortcuts.component';
-import { NavigationComponent } from './components/navigation/navigation.component';
-import { ProjectsComponent } from './components/projects/projects.component';
-import { SectionIndicatorComponent } from './components/section-indicator/section-indicator.component';
-import { SkillsComponent } from './components/skills/skills.component';
-import type { LinkedInProfile } from './services/profile.service';
-import { ProfileService } from './services/profile.service';
+import { ProfileService, type LinkedInProfile } from '@core';
+import {
+  KeyboardShortcutsComponent,
+  NavigationComponent,
+  SectionIndicatorComponent,
+} from '@layout';
+import { AboutComponent } from '@sections/about/about.component';
+import { CertificationsComponent } from '@sections/certifications/certifications.component';
+import { ContactComponent } from '@sections/contact/contact.component';
+import { EducationComponent } from '@sections/education/education.component';
+import { ExperienceComponent } from '@sections/experience/experience.component';
+import { HeroComponent } from '@sections/hero/hero.component';
+import { ProjectsComponent } from '@sections/projects/projects.component';
+import { SkillsComponent } from '@sections/skills/skills.component';
 
 @Component({
   selector: 'app-root',
