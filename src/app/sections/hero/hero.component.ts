@@ -1,6 +1,5 @@
-import { UpperCasePipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { KeyboardNavigationService, ProfileService } from '@core';
+import { KeyboardNavigationService, ProfileService, UpperCasePipe } from '@core';
 
 @Component({
   selector: 'app-hero',

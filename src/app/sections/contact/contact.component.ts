@@ -1,6 +1,5 @@
-import { UpperCasePipe } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
-import { ProfileService } from '@core';
+import { ProfileService, UpperCasePipe } from '@core';
 
 @Component({
   selector: 'app-contact',

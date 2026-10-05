@@ -8,6 +8,7 @@ import { expect, test } from '@playwright/test';
 test.describe('Accessibility E2E Tests', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
+    await page.waitForSelector('app-hero');
   });
 
   test('should have proper heading hierarchy', async ({ page }) => {
@@ -36,7 +37,7 @@ test.describe('Accessibility E2E Tests', () => {
 
   test('should have ARIA landmarks', async ({ page }) => {
     // Check for main landmark
-    const main = page.locator('div[role="main"]');
+    const main = page.locator('main, [role="main"]');
     await expect(main).toHaveCount(1);
 
     // Check for banner/header (hero section has role="banner")

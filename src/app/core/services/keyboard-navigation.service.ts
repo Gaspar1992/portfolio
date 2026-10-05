@@ -1,5 +1,4 @@
-import { DOCUMENT } from '@angular/common';
-import { DestroyRef, Injectable, inject, NgZone, signal } from '@angular/core';
+import { DestroyRef, DOCUMENT, Injectable, inject, NgZone, signal } from '@angular/core';
 
 export interface Section {
   id: string;

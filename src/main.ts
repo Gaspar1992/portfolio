@@ -1,16 +1,22 @@
-import { bootstrapApplication } from '@angular/platform-browser';
-import { App } from './app/app';
-import { appConfig } from './app/app.config';
-
-// GitHub Pages SPA redirect handling
-const redirect = sessionStorage.getItem('redirect');
-if (redirect) {
-  sessionStorage.removeItem('redirect');
-  const url = new URL(redirect);
-  // Preserve the path for the router to handle
-  if (url.pathname !== '/') {
-    history.replaceState(null, '', url.pathname + url.search + url.hash);
+async function bootstrap() {
+  if (typeof ngDevMode === 'undefined' || ngDevMode) {
+    await import('@angular/compiler');
   }
+  const { bootstrapApplication } = await import('@angular/platform-browser');
+  const { App } = await import('./app/app');
+  const { appConfig } = await import('./app/app.config');
+
+  // GitHub Pages SPA redirect handling
+  const redirect = sessionStorage.getItem('redirect');
+  if (redirect) {
+    sessionStorage.removeItem('redirect');
+    const url = new URL(redirect);
+    if (url.pathname !== '/') {
+      history.replaceState(null, '', url.pathname + url.search + url.hash);
+    }
+  }
+
+  await bootstrapApplication(App, appConfig);
 }
 
-bootstrapApplication(App, appConfig).catch((err) => console.error(err));
+bootstrap().catch((err) => console.error(err));
