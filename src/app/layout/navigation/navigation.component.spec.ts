@@ -74,4 +74,10 @@ describe('NavigationComponent', () => {
     component.navigateToSection('unknown-section');
     expect(mockKeyboardNav.navigateToSection).not.toHaveBeenCalled();
   });
+
+  it('should toggle view mode when toggle button is clicked', () => {
+    const initialMode = component.isCinemaMode();
+    component.toggleViewMode();
+    expect(component.isCinemaMode()).toBe(!initialMode);
+  });
 });

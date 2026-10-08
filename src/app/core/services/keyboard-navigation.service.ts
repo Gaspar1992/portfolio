@@ -156,7 +156,7 @@ export class KeyboardNavigationService {
     };
 
     this.ngZone.runOutsideAngular(() => {
-      window.addEventListener('scroll', handleScroll, { passive: true });
+      window.addEventListener('scroll', handleScroll, { passive: true, capture: true });
     });
 
     this.destroyRef.onDestroy(() => {
@@ -222,7 +222,16 @@ export class KeyboardNavigationService {
     const element = this.document.getElementById(section.id);
 
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const cinemaViewport = this.document.querySelector<HTMLElement>('.cinema-screen-viewport');
+      if (cinemaViewport?.contains(element)) {
+        const slide = element.closest<HTMLElement>('.cinema-slide') ?? element;
+        const viewportRect = cinemaViewport.getBoundingClientRect();
+        const slideRect = slide.getBoundingClientRect();
+        const targetScrollTop = cinemaViewport.scrollTop + (slideRect.top - viewportRect.top);
+        cinemaViewport.scrollTo({ top: targetScrollTop, behavior: 'smooth' });
+      } else {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
   }
 

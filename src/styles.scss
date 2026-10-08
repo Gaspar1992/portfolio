@@ -1,6 +1,7 @@
 @use 'styles/variables';
 @use 'styles/mixins';
 @use 'styles/animations';
+@use 'styles/cinema-stage';
 
 // Google Fonts se cargan via <link rel="preconnect" + stylesheet> en src/index.html
 // para evitar el bloqueo que produce @import url() en el CSS parser.

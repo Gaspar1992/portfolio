@@ -1,5 +1,6 @@
 <main
   class="film-container snap-container pattern-deco"
+  [attr.data-view-mode]="viewMode()"
   aria-label="Portfolio of Gaspar Rodriguez Valero"
 >
   <!-- Skip link for accessibility -->
@@ -12,46 +13,103 @@
   <div class="dust-scratches" aria-hidden="true"></div>
   <div class="projector-flicker" aria-hidden="true"></div>
 
+  <!-- Cinema Stage Decor: Auditorio de Época y Haz de Luz desde Atrás -->
+  <div class="cinema-stage-environment" aria-hidden="true">
+    <div class="cinema-theater-room">
+      <div class="theater-backwall"></div>
+      <div class="theater-ambient-depth"></div>
+      <div class="theater-screen-ambient-glow"></div>
+    </div>
+  </div>
+
   <!-- Main navigation -->
   <app-navigation></app-navigation>
 
-  <!-- Hero - carga inmediata -->
-  <app-hero></app-hero>
-  <!-- Sections -->
-  @if (profile()) {
-  <!-- About -->
-  <app-about></app-about>
+  <!-- Cinema Stage Shell (desacoplado de las secciones) -->
+  <div class="cinema-stage-wrapper">
+    <div class="cinema-screen-frame">
+      <!-- Projection beam: drawn in the screen plane so its edges always meet the frame corners -->
+      <div class="cinema-beam" aria-hidden="true">
+        <div class="cinema-beam-face cinema-beam-face-top"></div>
+        <div class="cinema-beam-face cinema-beam-face-side"></div>
+        <div class="cinema-beam-ridge"></div>
+        <div class="cinema-beam-dust"></div>
+      </div>
+      <div class="cinema-screen-header" aria-hidden="true">
+        <span class="screen-indicator">THEATER SCREEN • REEL 01</span>
+        <span class="screen-hint">SCROLL / ARROWS TO CHANGE SLIDE</span>
+      </div>
 
-  <div class="film-strip-separator" aria-hidden="true"></div>
+      <div class="cinema-screen-viewport">
+        <!-- Hero - carga inmediata -->
+        <app-hero class="cinema-slide"></app-hero>
 
-  <!-- Experience -->
-  <app-experience></app-experience>
+        <!-- Sections -->
+        @if (profile()) {
+        <!-- About -->
+        <app-about class="cinema-slide"></app-about>
 
-  <div class="film-strip-separator" aria-hidden="true"></div>
+        <div class="film-strip-separator" aria-hidden="true"></div>
 
-  <!-- Skills -->
-  <app-skills></app-skills>
+        <!-- Experience -->
+        <app-experience class="cinema-slide"></app-experience>
 
-  <div class="film-strip-separator" aria-hidden="true"></div>
+        <div class="film-strip-separator" aria-hidden="true"></div>
 
-  <!-- Education -->
-  <app-education></app-education>
+        <!-- Skills -->
+        <app-skills class="cinema-slide"></app-skills>
 
-  <div class="film-strip-separator" aria-hidden="true"></div>
+        <div class="film-strip-separator" aria-hidden="true"></div>
 
-  <!-- Projects -->
-  <app-projects></app-projects>
+        <!-- Education -->
+        <app-education class="cinema-slide"></app-education>
 
-  <div class="film-strip-separator" aria-hidden="true"></div>
+        <div class="film-strip-separator" aria-hidden="true"></div>
 
-  <!-- Certifications -->
-  <app-certifications></app-certifications>
+        <!-- Projects -->
+        <app-projects class="cinema-slide"></app-projects>
 
-  <div class="film-strip-separator" aria-hidden="true"></div>
+        <div class="film-strip-separator" aria-hidden="true"></div>
 
-  <!-- Contact -->
-  <app-contact></app-contact>
-  }
+        <!-- Certifications -->
+        <app-certifications class="cinema-slide"></app-certifications>
+
+        <div class="film-strip-separator" aria-hidden="true"></div>
+
+        <!-- Contact -->
+        <app-contact class="cinema-slide"></app-contact>
+
+        <!-- The End - Diapositiva final de clausura cinematográfica (solo activa en modo cine) -->
+        <section
+          class="cinema-slide cinema-the-end-slide"
+          id="the-end"
+          aria-label="End of film presentation"
+        >
+          <div class="the-end-frame">
+            <span class="the-end-badge" aria-hidden="true">MCMXXVI • REEL FINALE</span>
+            <h2 class="the-end-title">THE END</h2>
+            <div class="divider-deco mb-4" aria-hidden="true">
+              <div class="divider-icon">
+                <span>✦</span>
+              </div>
+            </div>
+            <p class="the-end-author">{{ profile()?.fullName | uppercase }}</p>
+            <p class="the-end-credits">Designed in the style of the Golden Age of Cinema</p>
+            <button
+              class="btn-rewind"
+              type="button"
+              (click)="rewindToStart()"
+              aria-label="Rewind to beginning of film"
+            >
+              <span aria-hidden="true">↺</span>
+              <span>Rewind Reel</span>
+            </button>
+          </div>
+        </section>
+        }
+      </div>
+    </div>
+  </div>
 
   <!-- Section indicator for keyboard navigation -->
   <app-section-indicator></app-section-indicator>

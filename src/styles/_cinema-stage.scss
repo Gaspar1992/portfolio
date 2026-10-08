@@ -1,0 +1,828 @@
+// ==============================================================================
+// CINEMA STAGE ARCHITECTURE - Modo Cinematográfico (Sala de Cine de Época)
+// ==============================================================================
+// Principio: Desacoplamiento total. Las secciones son el contenido proyectado;
+// el Stage es el auditorio tridimensional que las rodea y las proyecta en pantalla.
+// Solo activo en pantallas de escritorio (>= 1024px).
+// ==============================================================================
+
+:root {
+  --cinema-camera-perspective: 1600px;
+  --cinema-screen-tilt-y: 11deg;
+  --cinema-screen-tilt-x: 1.5deg;
+  --cinema-screen-width: min(68vw, 1150px);
+  --cinema-beam-color-core: rgba(255, 248, 220, 0.45);
+  --cinema-beam-color-spread: rgba(235, 205, 130, 0.16);
+  --cinema-theater-dark: #080706;
+
+  // Projection beam geometry, expressed in the screen frame's own coordinates
+  // (percentages of the frame box). Every beam edge is a ray that starts at the
+  // vanishing point, passes through a screen corner and keeps going towards the
+  // projector, which sits behind and above the viewer's right shoulder.
+  // Moving the vanishing point down-left tilts the beam up-right.
+  --cinema-beam-vp-x: 20%;
+  --cinema-beam-vp-y: 115%;
+}
+
+// ------------------------------------------------------------------------------
+// 1. Estado inactivo / Fallback móvil / Modo Estándar
+// ------------------------------------------------------------------------------
+.cinema-stage-environment {
+  display: none;
+}
+
+.cinema-stage-wrapper {
+  display: contents;
+}
+
+.cinema-screen-frame {
+  display: contents;
+}
+
+.cinema-screen-header {
+  display: none;
+}
+
+.cinema-beam {
+  display: none;
+}
+
+.cinema-screen-viewport {
+  display: contents;
+}
+
+.cinema-the-end-slide {
+  display: none !important;
+}
+
+// ------------------------------------------------------------------------------
+// 2. Activación del Modo Cine en Escritorio (>= 1024px)
+// ------------------------------------------------------------------------------
+@media (min-width: 1024px) {
+  [data-view-mode="cinema"].film-container {
+    height: 100vh;
+    overflow: hidden;
+    background: var(--cinema-theater-dark);
+    position: fixed;
+    inset: 0;
+
+    // El scroll principal se traslada al viewport de la pantalla
+    &.snap-container {
+      overflow-y: hidden;
+    }
+
+    // Los separadores de cinta se ocultan en la pantalla proyectada (cada slide es un frame)
+    .film-strip-separator {
+      display: none;
+    }
+
+    // El pie de página convencional solo se usa en modo normal
+    .footer-section {
+      display: none !important;
+    }
+
+    // Ocultar indicadores flotantes no necesarios en modo cine
+    app-section-indicator {
+      display: none;
+    }
+
+    // Adaptar navegación superior a tonos de sala oscura
+    .main-nav {
+      background: rgba(12, 10, 8, 0.85);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.35);
+      backdrop-filter: blur(12px);
+
+      .nav-link {
+        color: var(--color-cream);
+
+        &:hover,
+        &:focus {
+          color: var(--color-gold);
+          border-color: var(--color-gold);
+        }
+      }
+    }
+  }
+
+  // ----------------------------------------------------------------------------
+  // 3. Entorno de la Sala de Cine (Auditorio y Proyector desde Atrás)
+  // ----------------------------------------------------------------------------
+  [data-view-mode="cinema"] .cinema-stage-environment {
+    display: block;
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+    overflow: hidden;
+
+    // Atmósfera de espacio oscuro con matices sutiles de profundidad
+    .cinema-theater-room {
+      position: absolute;
+      inset: 0;
+      background: #080605;
+      overflow: hidden;
+
+      // Pared de fondo con gradiente radial sutil centrado en la zona de proyección
+      .theater-backwall {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          ellipse 90% 80% at 34% 50%,
+          #16120e 0%,
+          #0c0907 45%,
+          #040302 100%
+        );
+        opacity: 0.98;
+      }
+
+      // Matices tenues de profundidad espacial
+      .theater-ambient-depth {
+        position: absolute;
+        inset: 0;
+        background:
+          // Suave luz rasante difusa en la parte inferior simulando suelo alejado
+          linear-gradient(
+            180deg,
+            transparent 0%,
+            transparent 65%,
+            rgba(26, 20, 15, 0.35) 85%,
+            rgba(8, 6, 5, 0.75) 100%
+          ),
+          // Sutil viñeteado en los bordes de la sala
+          radial-gradient(
+            ellipse at 50% 50%,
+            transparent 50%,
+            rgba(0, 0, 0, 0.65) 100%
+          );
+      }
+
+      // Halo ambiental difuso alrededor de la pantalla proyectada
+      .theater-screen-ambient-glow {
+        position: absolute;
+        top: 6%;
+        left: 0;
+        width: 70vw;
+        height: 88vh;
+        background: radial-gradient(
+          ellipse 65% 60% at 42% 50%,
+          rgba(255, 235, 185, 0.045) 0%,
+          rgba(212, 175, 55, 0.018) 40%,
+          transparent 75%
+        );
+        filter: blur(45px);
+        pointer-events: none;
+      }
+    }
+  }
+
+  // ----------------------------------------------------------------------------
+  // 4. El Escenario y la Pantalla de Cine (Izquierda-Centro)
+  // ----------------------------------------------------------------------------
+  [data-view-mode="cinema"] .cinema-stage-wrapper {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    inset: 0;
+    z-index: 5;
+    height: 100vh;
+    padding-top: var(--nav-height);
+    padding-left: clamp(1.5rem, 3.5vw, 4rem);
+    perspective: var(--cinema-camera-perspective);
+    perspective-origin: 30% 50%;
+    pointer-events: none;
+  }
+
+  [data-view-mode="cinema"] .cinema-screen-frame {
+    pointer-events: auto;
+    display: flex;
+    flex-direction: column;
+    width: var(--cinema-screen-width);
+    height: min(84vh, 880px);
+    position: relative;
+    background: #0f0d0b;
+    border: 10px solid #171411;
+    border-right: 12px solid #33271c; // El marco derecho recibe luz rasante del proyector
+    border-radius: 6px;
+    box-shadow:
+      0 20px 70px rgba(0, 0, 0, 0.95),
+      25px 0 55px rgba(255, 230, 150, 0.38), // Reflejo del haz golpeando la pantalla
+      0 0 45px rgba(212, 175, 55, 0.22),
+      inset 0 0 25px rgba(0, 0, 0, 0.85);
+    outline: 1px solid rgba(212, 175, 55, 0.4);
+    transform: rotateY(var(--cinema-screen-tilt-y)) rotateX(var(--cinema-screen-tilt-x));
+    transform-origin: left center;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease;
+
+    // Efecto sutil de marco Art Deco en las esquinas
+    &::before,
+    &::after {
+      content: '◆';
+      position: absolute;
+      color: var(--color-gold);
+      font-size: 0.75rem;
+      z-index: 20;
+      opacity: 0.85;
+    }
+
+    &::before {
+      top: 3px;
+      left: 6px;
+    }
+
+    &::after {
+      top: 3px;
+      right: 6px;
+    }
+  }
+
+  // ----------------------------------------------------------------------------
+  // Projection beam
+  // ----------------------------------------------------------------------------
+  // The beam lives INSIDE .cinema-screen-frame, so it inherits the exact same
+  // 3D transform as the screen. Perspective is a projective transform: straight
+  // rays radiating from a point stay straight rays radiating from a point. That
+  // guarantees the beam edges always land on the real frame corners, whatever
+  // the tilt or viewport size.
+  //
+  // Reference box: 800% x 800% of the frame, offset -300% / -500%.
+  // A frame point (x, y) maps to ((x + 300%) / 8, (y + 500%) / 8) in the box.
+  // Each edge is extended 3x past its corner, away from the vanishing point,
+  // which pushes it well beyond the viewport (the projector stays off-screen).
+  // Only the top and right faces are visible: the beam passes over the
+  // viewer's right shoulder, the other two faces are hidden behind the screen.
+  [data-view-mode="cinema"] .cinema-beam {
+    --vp-x: var(--cinema-beam-vp-x);
+    --vp-y: var(--cinema-beam-vp-y);
+
+    // Corners (fixed: they ARE the frame corners)
+    --tl: 37.5% 62.5%;
+    --tr: 50% 62.5%;
+    --br: 50% 75%;
+
+    // Corners extended towards the projector: 4C - 3VP
+    --tl-far: calc((300% - 3 * var(--vp-x)) / 8) calc((500% - 3 * var(--vp-y)) / 8);
+    --tr-far: calc((700% - 3 * var(--vp-x)) / 8) calc((500% - 3 * var(--vp-y)) / 8);
+    --br-far: calc((700% - 3 * var(--vp-x)) / 8) calc((900% - 3 * var(--vp-y)) / 8);
+
+    // Vanishing point in box coordinates (origin of rays and density falloff)
+    --vp: calc((var(--vp-x) + 300%) / 8) calc((var(--vp-y) + 500%) / 8);
+
+    display: block;
+    position: absolute;
+    left: -300%;
+    top: -500%;
+    width: 800%;
+    height: 800%;
+    z-index: -1; // never paints over the projected content
+    pointer-events: none;
+    animation: beam-shutter 0.12s steps(2) infinite, beam-breath 6s ease-in-out infinite alternate;
+
+    .cinema-beam-face {
+      position: absolute;
+      inset: 0;
+      background:
+        // Light shafts radiating from the lens, feathered so they read as haze
+        repeating-conic-gradient(
+          from 0deg at var(--vp),
+          transparent 0deg,
+          rgba(255, 236, 196, 0.045) 0.5deg,
+          transparent 1.2deg,
+          transparent 1.6deg,
+          rgba(255, 230, 180, 0.03) 2deg,
+          transparent 2.9deg
+        ),
+        repeating-conic-gradient(
+          from 1.3deg at var(--vp),
+          transparent 0deg,
+          rgba(255, 244, 214, 0.035) 1.4deg,
+          transparent 3.1deg,
+          transparent 5.3deg
+        ),
+        // Density: dim where the beam spreads over the screen,
+        // brighter and tighter towards the projector
+        radial-gradient(
+          circle at var(--vp),
+          transparent 0%,
+          rgba(255, 226, 168, 0.07) 16%,
+          rgba(255, 232, 182, 0.16) 30%,
+          rgba(255, 238, 200, 0.26) 55%,
+          rgba(255, 244, 218, 0.34) 85%
+        );
+    }
+
+    // Upper face: from the top edge of the screen up towards the projector
+    .cinema-beam-face-top {
+      clip-path: polygon(var(--tl), var(--tr), var(--tr-far), var(--tl-far));
+      opacity: 0.7;
+    }
+
+    // Side face: from the right edge of the screen towards the viewer's shoulder.
+    // Faces the audience, so it reads denser.
+    .cinema-beam-face-side {
+      clip-path: polygon(var(--tr), var(--br), var(--br-far), var(--tr-far));
+    }
+
+    // Fold between both faces (ray through the top-right corner)
+    .cinema-beam-ridge {
+      position: absolute;
+      inset: 0;
+      clip-path: polygon(
+        var(--tr),
+        calc((700% - 3 * var(--vp-x)) / 8 + 0.35%) calc((500% - 3 * var(--vp-y)) / 8),
+        calc((700% - 3 * var(--vp-x)) / 8 - 0.35%) calc((500% - 3 * var(--vp-y)) / 8)
+      );
+      background: radial-gradient(
+        circle at var(--vp),
+        transparent 15%,
+        rgba(255, 248, 225, 0.25) 30%,
+        rgba(255, 252, 238, 0.45) 70%
+      );
+    }
+
+    // Dust suspended in the beam, only visible inside its volume
+    .cinema-beam-dust {
+      position: absolute;
+      inset: 0;
+      clip-path: polygon(var(--tl), var(--tr), var(--br), var(--br-far), var(--tr-far), var(--tl-far));
+      background-image:
+        radial-gradient(1px 1px at 18% 28%, rgba(255, 248, 225, 0.9) 100%, transparent),
+        radial-gradient(1.4px 1.4px at 61% 47%, rgba(255, 240, 205, 0.8) 100%, transparent),
+        radial-gradient(1px 1px at 83% 14%, rgba(255, 250, 235, 0.7) 100%, transparent),
+        radial-gradient(1.2px 1.2px at 37% 79%, rgba(255, 236, 196, 0.75) 100%, transparent);
+      background-size: 340px 290px;
+      opacity: 0.35;
+      animation: beam-dust-drift 40s linear infinite;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-view-mode="cinema"] .cinema-beam,
+    [data-view-mode="cinema"] .cinema-beam .cinema-beam-dust {
+      animation: none;
+    }
+  }
+
+  // Barra superior de la pantalla de cine (estilo bobina / sala)
+  [data-view-mode="cinema"] .cinema-screen-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 28px;
+    padding: 0 1rem;
+    background: #14110e;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+    font-family: var(--font-display);
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    color: var(--color-gold);
+    text-transform: uppercase;
+    user-select: none;
+    z-index: 10;
+
+    .screen-indicator {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      &::before {
+        content: '';
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #4ade80;
+        box-shadow: 0 0 8px #4ade80;
+        animation: pulse-dot 2s infinite ease-in-out;
+      }
+    }
+
+    .screen-hint {
+      color: rgba(245, 230, 211, 0.6);
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+    }
+  }
+
+  // Viewport proyectado con Scroll Snap para cambio de diapositivas
+  [data-view-mode="cinema"] .cinema-screen-viewport {
+    display: block;
+    flex: 1;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    scroll-padding-top: 0;
+    position: relative;
+    background: var(--color-cream);
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-gold) #1c1814;
+
+    &::-webkit-scrollbar {
+      width: 7px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #171310;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--color-gold);
+      border-radius: 2px;
+    }
+
+    // Hotspot de luz proyectada sobre el lienzo de la pantalla
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 12;
+      background: radial-gradient(
+        ellipse at 52% 48%,
+        rgba(255, 255, 245, 0.22) 0%,
+        rgba(255, 240, 200, 0.1) 45%,
+        rgba(212, 175, 55, 0.03) 72%,
+        transparent 88%
+      );
+      mix-blend-mode: color-dodge;
+      animation: projector-hotspot-flicker 4s infinite alternate ease-in-out;
+    }
+
+    // Viñeta y parpadeo interno de película proyectada
+    &::after {
+      content: '';
+      position: sticky;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 100%;
+      pointer-events: none;
+      box-shadow: inset 0 0 80px rgba(25, 20, 15, 0.45);
+      z-index: 5;
+    }
+  }
+
+  // Cada sección actúa como una diapositiva proyectada (Slide)
+  [data-view-mode="cinema"] .cinema-slide {
+    display: block;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    min-height: 100%;
+    position: relative;
+    background: transparent;
+
+    // Asegurar que las secciones se vean impecables dentro de la pantalla proyectada
+    section {
+      min-height: 100%;
+      padding-block: 2.5rem;
+    }
+
+    .hero-section {
+      min-height: calc(84vh - 60px);
+    }
+  }
+
+  // Diapositiva de apertura: OPENING TITLE CARD (Placa de Apertura de Época)
+  [data-view-mode="cinema"] app-hero.cinema-slide {
+    .hero-section {
+      min-height: calc(84vh - 60px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2.5rem 2rem;
+      background: radial-gradient(
+        ellipse at center,
+        rgba(248, 236, 218, 0.98) 0%,
+        rgba(235, 215, 190, 0.94) 75%,
+        rgba(215, 190, 155, 0.98) 100%
+      );
+      position: relative;
+    }
+
+    // Marco ornamental de apertura cinematográfica
+    .hero-content {
+      max-width: 680px;
+      width: 100%;
+      padding: 3rem 2.5rem;
+      border: 3px solid var(--color-gold);
+      outline: 1px dashed rgba(212, 175, 55, 0.7);
+      outline-offset: -10px;
+      position: relative;
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.14);
+      background: rgba(245, 230, 211, 0.65);
+      backdrop-filter: blur(4px);
+
+      // Esquinas Art Deco con emblemas de apertura
+      &::before,
+      &::after {
+        content: '❖';
+        position: absolute;
+        color: var(--color-gold);
+        font-size: 1.1rem;
+        z-index: 10;
+      }
+
+      &::before {
+        top: 14px;
+        left: 18px;
+      }
+
+      &::after {
+        bottom: 14px;
+        right: 18px;
+      }
+    }
+
+    // Sello de producción / Estudio de cine de época
+    .film-badge {
+      margin-bottom: 1.25rem;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+
+      .film-year {
+        font-family: var(--font-display);
+        font-size: 0.85rem;
+        letter-spacing: 0.4em;
+        color: var(--color-gold-dark);
+        border: 1px solid var(--color-gold);
+        padding: 0.35rem 1.4rem;
+        background: rgba(212, 175, 55, 0.1);
+        text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.8);
+      }
+
+      .film-label {
+        font-family: var(--font-display);
+        font-size: 0.7rem;
+        letter-spacing: 0.6em;
+        color: var(--color-bronze);
+        font-weight: 600;
+      }
+    }
+
+    // Título principal: El Nombre como Protagonista en Pantalla
+    .hero-title {
+      font-size: clamp(3rem, 5.5vw, 4.4rem);
+      line-height: 1.1;
+      margin-bottom: 1.25rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-shadow: 2px 2px 0px rgba(212, 175, 55, 0.4), 0 0 15px rgba(212, 175, 55, 0.2);
+
+      .title-line {
+        display: block;
+      }
+
+      .title-accent {
+        color: var(--color-gold-dark);
+        font-weight: 700;
+        letter-spacing: 0.22em;
+      }
+    }
+
+    // Subtítulo: Papel estelar / Ocupación
+    .hero-subtitle {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-text);
+      margin-bottom: 0.85rem;
+      font-weight: 600;
+    }
+
+    .hero-location {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 1.75rem;
+
+      .location-icon {
+        margin-right: 0.3rem;
+      }
+    }
+
+    // Botones con estilo billete de cine / programa de mano
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+
+      .btn-deco {
+        padding: 0.6rem 1.4rem;
+        font-size: 0.78rem;
+        letter-spacing: 0.16em;
+        border: 2px solid var(--color-gold);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+        &:hover,
+        &:focus-visible {
+          box-shadow: 0 0 16px rgba(212, 175, 55, 0.5);
+          transform: translateY(-2px);
+        }
+      }
+    }
+
+    // Indicador de avance de bobina
+    .scroll-indicator {
+      margin-top: 1.5rem;
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      color: var(--color-gold-dark);
+      opacity: 0.85;
+
+      span {
+        display: block;
+        margin-top: 0.4rem;
+      }
+    }
+  }
+
+  // Diapositiva final THE END exclusiva de la pantalla de cine
+  [data-view-mode="cinema"] .cinema-the-end-slide {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(84vh - 60px);
+    padding: 3rem 2rem;
+    position: relative;
+    background: radial-gradient(circle at center, rgba(245, 230, 211, 0.98) 0%, rgba(230, 210, 185, 0.94) 100%);
+    text-align: center;
+
+    .the-end-frame {
+      max-width: 620px;
+      width: 100%;
+      padding: 3.5rem 2.5rem;
+      border: 2px solid var(--color-gold);
+      outline: 1px dashed rgba(212, 175, 55, 0.65);
+      outline-offset: -10px;
+      position: relative;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: rgba(245, 230, 211, 0.6);
+
+      &::before,
+      &::after {
+        content: '✦';
+        position: absolute;
+        color: var(--color-gold);
+        font-size: 1rem;
+      }
+
+      &::before {
+        top: 14px;
+        left: 18px;
+      }
+
+      &::after {
+        bottom: 14px;
+        right: 18px;
+      }
+    }
+
+    .the-end-badge {
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--color-gold-dark);
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .the-end-title {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 6vw, 4.6rem);
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--color-black);
+      margin: 0.5rem 0 1.25rem;
+      text-shadow: 2px 2px 0px rgba(212, 175, 55, 0.35);
+      line-height: 1.1;
+
+      &::after {
+        display: none !important;
+      }
+    }
+
+    .the-end-author {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-black);
+      margin-bottom: 0.5rem;
+    }
+
+    .the-end-credits {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--color-text-muted);
+      letter-spacing: 0.08em;
+      margin-bottom: 2rem;
+    }
+
+    .btn-rewind {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.75rem;
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-black);
+      background: transparent;
+      border: 2px solid var(--color-gold);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+
+      &:hover,
+      &:focus-visible {
+        background: var(--color-gold);
+        color: var(--color-white);
+        box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+        outline: none;
+      }
+    }
+  }
+}
+
+// ------------------------------------------------------------------------------
+// 5. Animaciones Cinematográficas Propias
+// ------------------------------------------------------------------------------
+@keyframes pulse-dot {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+
+@keyframes projector-hotspot-flicker {
+  0% {
+    opacity: 0.84;
+    transform: scale(0.98);
+  }
+  35% {
+    opacity: 0.98;
+    transform: scale(1.02);
+  }
+  65% {
+    opacity: 0.86;
+    transform: scale(0.99);
+  }
+  85% {
+    opacity: 1;
+    transform: scale(1.01);
+  }
+  100% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+}
+
+
+// Projector shutter: a barely visible 24fps-like flutter in the beam
+@keyframes beam-shutter {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.94;
+  }
+}
+
+// Slow breathing of the lamp intensity
+@keyframes beam-breath {
+  0% {
+    filter: brightness(0.92);
+  }
+  100% {
+    filter: brightness(1.08);
+  }
+}
+
+@keyframes beam-dust-drift {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: -360px 180px;
+  }
+}

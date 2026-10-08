@@ -1,6 +1,12 @@
 import { Component, inject, type OnInit, signal } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { type LinkedInProfile, ProfileService } from '@core';
+import {
+  KeyboardNavigationService,
+  type LinkedInProfile,
+  ProfileService,
+  UpperCasePipe,
+  ViewModeService,
+} from '@core';
 import {
   KeyboardShortcutsComponent,
   NavigationComponent,
@@ -29,6 +35,7 @@ import { SkillsComponent } from '@sections/skills/skills.component';
     SectionIndicatorComponent,
     KeyboardShortcutsComponent,
     NavigationComponent,
+    UpperCasePipe,
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
@@ -38,8 +45,15 @@ export class App implements OnInit {
   protected profileService = inject(ProfileService);
   protected profile = this.profileService.profile;
   protected loading = signal(true);
+  protected readonly viewModeService = inject(ViewModeService);
+  protected readonly viewMode = this.viewModeService.mode;
+  private readonly keyboardNav = inject(KeyboardNavigationService);
   private titleService = inject(Title);
   private metaService = inject(Meta);
+
+  rewindToStart(): void {
+    this.keyboardNav.navigateToSection(0);
+  }
 
   async ngOnInit() {
     try {
